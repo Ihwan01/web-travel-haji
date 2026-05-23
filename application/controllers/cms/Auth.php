@@ -8,12 +8,14 @@ class Auth extends Public_Controller
     {
         parent::__construct();
         $this->load->model('Admin_model');
-        // Bersih: Pengecekan login dipindahkan agar tidak mengunci fungsi logout
+
+        // MEMUAT PUSTAKA VALIDASI FORMULIR
+        $this->load->library('form_validation');
     }
 
     public function login()
     {
-        // PINDAH KE SINI: Sesi hanya diperiksa saat seseorang mencoba mengakses halaman login
+        // Sesi hanya diperiksa saat seseorang mencoba mengakses halaman login
         if ($this->session->userdata('is_logged_in')) {
             redirect('cms/dashboard');
         }

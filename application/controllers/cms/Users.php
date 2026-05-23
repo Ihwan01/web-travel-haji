@@ -9,6 +9,9 @@ class Users extends Admin_Controller
         parent::__construct();
         $this->load->model('Admin_model');
 
+        // TAMBAHKAN BARIS INI: Memuat pustaka validasi formulir
+        $this->load->library('form_validation');
+
         // PROTEKSI MUTLAK: Hanya Super Admin (Role 1) yang diizinkan masuk ke rute ini.
         if ($this->session->userdata('role_id') != 1) {
             // Jika Role 2 (Admin) atau Role 3 mencoba memaksa lewat URL, tendang kembali ke Dasbor
