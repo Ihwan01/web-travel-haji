@@ -1,0 +1,152 @@
+/* ═══════════════════════════════════════════════════════
+   NUANSA RINDU — footer.css
+   Di-load di semua halaman via layouts/main.php
+   ═══════════════════════════════════════════════════════ */
+
+.site-footer {
+	background: var(--mahogany);
+}
+
+/* ── CTA SECTION ──────────────────────────────────────── */
+.footer-cta-section {
+	padding: 120px 60px;
+	text-align: center;
+	border-bottom: 1px solid rgba(196, 163, 90, 0.12);
+}
+.footer-star {
+	font-size: 1.4rem;
+	color: var(--gold);
+	opacity: 0.7;
+	display: block;
+	margin-bottom: 32px;
+}
+.footer-cta-quote {
+	font-family: var(--font-display);
+	font-size: clamp(2rem, 4vw, 3.5rem);
+	font-weight: 300;
+	color: #f5f0e8;
+	line-height: 1.25;
+	margin-bottom: 48px;
+}
+.footer-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 16px;
+	padding: 14px 32px;
+	border: 1.5px solid var(--gold);
+	background: transparent;
+	color: var(--gold);
+	font-family: var(--font-body);
+	font-size: 0.65rem;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: all var(--transition);
+	text-decoration: none;
+}
+.footer-btn:hover {
+	background: var(--gold);
+	color: var(--dark);
+}
+
+/* ── BOTTOM NAV ───────────────────────────────────────── */
+.footer-bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 28px 60px;
+}
+.footer-logo {
+	font-family: var(--font-display);
+	font-size: 0.9rem;
+	letter-spacing: 0.14em;
+	color: rgba(245, 240, 232, 0.45);
+	text-decoration: none;
+}
+.footer-logo-star {
+	color: rgba(196, 163, 90, 0.5);
+	margin-right: 6px;
+}
+.footer-nav {
+	display: flex;
+	gap: 32px;
+	list-style: none;
+}
+.footer-nav a {
+	font-size: 0.62rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: rgba(245, 240, 232, 0.3);
+	text-decoration: none;
+	transition: color var(--transition);
+}
+.footer-nav a:hover {
+	color: var(--gold-lt);
+}
+
+/* ── SOCIAL ───────────────────────────────────────────── */
+.footer-social {
+	display: flex;
+	gap: 14px;
+}
+.footer-social a {
+	width: 34px;
+	height: 34px;
+	border: 1px solid rgba(196, 163, 90, 0.2);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgba(245, 240, 232, 0.35);
+	text-decoration: none;
+	transition: all var(--transition);
+}
+.footer-social a:hover {
+	border-color: var(--gold);
+	color: var(--gold);
+}
+
+/* ── COPYRIGHT ────────────────────────────────────────── */
+.footer-copy {
+	padding: 16px 60px;
+	border-top: 1px solid rgba(196, 163, 90, 0.08);
+	text-align: center;
+	font-size: 0.62rem;
+	color: rgba(245, 240, 232, 0.2);
+	letter-spacing: 0.1em;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 1024px) {
+	.footer-cta-section {
+		padding: 80px 32px;
+	}
+	.footer-bottom {
+		padding: 24px 32px;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+	.footer-copy {
+		padding: 14px 32px;
+	}
+	.footer-nav {
+		display: none;
+	}
+}
+@media (max-width: 640px) {
+	.footer-cta-section {
+		padding: 64px 20px;
+	}
+	.footer-bottom {
+		padding: 20px;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+	.footer-copy {
+		padding: 14px 20px;
+	}
+	.footer-cta-quote {
+		font-size: clamp(1.6rem, 6vw, 2.4rem);
+	}
+}
