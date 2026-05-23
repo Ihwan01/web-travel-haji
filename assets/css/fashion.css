@@ -1,0 +1,286 @@
+/* ═══════════════════════════════════════════════════════
+   NUANSA RINDU — fashion.css
+   ═══════════════════════════════════════════════════════ */
+
+.fashion-page {
+    background: var(--cream);
+    padding-top: var(--nav-h);
+}
+
+/* ── PAGE HERO ────────────────────────────────────────── */
+.fashion-hero {
+    position: relative;
+    height: 75vh;
+    min-height: 500px;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 60px 72px;
+    overflow: hidden;
+}
+.fashion-hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg,#C8B090,#8A7058,#4A3820,#1A0E06);
+}
+.fashion-hero-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+}
+.fashion-hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(26,5,0,0.6) 0%, rgba(26,5,0,0.15) 70%);
+}
+.fashion-hero-content { position: relative; z-index: 2; max-width: 540px; }
+.fashion-hero-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+    margin-bottom: 20px;
+    display: block;
+    opacity: 0;
+    animation: fadeUp .9s .2s forwards;
+}
+.fashion-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 300;
+    color: #F5F0E8;
+    line-height: 1.1;
+    margin-bottom: 22px;
+    opacity: 0;
+    animation: fadeUp .9s .38s forwards;
+}
+.fashion-hero-title em { font-style: italic; color: var(--gold); display: block; }
+.fashion-hero-desc {
+    font-size: 0.84rem;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.85;
+    max-width: 400px;
+    opacity: 0;
+    animation: fadeUp .9s .54s forwards;
+}
+
+/* ── INTRO SECTION ────────────────────────────────────── */
+.fashion-intro {
+    padding: 80px 60px;
+    background: var(--warm);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+}
+.fashion-intro-text h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 300;
+    color: var(--brown);
+    line-height: 1.2;
+    margin-bottom: 24px;
+}
+.fashion-intro-text p {
+    font-size: 0.84rem;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 16px;
+}
+.fashion-intro-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    aspect-ratio: 1;
+}
+.fi-cell {
+    overflow: hidden;
+    position: relative;
+}
+.fi-cell:first-child {
+    grid-column: span 2;
+    aspect-ratio: 2/1;
+}
+.fi-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+    display: block;
+}
+.fi-cell:hover .fi-img { transform: scale(1.04); }
+.fi-bg-1 { background: linear-gradient(160deg,#D4B890,#906840,#4A2810); }
+.fi-bg-2 { background: linear-gradient(160deg,#9098A8,#505868,#202830); }
+.fi-bg-3 { background: linear-gradient(160deg,#C0A880,#806850,#402810); }
+
+/* ── COLLECTION SECTION ───────────────────────────────── */
+.fashion-collection {
+    padding: 80px 60px;
+    background: var(--cream);
+}
+.collection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+}
+.collection-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    color: var(--brown);
+    line-height: 1.2;
+}
+
+/* Fashion campaign grid */
+.fashion-campaign {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 3px;
+    margin-bottom: 3px;
+}
+.fc-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.fc-item:nth-child(1) { grid-column: span 5; aspect-ratio: 3/4; }
+.fc-item:nth-child(2) { grid-column: span 4; aspect-ratio: 3/4; }
+.fc-item:nth-child(3) { grid-column: span 3; aspect-ratio: 3/4; }
+
+.fc-item-row2 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+}
+.fc-item-row2 .fc-item { grid-column: span 1; aspect-ratio: 1; }
+
+.fc-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+    display: block;
+}
+.fc-item:hover .fc-img { transform: scale(1.04); }
+
+/* bg fallbacks */
+.fc-bg-1 { background: linear-gradient(160deg,#C8B090,#906840,#4A2810); }
+.fc-bg-2 { background: linear-gradient(160deg,#9098A8,#485868,#182030); }
+.fc-bg-3 { background: linear-gradient(160deg,#A89878,#685840,#282010); }
+.fc-bg-4 { background: linear-gradient(160deg,#B8A888,#785848,#302010); }
+.fc-bg-5 { background: linear-gradient(160deg,#88A098,#486858,#182820); }
+.fc-bg-6 { background: linear-gradient(160deg,#C0A870,#806040,#302010); }
+.fc-bg-7 { background: linear-gradient(160deg,#A09080,#605040,#201810); }
+
+.fc-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,5,0,0.72) 0%, transparent 55%);
+    padding: 20px 18px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    opacity: 0;
+    transition: opacity .35s;
+}
+.fc-item:hover .fc-overlay { opacity: 1; }
+.fc-item-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: #F5F0E8;
+    font-weight: 400;
+    margin-bottom: 4px;
+}
+.fc-item-detail {
+    font-size: 0.68rem;
+    color: rgba(245,240,232,0.55);
+    letter-spacing: 0.1em;
+}
+
+/* ── ESSENTIALS SECTION ───────────────────────────────── */
+.fashion-essentials {
+    padding: 80px 60px 100px;
+    background: var(--warm);
+}
+.essentials-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 64px;
+}
+.essentials-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 300;
+    color: var(--brown);
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+.essentials-header p {
+    font-size: 0.84rem;
+    color: var(--muted);
+    line-height: 1.85;
+}
+.essentials-items {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+}
+.ess-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 3/4;
+    background: var(--brown);
+}
+.ess-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: transform .6s ease, opacity .4s;
+    display: block;
+}
+.ess-item:hover .ess-img { transform: scale(1.05); opacity: 0.95; }
+.ess-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px 16px;
+    background: linear-gradient(to top, rgba(26,5,0,0.8) 0%, transparent 100%);
+}
+.ess-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: #F5F0E8;
+    margin-bottom: 4px;
+}
+.ess-detail {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-lt);
+}
+/* ess bg fallbacks */
+.ess-bg-1 { background: linear-gradient(160deg,#C8B890,#8A8060,#4A4030); }
+.ess-bg-2 { background: linear-gradient(160deg,#7890A0,#485868,#182030); }
+.ess-bg-3 { background: linear-gradient(160deg,#C0A070,#806040,#402010); }
+.ess-bg-4 { background: linear-gradient(160deg,#8A9880,#506048,#182018); }
+.ess-bg-5 { background: linear-gradient(160deg,#B89870,#786040,#382010); }
+
+/* ── KEYFRAMES ────────────────────────────────────────── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .fashion-hero, .fashion-intro, .fashion-collection, .fashion-essentials { padding-left: 32px; padding-right: 32px; }
+    .fashion-intro { grid-template-columns: 1fr; gap: 48px; }
+    .essentials-header { grid-template-columns: 1fr; gap: 32px; }
+    .essentials-items { grid-template-columns: repeat(3, 1fr); }
+    .fc-item:nth-child(1), .fc-item:nth-child(2), .fc-item:nth-child(3) { grid-column: span 4; }
+    .fc-item-row2 .fc-item { grid-column: span 1; }
+}
+@media (max-width: 640px) {
+    .fashion-hero { padding: 0 20px 48px; }
+    .fashion-intro, .fashion-collection, .fashion-essentials { padding-left: 20px; padding-right: 20px; }
+    .fashion-campaign { grid-template-columns: 1fr 1fr; }
+    .fc-item:nth-child(1), .fc-item:nth-child(2), .fc-item:nth-child(3) { grid-column: span 1; }
+    .essentials-items { grid-template-columns: 1fr 1fr; }
+    .collection-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
