@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | NUANSA RINDU — Routes
 |--------------------------------------------------------------------------
 */
-<<<<<<< HEAD
+
 // Rute untuk Halaman Depan Publik 
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
@@ -25,7 +25,6 @@ $route['users']               = 'cms/users';
 $route['users/create']        = 'cms/users/create';
 $route['users/edit/(:any)']   = 'cms/users/edit/$1';
 $route['users/delete/(:any)'] = 'cms/users/delete/$1';
-=======
 
 $route['default_controller'] = 'Home';
 $route['404_override']       = '';
@@ -86,4 +85,3 @@ $route['admin/leads/delete/(:num)']     = 'Admin_Leads/delete/$1';
 // SEO
 $route['admin/seo']                     = 'Admin_Seo/index';
 $route['admin/seo/update']              = 'Admin_Seo/update';
->>>>>>> origin/dev-ihwan
