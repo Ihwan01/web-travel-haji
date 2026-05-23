@@ -27,6 +27,8 @@
 
                 <?php if (isset($role_id) && $role_id == 1): ?>
                     <a href="#" class="text-decoration-none" style="color: var(--text-dark);">Pengaturan SEO</a>
+
+                    <a href="<?= base_url('users') ?>" class="text-decoration-none" style="color: var(--text-dark);">Manajemen Pengguna</a>
                 <?php endif; ?>
             </div>
         </div>

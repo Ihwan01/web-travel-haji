@@ -60,3 +60,10 @@ $route['login'] = 'cms/auth/login';
 
 // Menyembunyikan cms/auth/logout menjadi /logout
 $route['logout'] = 'cms/auth/logout';
+
+// Rute Manajemen Pengguna (Menyembunyikan map cms/)
+$route['dashboard']           = 'cms/dashboard';
+$route['users']               = 'cms/users';
+$route['users/create']        = 'cms/users/create';
+$route['users/edit/(:any)']   = 'cms/users/edit/$1';
+$route['users/delete/(:any)'] = 'cms/users/delete/$1';
