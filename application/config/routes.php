@@ -2,53 +2,11 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
-| -------------------------------------------------------------------------
-| URI ROUTING
-| -------------------------------------------------------------------------
-| This file lets you re-map URI requests to specific controller functions.
-|
-| Typically there is a one-to-one relationship between a URL string
-| and its corresponding controller class/method. The segments in a
-| URL normally follow this pattern:
-|
-|	example.com/class/method/id/
-|
-| In some instances, however, you may want to remap this relationship
-| so that a different class/function is called than the one
-| corresponding to the URL.
-|
-| Please see the user guide for complete details:
-|
-|	https://codeigniter.com/userguide3/general/routing.html
-|
-| -------------------------------------------------------------------------
-| RESERVED ROUTES
-| -------------------------------------------------------------------------
-|
-| There are three reserved routes:
-|
-|	$route['default_controller'] = 'welcome';
-|
-| This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
-| would be loaded.
-|
-|	$route['404_override'] = 'errors/page_missing';
-|
-| This route will tell the Router which controller/method to use if those
-| provided in the URL cannot be matched to a valid route.
-|
-|	$route['translate_uri_dashes'] = FALSE;
-|
-| This is not exactly a route, but allows you to automatically route
-| controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
-| controller and method URI segments.
-|
-| Examples:	my-controller/index	-> my_controller/index
-|		my-controller/my-method	-> my_controller/my_method
+|--------------------------------------------------------------------------
+| NUANSA RINDU — Routes
+|--------------------------------------------------------------------------
 */
+<<<<<<< HEAD
 // Rute untuk Halaman Depan Publik 
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
@@ -60,3 +18,72 @@ $route['login'] = 'cms/auth/login';
 
 // Menyembunyikan cms/auth/logout menjadi /logout
 $route['logout'] = 'cms/auth/logout';
+
+// Rute Manajemen Pengguna (Menyembunyikan map cms/)
+$route['dashboard']           = 'cms/dashboard';
+$route['users']               = 'cms/users';
+$route['users/create']        = 'cms/users/create';
+$route['users/edit/(:any)']   = 'cms/users/edit/$1';
+$route['users/delete/(:any)'] = 'cms/users/delete/$1';
+=======
+
+$route['default_controller'] = 'Home';
+$route['404_override']       = '';
+$route['translate_uri_dashes'] = FALSE;
+
+// ── PUBLIC PAGES ──────────────────────────────────────────────────────────
+$route['']                      = 'Home/index';
+$route['journey']               = 'Journey/index';
+$route['journey/(:any)']        = 'Journey/detail/$1';
+$route['about']                 = 'About/index';
+$route['journal']               = 'Journal/index';
+$route['journal/(:any)']        = 'Journal/detail/$1';
+$route['gallery']               = 'Gallery/index';
+$route['fashion']               = 'Fashion/index';
+$route['contact']               = 'Contact/index';
+$route['contact/send']          = 'Contact/send';
+
+// ── ADMIN ─────────────────────────────────────────────────────────────────
+$route['admin']                         = 'Admin/dashboard';
+$route['admin/login']                   = 'Admin/login';
+$route['admin/logout']                  = 'Admin/logout';
+$route['admin/dashboard']               = 'Admin/dashboard';
+
+// Journey CMS
+$route['admin/journey']                 = 'Admin_Journey/index';
+$route['admin/journey/create']          = 'Admin_Journey/create';
+$route['admin/journey/store']           = 'Admin_Journey/store';
+$route['admin/journey/edit/(:num)']     = 'Admin_Journey/edit/$1';
+$route['admin/journey/update/(:num)']   = 'Admin_Journey/update/$1';
+$route['admin/journey/delete/(:num)']   = 'Admin_Journey/delete/$1';
+
+// Journal CMS
+$route['admin/journal']                 = 'Admin_Journal/index';
+$route['admin/journal/create']          = 'Admin_Journal/create';
+$route['admin/journal/store']           = 'Admin_Journal/store';
+$route['admin/journal/edit/(:num)']     = 'Admin_Journal/edit/$1';
+$route['admin/journal/update/(:num)']   = 'Admin_Journal/update/$1';
+$route['admin/journal/delete/(:num)']   = 'Admin_Journal/delete/$1';
+
+// Fashion CMS
+$route['admin/fashion']                 = 'Admin_Fashion/index';
+$route['admin/fashion/create']          = 'Admin_Fashion/create';
+$route['admin/fashion/store']           = 'Admin_Fashion/store';
+$route['admin/fashion/edit/(:num)']     = 'Admin_Fashion/edit/$1';
+$route['admin/fashion/update/(:num)']   = 'Admin_Fashion/update/$1';
+$route['admin/fashion/delete/(:num)']   = 'Admin_Fashion/delete/$1';
+
+// Gallery CMS
+$route['admin/gallery']                 = 'Admin_Gallery/index';
+$route['admin/gallery/create']          = 'Admin_Gallery/create';
+$route['admin/gallery/store']           = 'Admin_Gallery/store';
+$route['admin/gallery/delete/(:num)']   = 'Admin_Gallery/delete/$1';
+
+// Leads
+$route['admin/leads']                   = 'Admin_Leads/index';
+$route['admin/leads/delete/(:num)']     = 'Admin_Leads/delete/$1';
+
+// SEO
+$route['admin/seo']                     = 'Admin_Seo/index';
+$route['admin/seo/update']              = 'Admin_Seo/update';
+>>>>>>> origin/dev-ihwan

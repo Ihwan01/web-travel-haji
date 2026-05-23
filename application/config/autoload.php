@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+<<<<<<< HEAD
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -135,3 +136,12 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = array();
+=======
+$autoload['packages']   = array();
+$autoload['libraries']  = array('database', 'session');
+$autoload['drivers']    = array();
+$autoload['helper']     = array('url', 'html', 'form', 'file', 'string');
+$autoload['config']     = array();
+$autoload['language']   = array();
+$autoload['model']      = array();
+>>>>>>> origin/dev-ihwan

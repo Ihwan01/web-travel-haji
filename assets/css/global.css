@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════
+   NUANSA RINDU — Global CSS
+   ═══════════════════════════════════════════════════════ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --cream:        #F5F0E8;
+    --warm:         #EDE3D0;
+    --brown:        #3B2A1A;
+    --gold:         #C4A35A;
+    --gold-lt:      #D4B97A;
+    --dark:         #1A1008;
+    --muted:        #7A6A56;
+    --mahogany:     #2A1505;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body:    'Jost', sans-serif;
+    --transition:   .3s ease;
+    --nav-h:        80px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--cream);
+    color: var(--brown);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a   { text-decoration: none; color: inherit; }
+
+/* ── Typography ───────────────────────────────────────── */
+.display-heading {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 1.15;
+}
+.section-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+.section-label::after {
+    content: '';
+    flex: 0 0 36px;
+    height: 1px;
+    background: var(--gold);
+}
+
+/* ── Arrow link ───────────────────────────────────────── */
+.arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brown);
+    transition: gap var(--transition);
+}
+.arrow-link::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    transition: width var(--transition);
+}
+.arrow-link:hover { gap: 20px; }
+.arrow-link:hover::after { width: 44px; }
+.arrow-link.light { color: var(--gold-lt); }
+.arrow-link.light::after { background: var(--gold-lt); }
+
+/* ── CTA Button ───────────────────────────────────────── */
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 28px;
+    border: 1.5px solid currentColor;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.btn-outline.dark {
+    color: var(--brown);
+    border-color: var(--brown);
+}
+.btn-outline.dark:hover {
+    background: var(--brown);
+    color: var(--cream);
+}
+.btn-outline.gold {
+    color: var(--gold);
+    border-color: var(--gold);
+}
+.btn-outline.gold:hover {
+    background: var(--gold);
+    color: var(--dark);
+}
+.btn-outline.light {
+    color: var(--cream);
+    border-color: rgba(245,240,232,0.5);
+}
+.btn-outline.light:hover {
+    background: rgba(245,240,232,0.1);
+}
+
+/* ── Scroll Reveal ────────────────────────────────────── */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .8s ease, transform .8s ease;
+}
+.reveal.delay-1 { transition-delay: .1s; }
+.reveal.delay-2 { transition-delay: .2s; }
+.reveal.delay-3 { transition-delay: .3s; }
+.reveal.delay-4 { transition-delay: .4s; }
+.reveal.visible  { opacity: 1; transform: translateY(0); }
+
+/* ── Section padding ──────────────────────────────────── */
+.section-pad { padding: 100px 60px; }
+.section-pad-sm { padding: 64px 60px; }
+
+@media (max-width: 1024px) {
+    .section-pad    { padding: 72px 32px; }
+    .section-pad-sm { padding: 48px 32px; }
+}
+@media (max-width: 640px) {
+    .section-pad    { padding: 56px 20px; }
+    .section-pad-sm { padding: 36px 20px; }
+}
