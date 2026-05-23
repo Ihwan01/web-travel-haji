@@ -53,6 +53,21 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+<<<<<<< Updated upstream
 $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+=======
+// --- RUTE KUSTOM NUANSA RINDU ---
+// Menyembunyikan cms/auth/login menjadi /login
+$route['login'] = 'cms/auth/login';
+
+// Menyembunyikan cms/auth/logout menjadi /logout
+$route['logout'] = 'cms/auth/logout';
+
+// Rute Manajemen Pengguna (Menyembunyikan map cms/)
+$route['users']               = 'cms/users';
+$route['users/create']        = 'cms/users/create';
+$route['users/edit/(:any)']   = 'cms/users/edit/$1';
+$route['users/delete/(:any)'] = 'cms/users/delete/$1';
+>>>>>>> Stashed changes
