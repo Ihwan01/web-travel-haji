@@ -1,7 +1,15 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+// UBAH: dari CI_Controller menjadi Public_Controller
+class Home extends Public_Controller
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+        // Area ini siap digunakan jika Home butuh model khusus pengunjung di masa depan
+    }
 
     public function index()
     {

@@ -1,31 +1,15 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
+    
+    # Blokir akses ke folder sistem, aplikasi, dan database secara langsung
+    RewriteRule ^(application|system|database) - [F,L]
 
-    # Mencegah akses langsung ke folder sistem dan aplikasi
-    RewriteCond %{REQUEST_URI} ^system.*
-    RewriteRule ^(.*)$ /index.php?/$1 [L]
-    RewriteCond %{REQUEST_URI} ^application.*
-    RewriteRule ^(.*)$ /index.php?/$1 [L]
-
-    # Menghilangkan index.php untuk semua URL
+    # Arahkan semua request ke index.php CodeIgniter
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 </IfModule>
 
-# PROTEKSI JALUR UTAMA: Blokir akses publik ke semua file .sql di root
-<Files "*.sql">
-    <IfModule mod_authz_core.c>
-        Require all denied
-    </IfModule>
-    <IfModule !mod_authz_core.c>
-        Order deny,allow
-        Deny from all
-    </IfModule>
-</Files>
-
-# Konfigurasi keamanan dasar & optimasi LiteSpeed
 <IfModule LiteSpeed>
     CacheDisable public /
 </IfModule>

@@ -1,0 +1,138 @@
+/* =========================================
+   NUANSA RINDU - CMS QUIET LUXURY STYLESHEET
+========================================= */
+
+:root {
+	--soft-cream: #f9f8f6;
+	--mahogany: #4a2511;
+	--text-dark: #2c2c2c;
+	--border-light: #e5e5e5;
+}
+
+body {
+	background-color: var(--soft-cream);
+	font-family: "Inter", sans-serif;
+	color: var(--text-dark);
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+
+.serif-font {
+	font-family: "Playfair Display", serif;
+}
+
+/* --- TATA LETAK CMS & DASBOR --- */
+.navbar-luxury {
+	background-color: #ffffff;
+	border-bottom: 1px solid var(--border-light);
+	padding: 1rem 2.5rem;
+}
+
+.navbar-brand {
+	color: var(--mahogany);
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+.dashboard-wrapper {
+	padding: 5rem 2rem;
+}
+
+.welcome-card {
+	background: #ffffff;
+	padding: 3.5rem;
+	border-radius: 0;
+	border: 1px solid var(--border-light);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.btn-outline-luxury {
+	color: var(--mahogany);
+	border: 1px solid var(--mahogany);
+	border-radius: 0;
+	padding: 0.5rem 1.5rem;
+	text-decoration: none;
+	transition: all 0.3s ease;
+}
+
+.btn-outline-luxury:hover {
+	background-color: var(--mahogany);
+	color: var(--soft-cream);
+}
+
+/* --- TATA LETAK LOGIN --- */
+.auth-wrapper {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.auth-card {
+	background: #ffffff;
+	padding: 4.5rem 4rem;
+	max-width: 460px;
+	width: 100%;
+	border-radius: 0;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02);
+}
+
+.brand-logo {
+	font-size: 1.25rem;
+	color: var(--mahogany);
+	margin-bottom: 3rem;
+	text-align: center;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+}
+
+.form-control {
+	border: none;
+	border-bottom: 1px solid var(--border-light);
+	border-radius: 0;
+	padding: 0.75rem 0;
+	background-color: transparent;
+	font-size: 0.95rem;
+	transition: all 0.3s ease;
+}
+
+.form-control:focus {
+	box-shadow: none;
+	border-bottom-color: var(--mahogany);
+	background-color: transparent;
+}
+
+.form-control::placeholder {
+	color: #a0a0a0;
+	font-weight: 300;
+}
+
+.btn-luxury {
+	background-color: var(--mahogany);
+	color: var(--soft-cream);
+	border: none;
+	border-radius: 0;
+	padding: 1rem;
+	width: 100%;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	font-size: 0.8rem;
+	margin-top: 2rem;
+	font-weight: 500;
+	transition: background-color 0.4s ease;
+}
+
+.btn-luxury:hover {
+	background-color: #361a0c;
+	color: var(--soft-cream);
+}
+
+.flash-message {
+	color: #8c2a2a;
+	font-size: 0.85rem;
+	margin-bottom: 2rem;
+	text-align: center;
+	font-weight: 400;
+}
