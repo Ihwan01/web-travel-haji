@@ -43,7 +43,6 @@ class Public_Controller extends MY_Controller
 
 /**
  * Admin_Controller — Pengontrol Khusus Dasbor (CMS)
- * Gabungan: Proteksi RBAC (Anda) + Tata Letak Khusus Admin (Ihwan)
  */
 class Admin_Controller extends MY_Controller
 {
@@ -51,46 +50,51 @@ class Admin_Controller extends MY_Controller
     {
         parent::__construct();
 
-        // 1. Eksekusi Proteksi Berlapis (Kode Anda)
+        // 1. Eksekusi Proteksi Berlapis
         $this->check_authentication();
 
-        // 2. Siapkan data untuk layout Ihwan, TAPI menggunakan variabel sesi Anda ('username')
+        // 2. Siapkan data global untuk layout CMS
         $this->data['admin_user'] = $this->session->userdata('username');
+
+        // [BARU] Injeksi role_id agar selalu tersedia di navigasi header
+        $this->data['role_id']    = (int) $this->session->userdata('role_id');
     }
 
-    // Fungsi Validasi Sesi (KEMBALI MENGGUNAKAN STANDAR ANDA: 'is_logged_in')
     private function check_authentication()
     {
-        // 1. Ambil URL yang sedang diakses saat ini
         $current_url = uri_string();
 
-        // 2. Jika URL mengandung kata 'auth' (berarti sedang di halaman login/logout), biarkan lolos
         if (strpos($current_url, 'auth') !== false) {
             return;
         }
 
-        // 3. Jika bukan di halaman auth dan belum login, lempar ke login
         if (!$this->session->userdata('is_logged_in')) {
-            redirect('cms/auth/login');
-        }
-    }
-
-    // Fungsi Pembatasan Hak Akses (Kode Anda - Tetap)
-    protected function require_role(array $allowed_roles)
-    {
-        $current_user_role = (int) $this->session->userdata('role_id');
-        if (!in_array($current_user_role, $allowed_roles, true)) {
-            show_error('Mohon maaf, Anda tidak memiliki otoritas untuk mengakses area spesifik ini.', 403, 'Akses Terbatas');
+            // [DIUBAH] Menggunakan rute URL Bersih
+            redirect('login');
         }
     }
 
     /**
-     * Menimpa (Override) fungsi render khusus untuk halaman Admin (Kode Ihwan)
+     * [DIUBAH] Fungsi Pembatasan Hak Akses menggunakan Redirect untuk UI/UX yang lebih baik
+     */
+    protected function require_role(array $allowed_roles)
+    {
+        if (!in_array($this->data['role_id'], $allowed_roles, true)) {
+            $this->session->set_flashdata('error_message', 'Mohon maaf, Anda tidak memiliki otoritas untuk mengakses area spesifik ini.');
+            redirect('dashboard');
+        }
+    }
+
+    /**
+     * [DIUBAH] Menimpa fungsi render khusus untuk halaman Admin
+     * Kini menggunakan layout Wrapper kita yang baru.
      */
     protected function render($view, $data = [])
     {
         $data = array_merge($this->data, $data);
         $data['content_view'] = $view;
-        $this->load->view('layouts/admin', $data);
+
+        // Memanggil Wrapper sebagai fondasi utama layout CMS
+        $this->load->view('cms/layout/wrapper', $data);
     }
 }

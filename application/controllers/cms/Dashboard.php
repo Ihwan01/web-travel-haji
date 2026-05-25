@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Dashboard extends Admin_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -14,13 +13,10 @@ class Dashboard extends Admin_Controller
     {
         $data['title'] = 'Dasbor Eksekutif | Nuansa Rindu';
 
-        // Mengambil data pengguna dari sesi yang aktif
-        $data['username'] = $this->session->userdata('username');
-        $data['role_id'] = $this->session->userdata('role_id');
+        // Tidak perlu lagi mengambil session manual di sini karena sudah 
+        // diinjeksi secara otomatis oleh MY_Controller ke dalam $this->data
 
-        // Memanggil View berurutan: Atas - Tengah - Bawah
-        $this->load->view('cms/layout/header', $data);
-        $this->load->view('cms/dashboard/index', $data);
-        $this->load->view('cms/layout/footer');
+        // [DIUBAH] Menggunakan fungsi render untuk memanggil layout terpusat
+        $this->render('cms/dashboard/index', $data);
     }
 }

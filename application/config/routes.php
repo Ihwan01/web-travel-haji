@@ -7,30 +7,43 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |--------------------------------------------------------------------------
 */
 
-// Rute untuk Halaman Depan Publik 
-$route['default_controller'] = 'home';
-$route['404_override'] = '';
+$route['default_controller']   = 'Home';
+$route['404_override']         = '';
 $route['translate_uri_dashes'] = FALSE;
 
-// --- RUTE KUSTOM NUANSA RINDU ---
-// Menyembunyikan cms/auth/login menjadi /login
-$route['login'] = 'cms/auth/login';
 
-// Menyembunyikan cms/auth/logout menjadi /logout
+/*
+|--------------------------------------------------------------------------
+| 1. RUTE CMS (BACKEND NUANSA RINDU)
+|--------------------------------------------------------------------------
+| Ini adalah URL bersih untuk modul yang berada di dalam folder controllers/cms/
+*/
+
+// Autentikasi
+$route['login']  = 'cms/auth/login';
 $route['logout'] = 'cms/auth/logout';
 
-// Rute Manajemen Pengguna (Menyembunyikan map cms/)
-$route['dashboard']           = 'cms/dashboard';
+// Dasbor
+$route['dashboard'] = 'cms/dashboard';
+
+// Manajemen Pengguna
 $route['users']               = 'cms/users';
 $route['users/create']        = 'cms/users/create';
 $route['users/edit/(:any)']   = 'cms/users/edit/$1';
 $route['users/delete/(:any)'] = 'cms/users/delete/$1';
 
-$route['default_controller'] = 'Home';
-$route['404_override']       = '';
-$route['translate_uri_dashes'] = FALSE;
+// [BARU] Manajemen Perjalanan (Journeys)
+$route['journeys']               = 'cms/journeys';
+$route['journeys/create']        = 'cms/journeys/create';
+$route['journeys/edit/(:any)']   = 'cms/journeys/edit/$1';
+$route['journeys/delete/(:any)'] = 'cms/journeys/delete/$1';
 
-// ── PUBLIC PAGES ──────────────────────────────────────────────────────────
+
+/*
+|--------------------------------------------------------------------------
+| 2. RUTE HALAMAN PUBLIK (FRONTEND)
+|--------------------------------------------------------------------------
+*/
 $route['']                      = 'Home/index';
 $route['journey']               = 'Journey/index';
 $route['journey/(:any)']        = 'Journey/detail/$1';
@@ -42,13 +55,19 @@ $route['fashion']               = 'Fashion/index';
 $route['contact']               = 'Contact/index';
 $route['contact/send']          = 'Contact/send';
 
-// ── ADMIN ─────────────────────────────────────────────────────────────────
+
+/*
+|--------------------------------------------------------------------------
+| 3. RUTE ADMIN LAMA (IHWAN)
+|--------------------------------------------------------------------------
+| Dibiarkan untuk kompatibilitas jika masih digunakan
+*/
 $route['admin']                         = 'Admin/dashboard';
 $route['admin/login']                   = 'Admin/login';
 $route['admin/logout']                  = 'Admin/logout';
 $route['admin/dashboard']               = 'Admin/dashboard';
 
-// Journey CMS
+// Journey CMS (Lama)
 $route['admin/journey']                 = 'Admin_Journey/index';
 $route['admin/journey/create']          = 'Admin_Journey/create';
 $route['admin/journey/store']           = 'Admin_Journey/store';
