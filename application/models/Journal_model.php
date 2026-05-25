@@ -1,9 +1,15 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Journal_model extends CI_Model {
+class Journal_model extends CI_Model
+{
 
     protected $table = 'journals';
+
+    public function get_all()
+    {
+        return $this->db->order_by('created_at', 'DESC')->get($this->table)->result();
+    }
 
     public function get_published($limit = NULL)
     {
@@ -15,11 +21,6 @@ class Journal_model extends CI_Model {
     public function get_by_slug($slug)
     {
         return $this->db->where('slug', $slug)->where('status', 'Published')->get($this->table)->row();
-    }
-
-    public function get_all()
-    {
-        return $this->db->order_by('created_at', 'DESC')->get($this->table)->result();
     }
 
     public function get_by_id($id)
@@ -36,6 +37,7 @@ class Journal_model extends CI_Model {
 
     public function update($id, $data)
     {
+        $data['updated_at'] = date('Y-m-d H:i:s');
         $this->db->where('id', $id)->update($this->table, $data);
     }
 

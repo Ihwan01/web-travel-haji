@@ -7,6 +7,8 @@
 
             <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
                 <a href="<?= base_url('journeys') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Paket</a>
+                <a href="<?= base_url('journals') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Artikel</a>
+                <a href="<?= base_url('leads') ?>" class="text-decoration-none" style="color: var(--text-dark);">Konsultasi Masuk</a>
             <?php endif; ?>
 
             <?php if (isset($role_id) && $role_id == 1): ?>

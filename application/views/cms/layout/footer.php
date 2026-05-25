@@ -18,11 +18,17 @@
 
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
 <script>
+    // Untuk modul Journeys
     if (document.querySelector('#itinerary')) {
         ClassicEditor.create(document.querySelector('#itinerary'));
     }
     if (document.querySelector('#hotel_details')) {
         ClassicEditor.create(document.querySelector('#hotel_details'));
+    }
+
+    // [BARU] Untuk modul Journals
+    if (document.querySelector('#content')) {
+        ClassicEditor.create(document.querySelector('#content'));
     }
 </script>
 </body>

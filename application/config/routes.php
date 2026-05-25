@@ -38,6 +38,11 @@ $route['journeys/create']        = 'cms/journeys/create';
 $route['journeys/edit/(:any)']   = 'cms/journeys/edit/$1';
 $route['journeys/delete/(:any)'] = 'cms/journeys/delete/$1';
 
+// [BARU] Manajemen Jurnal (Journals)
+$route['journals']               = 'cms/journals';
+$route['journals/create']        = 'cms/journals/create';
+$route['journals/edit/(:any)']   = 'cms/journals/edit/$1';
+$route['journals/delete/(:any)'] = 'cms/journals/delete/$1';
 
 /*
 |--------------------------------------------------------------------------
