@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="welcome-card text-center">
-                <h2 class="serif-font mb-3" style="color: var(--mahogany);">Selamat Datang, <?= ucfirst($username); ?>.</h2>
+                <h2 class="serif-font mb-3" style="color: var(--mahogany);">Selamat Datang, <?= ucfirst($admin_user); ?>.</h2>
                 <p class="text-muted" style="font-weight: 300;">
                     Otoritas Akses:
                     <strong>

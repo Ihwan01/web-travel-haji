@@ -7,6 +7,7 @@
     <title><?= isset($title) ? $title : 'Nuansa Rindu CMS'; ?></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="<?= base_url('assets/css/cms-style.css'); ?>">
@@ -14,24 +15,6 @@
 
 <body>
 
-    <nav class="navbar navbar-luxury d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center gap-4">
-            <div class="navbar-brand serif-font mb-0">Nuansa Rindu CMS</div>
+    <?php $this->load->view('cms/layout/navbar'); ?>
 
-            <div class="d-none d-md-flex gap-3" style="font-size: 0.9rem;">
-                <a href="<?= base_url('cms/dashboard') ?>" class="text-decoration-none" style="color: var(--text-dark);">Dasbor</a>
-
-                <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
-                    <a href="#" class="text-decoration-none" style="color: var(--text-dark);">Kelola Paket</a>
-                <?php endif; ?>
-
-                <?php if (isset($role_id) && $role_id == 1): ?>
-                    <a href="#" class="text-decoration-none" style="color: var(--text-dark);">Pengaturan SEO</a>
-
-                    <a href="<?= base_url('users') ?>" class="text-decoration-none" style="color: var(--text-dark);">Manajemen Pengguna</a>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <a href="<?= base_url('logout') ?>" class="btn-outline-luxury" style="font-size: 0.85rem; letter-spacing: 1px;">KELUAR</a>
-    </nav>
+    <div class="container-fluid mt-4 px-4">

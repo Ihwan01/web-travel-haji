@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Bulan Mei 2026 pada 08.14
+-- Waktu pembuatan: 25 Bulan Mei 2026 pada 16.25
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -35,6 +35,15 @@ CREATE TABLE `admins` (
   `role_id` tinyint(1) NOT NULL COMMENT '1: Super Admin, 2: Admin, 3: Kontributor',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `admins`
+--
+
+INSERT INTO `admins` (`id`, `username`, `password`, `email`, `role_id`, `created_at`) VALUES
+(1, 'superadmin', '$2y$10$5yEz0t.Eq.HO/AtzLx3Wo.frwFuR82L.M.1jekfUROUFZ.5ahjz/S', 'superadmin@nuansarindu.id', 1, '2026-05-23 07:21:01'),
+(2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', 'administrator@nuansarindu.id', 2, '2026-05-23 15:20:04'),
+(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', 'kontributor@nuansarindu.id', 3, '2026-05-23 17:34:52');
 
 -- --------------------------------------------------------
 
@@ -77,14 +86,21 @@ CREATE TABLE `gallery_media` (
 
 CREATE TABLE `journals` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `main_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `author_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('Draft','Published') COLLATE utf8mb4_unicode_ci DEFAULT 'Draft',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `journals`
+--
+
+INSERT INTO `journals` (`id`, `title`, `slug`, `content`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Persiapan Spiritual Sebelum Berangkat Umroh', 'persiapan-spiritual-sebelum-berangkat-umroh', '<p>Melakukan ibadah umroh bukan hanya tentang kesiapan fisik dan finansial, tetapi yang paling utama adalah kesiapan hati dan spiritual.</p><p>Berikut adalah beberapa hal yang perlu dipersiapkan...</p>', NULL, 'Published', '2026-05-25 21:22:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -108,18 +124,29 @@ CREATE TABLE `leads_consultation` (
 
 CREATE TABLE `packages` (
   `id` int(11) NOT NULL,
-  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `slug` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `collection_type` enum('Classic','Signature','Private','Sacred') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tagline` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `itinerary` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `hotel_details` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price_display` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `main_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` enum('Draft','Published') COLLATE utf8mb4_unicode_ci DEFAULT 'Draft',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `collection_type` enum('Classic','Signature','Private','Sacred') NOT NULL,
+  `tagline` varchar(255) DEFAULT NULL,
+  `price_display` varchar(100) DEFAULT NULL,
+  `price` int(11) NOT NULL DEFAULT 0,
+  `itinerary` text DEFAULT NULL,
+  `hotel_details` text DEFAULT NULL,
+  `main_image` varchar(255) DEFAULT NULL,
+  `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `packages`
+--
+
+INSERT INTO `packages` (`id`, `name`, `slug`, `collection_type`, `tagline`, `price_display`, `price`, `itinerary`, `hotel_details`, `main_image`, `status`, `created_at`, `updated_at`) VALUES
+(2, 'Rindu Signature', 'rindu-signature', 'Signature', 'Pengalaman premium tak terlupakan', 'Hubungi Kami', 45000000, '<p>Paket umroh premium dengan akomodasi bintang 5 pilihan, pembimbingan personal, dan dokumentasi sinematik eksklusif untuk setiap jamaah.</p>', '<p><strong>Mekkah:</strong> Fairmont Makkah Clock Royal Tower</p><p><strong>Madinah:</strong> The Oberoi Madinah</p>', '5d26f04a647c2526136b3634f3a8c127.jpg', 'Published', '2026-05-25 19:33:12', NULL),
+(3, 'Rindu Private', 'rindu-private', 'Private', 'Dirancang khusus untuk Anda', 'Custom', 75000000, '<p>Perjalanan umroh privat yang sepenuhnya disesuaikan dengan kebutuhan dan keinginan Anda. Jadwal fleksibel, layanan concierge personal, dan pengalaman tak tertandingi.</p>', '<p>Menyesuaikan dengan preferensi keluarga (Pilihan Hotel Bintang 5 VIP Ring 1).</p>', '29218be97a15abd18459038905187599.jpg', 'Draft', '2026-05-25 19:33:12', NULL),
+(4, 'Sacred Journey', 'sacred-journey', 'Sacred', 'Perjalanan haji yang bermakna', 'Hubungi Kami', 250000000, '<p>Program haji kami dirancang untuk memastikan setiap jamaah menjalani ibadah haji dengan khusyuk, nyaman, dan penuh makna spiritual yang mendalam.</p>', '<p><strong>Mekkah:</strong> Raffles Makkah Palace</p><p><strong>Madinah:</strong> Dar Al Taqwa Hotel</p>', 'c34f2d245b2c48cffd08adabd2f2eeec.jpg', 'Published', '2026-05-25 19:33:12', NULL),
+(5, 'Rindu Classic', 'rindu-classic', 'Classic', 'Perjalanan penuh ketenangan', 'Hubungi Kami', 35000000, '<p>Paket umroh reguler yang dirancang dengan penuh perhatian untuk memberikan ketenangan dan kenyamanan dalam setiap langkah perjalanan Anda menuju Baitullah.</p><p>Hari 1: Keberangkatan dari Jakarta menuju Jeddah.<br>Hari 2-4: Memperbanyak ibadah di Masjid Nabawi, Madinah. Ziarah Raudhah.<br>Hari 5-8: Perjalanan ke Mekkah. Melaksanakan Umroh Wajib dan ibadah di Masjidil Haram.<br>Hari 9: Kepulangan kembali ke Tanah Air.</p>', '<p>Mekkah: Swissôtel Makkah (Bintang 5) - Jarak 100m ke pelataran Masjidil Haram.<br>Madinah: Anwar Al Madinah Mövenpick (Bintang 5) - Berada tepat di depan pintu masuk Masjid Nabawi.</p>', 'ca64b7d2840df5fcf9b9c9133cb9210e.jpg', 'Published', '2026-05-25 15:31:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -177,8 +204,7 @@ ALTER TABLE `gallery_media`
 -- Indeks untuk tabel `journals`
 --
 ALTER TABLE `journals`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `leads_consultation`
@@ -190,8 +216,7 @@ ALTER TABLE `leads_consultation`
 -- Indeks untuk tabel `packages`
 --
 ALTER TABLE `packages`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `slug` (`slug`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `seo_metadata`
@@ -213,7 +238,7 @@ ALTER TABLE `seo_tracking_settings`
 -- AUTO_INCREMENT untuk tabel `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `fashion_items`
@@ -231,7 +256,7 @@ ALTER TABLE `gallery_media`
 -- AUTO_INCREMENT untuk tabel `journals`
 --
 ALTER TABLE `journals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `leads_consultation`
@@ -243,7 +268,7 @@ ALTER TABLE `leads_consultation`
 -- AUTO_INCREMENT untuk tabel `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `seo_metadata`
