@@ -59,6 +59,11 @@ $route['galleries']               = 'cms/gallery';
 $route['galleries/create']        = 'cms/gallery/create';
 $route['galleries/delete/(:any)'] = 'cms/gallery/delete/$1';
 
+// [BARU] Pengaturan SEO & Tracking
+$route['seo']                 = 'cms/seo';
+$route['seo/update_tracking'] = 'cms/seo/update_tracking';
+$route['seo/save_meta']       = 'cms/seo/save_meta';
+
 /*
 |--------------------------------------------------------------------------
 | 2. RUTE HALAMAN PUBLIK (FRONTEND)
