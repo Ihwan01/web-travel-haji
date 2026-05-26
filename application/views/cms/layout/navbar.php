@@ -9,6 +9,7 @@
                 <a href="<?= base_url('journeys') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Paket</a>
                 <a href="<?= base_url('journals') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Artikel</a>
                 <a href="<?= base_url('galleries') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Galeri</a>
+                <a href="<?= base_url('fashions') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Fashion</a>
                 <a href="<?= base_url('leads') ?>" class="text-decoration-none" style="color: var(--text-dark);">Konsultasi Masuk</a>
             <?php endif; ?>
 

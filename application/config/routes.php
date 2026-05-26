@@ -38,6 +38,12 @@ $route['journeys/create']        = 'cms/journeys/create';
 $route['journeys/edit/(:any)']   = 'cms/journeys/edit/$1';
 $route['journeys/delete/(:any)'] = 'cms/journeys/delete/$1';
 
+// [BARU] Manajemen Perlengkapan (Fashions)
+$route['fashions']               = 'cms/fashions';
+$route['fashions/create']        = 'cms/fashions/create';
+$route['fashions/edit/(:any)']   = 'cms/fashions/edit/$1';
+$route['fashions/delete/(:any)'] = 'cms/fashions/delete/$1';
+
 // [BARU] Manajemen Jurnal (Journals)
 $route['journals']               = 'cms/journals';
 $route['journals/create']        = 'cms/journals/create';

@@ -31,27 +31,38 @@ class Gallery extends Admin_Controller
             $this->render('cms/gallery/create', $data);
         } else {
             $media_type = $this->input->post('media_type', TRUE);
-            $folder     = $media_type === 'Video' ? 'videos' : 'photos';
+            $file_url   = ''; // Variabel untuk menyimpan path gambar ATAU tautan video
 
-            // Upload File Utama (Foto atau Video)
-            $file_url = $this->_upload_file('file_url', $folder);
-
-            if (!$file_url) {
-                $this->session->set_flashdata('error_message', 'Gagal mengunggah file media utama. Pastikan format dan ukurannya sesuai.');
-                $this->render('cms/gallery/create', $data);
-                return;
+            // LOGIKA CERDAS: Pisahkan cara simpan berdasarkan tipe
+            if ($media_type === 'Photo') {
+                // Jika Foto, wajib unggah file
+                $upload_img = $this->_upload_file('file_url', 'photos');
+                if (!$upload_img) {
+                    $this->session->set_flashdata('error_message', 'Gagal mengunggah foto. Pastikan format JPG/PNG dan maksimal 2MB.');
+                    $this->render('cms/gallery/create', $data);
+                    return;
+                }
+                $file_url = $upload_img;
+            } else {
+                // Jika Video, ambil dari inputan teks Tautan URL
+                $file_url = $this->input->post('video_url', TRUE);
+                if (empty($file_url)) {
+                    $this->session->set_flashdata('error_message', 'Tautan video wajib diisi.');
+                    $this->render('cms/gallery/create', $data);
+                    return;
+                }
             }
 
-            // Upload Thumbnail (Khusus Video, opsional)
+            // Upload Thumbnail (Khusus Video sangat disarankan agar tampilan rapi)
             $thumb_url = null;
-            if ($media_type === 'Video' && !empty($_FILES['thumbnail_url']['name'])) {
+            if (!empty($_FILES['thumbnail_url']['name'])) {
                 $thumb_url = $this->_upload_file('thumbnail_url', 'thumbs');
             }
 
             $save_data = [
                 'title'         => $this->input->post('title', TRUE),
                 'media_type'    => $media_type,
-                'file_url'      => $file_url,
+                'file_url'      => $file_url, // Menyimpan file path (foto) ATAU url link (video)
                 'thumbnail_url' => $thumb_url,
                 'aspect_ratio'  => $this->input->post('aspect_ratio', TRUE),
             ];
