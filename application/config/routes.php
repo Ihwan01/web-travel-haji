@@ -44,6 +44,15 @@ $route['journals/create']        = 'cms/journals/create';
 $route['journals/edit/(:any)']   = 'cms/journals/edit/$1';
 $route['journals/delete/(:any)'] = 'cms/journals/delete/$1';
 
+// [BARU] Manajemen Konsultasi Masuk (Leads)
+$route['leads']               = 'cms/leads';
+$route['leads/delete/(:any)'] = 'cms/leads/delete/$1';
+
+// [BARU] Manajemen Galeri (Galleries)
+$route['galleries']               = 'cms/gallery';
+$route['galleries/create']        = 'cms/gallery/create';
+$route['galleries/delete/(:any)'] = 'cms/gallery/delete/$1';
+
 /*
 |--------------------------------------------------------------------------
 | 2. RUTE HALAMAN PUBLIK (FRONTEND)
@@ -59,7 +68,6 @@ $route['gallery']               = 'Gallery/index';
 $route['fashion']               = 'Fashion/index';
 $route['contact']               = 'Contact/index';
 $route['contact/send']          = 'Contact/send';
-
 
 /*
 |--------------------------------------------------------------------------
