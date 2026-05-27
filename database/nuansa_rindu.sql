@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Bulan Mei 2026 pada 19.06
+-- Waktu pembuatan: 27 Bulan Mei 2026 pada 20.41
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -45,7 +45,7 @@ CREATE TABLE `admins` (
 INSERT INTO `admins` (`id`, `username`, `password`, `email`, `profile_picture`, `role_id`, `allowed_modules`, `created_at`) VALUES
 (1, 'superadmin', '$2y$10$5yEz0t.Eq.HO/AtzLx3Wo.frwFuR82L.M.1jekfUROUFZ.5ahjz/S', 'superadmin@nuansarindu.id', NULL, 1, 'journeys,journals,galleries,fashions,leads', '2026-05-23 00:21:01'),
 (2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', 'administrator@nuansarindu.id', NULL, 2, 'journeys,journals,galleries,fashions,leads', '2026-05-23 08:20:04'),
-(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', 'kontributor@nuansarindu.id', NULL, 3, 'journals', '2026-05-23 10:34:52');
+(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', 'kontributor@nuansarindu.id', NULL, 3, 'journals,galleries,journeys,fashions', '2026-05-23 10:34:52');
 
 -- --------------------------------------------------------
 
@@ -185,6 +185,47 @@ CREATE TABLE `leads_consultation` (
   `package_interest` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `leads_consultation`
+--
+
+INSERT INTO `leads_consultation` (`id`, `client_name`, `whatsapp_number`, `package_interest`, `created_at`) VALUES
+(1, 'Ahmad Fauzi', '081234567001', 'Rindu Classic', '2026-05-27 18:00:06'),
+(2, 'Siti Aminah', '085712345002', 'Sacred Journey', '2026-05-27 18:00:06'),
+(3, 'Budi Santoso', '081198765003', 'Rindu Signature', '2026-05-27 18:00:06'),
+(4, 'Keluarga Bapak Ridwan', '082133445004', 'Rindu Private', '2026-05-27 18:00:06'),
+(5, 'Nadia Saphira', '081344556005', 'Rindu Classic', '2026-05-27 18:00:06'),
+(6, 'Andi Wijaya', '087811223006', NULL, '2026-05-27 18:00:06'),
+(7, 'Diana Putri', '089677889007', 'Rindu Signature', '2026-05-27 18:00:06'),
+(8, 'Hendra Gunawan', '085211223008', 'Sacred Journey', '2026-05-27 18:00:06'),
+(9, 'Lestari Ningsih', '081299887009', 'Rindu Classic', '2026-05-27 18:00:06'),
+(10, 'Reza Rahadian', '081122334010', 'Rindu Private', '2026-05-27 18:00:06'),
+(11, 'Tari Puspita', '081355667788', 'Rindu Classic', '2026-05-27 18:25:46'),
+(12, 'Yudi Pratama', '085799887766', 'Rindu Signature', '2026-05-27 18:25:46'),
+(13, 'Maya Wulandari', '081233445566', 'Sacred Journey', '2026-05-27 18:25:46'),
+(14, 'Dimas Anggara', '082111223344', 'Rindu Private', '2026-05-27 18:25:46'),
+(15, 'Rina Safitri', '087855443322', 'Rindu Classic', '2026-05-27 18:25:46'),
+(16, 'Agus Setiawan', '089611223344', NULL, '2026-05-27 18:25:46'),
+(17, 'Ratna Sari', '081122334455', 'Rindu Signature', '2026-05-27 18:25:46'),
+(18, 'Irfan Maulana', '085233445566', 'Sacred Journey', '2026-05-27 18:25:46'),
+(19, 'Siska Amalia', '081344556677', 'Rindu Classic', '2026-05-27 18:25:46'),
+(20, 'Bambang Susanto', '082199887766', 'Rindu Private', '2026-05-27 18:25:46'),
+(21, 'Fitri Handayani', '085711223344', 'Rindu Classic', '2026-05-27 18:25:46'),
+(22, 'Dedi Irawan', '087899887766', 'Sacred Journey', '2026-05-27 18:25:46'),
+(23, 'Cinta Kirana', '081255667788', 'Rindu Signature', '2026-05-27 18:25:46'),
+(24, 'Rizky Ramadhan', '081199887766', NULL, '2026-05-27 18:25:46'),
+(25, 'Lestari Putri', '082155667788', 'Rindu Private', '2026-05-27 18:25:46'),
+(26, 'Ayu Lestari', '089655667788', 'Rindu Classic', '2026-05-27 18:25:46'),
+(27, 'Rafi Budiman', '081399887766', 'Sacred Journey', '2026-05-27 18:25:46'),
+(28, 'Nita Agustina', '085755667788', 'Rindu Signature', '2026-05-27 18:25:46'),
+(29, 'Bayu Segara', '081211223344', 'Rindu Private', '2026-05-27 18:25:46'),
+(30, 'Putri Rahayu', '087811223344', 'Rindu Classic', '2026-05-27 18:25:46'),
+(31, 'Anton Saputra', '085299887766', 'Sacred Journey', '2026-05-27 18:25:46'),
+(32, 'Aura Mutiara', '081311223344', 'Rindu Signature', '2026-05-27 18:25:46'),
+(33, 'Anang Hidayat', '082133445566', NULL, '2026-05-27 18:25:46'),
+(34, 'Shanti Permata', '089633445566', 'Rindu Private', '2026-05-27 18:25:46'),
+(35, 'Ivan Setiadi', '081155667788', 'Rindu Classic', '2026-05-27 18:25:46');
 
 -- --------------------------------------------------------
 
@@ -375,7 +416,7 @@ ALTER TABLE `journal_comments`
 -- AUTO_INCREMENT untuk tabel `leads_consultation`
 --
 ALTER TABLE `leads_consultation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT untuk tabel `packages`
