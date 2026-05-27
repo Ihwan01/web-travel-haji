@@ -50,8 +50,11 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <strong><?= $j->title ?></strong><br>
-                                    <small class="text-muted">Slug: <?= $j->slug ?></small>
+                                    <strong><?= htmlspecialchars($j->title) ?></strong><br>
+                                    <small class="text-muted">Slug: <?= htmlspecialchars($j->slug) ?></small><br>
+                                    <?php if (!empty($j->tags)): ?>
+                                        <small class="text-info"><i class="fas fa-tags mr-1"></i> <?= htmlspecialchars($j->tags) ?></small>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="text-center text-muted small">
                                     <?= date('d M Y, H:i', strtotime($j->created_at)) ?>
@@ -64,8 +67,9 @@
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <a href="<?= base_url('journals/edit/' . $j->id) ?>" class="btn btn-sm btn-info text-white mb-1" title="Edit">Edit</a>
-                                    <a href="<?= base_url('journals/delete/' . $j->id) ?>" class="btn btn-sm btn-danger mb-1" title="Hapus" onclick="return confirm('Yakin ingin menghapus artikel ini secara permanen?');">Hapus</a>
+                                    <a href="<?= base_url('journals/comments/' . $j->id) ?>" class="btn btn-sm btn-secondary mb-1" title="Kelola Komentar"><i class="fas fa-comments"></i></a>
+                                    <a href="<?= base_url('journals/edit/' . $j->id) ?>" class="btn btn-sm btn-info text-white mb-1" title="Edit"><i class="fas fa-edit"></i></a>
+                                    <a href="<?= base_url('journals/delete/' . $j->id) ?>" class="btn btn-sm btn-danger mb-1" title="Hapus" onclick="return confirm('Yakin ingin menghapus artikel ini secara permanen?');"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

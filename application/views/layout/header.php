@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuansa Rindu – Perjalanan Hati</title>
+    <title><?= isset($title) ? $title : 'Nuansa Rindu – Perjalanan Hati' ?></title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,10 @@
             NUANSA RINDU
         </a>
         <ul class="nav-links">
-            <li><a href="<?= base_url('#journey'); ?>">Journey</a></li>
+            <?php if ($show_journey): ?>
+                <li><a href="<?= base_url('#journey'); ?>">Journey</a></li>
+            <?php endif; ?>
+
             <li><a href="<?= base_url('#experience'); ?>">Experience</a></li>
             <li><a href="<?= base_url('#about'); ?>">About</a></li>
             <li><a href="<?= base_url('journal'); ?>">Journal</a></li>
@@ -37,9 +40,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const navbar = document.getElementById("main-navbar");
-
             window.addEventListener("scroll", function() {
-                // Jika halaman digulir lebih dari 50 pixel ke bawah
                 if (window.scrollY > 50) {
                     navbar.classList.add("scrolled");
                 } else {

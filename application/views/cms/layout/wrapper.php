@@ -1,12 +1,9 @@
 <?php
-// 1. Memuat komponen header (otomatis membawa data $title, $role_id, dll)
-// Memanggil Header yang berisi navigasi/sidebar
+// 1. Buka HTML, Muat CSS, Sidebar Kiri, dan Topbar
 $this->load->view('cms/layout/header');
 
-// 2. Memuat konten inti halaman secara dinamis
-// Memanggil konten utama (TIDAK PERLU lagi menuliskan $data)
+// 2. Muat Konten Halaman (Dinamis)
 $this->load->view($content_view);
 
-// 3. Memuat komponen footer (termasuk skrip CKEditor)
-// Memanggil Footer untuk menutup layout dan memuat script (CKEditor)
+// 3. Tutup Div Konten, Muat JS, dan Tutup HTML
 $this->load->view('cms/layout/footer');

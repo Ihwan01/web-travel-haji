@@ -7,7 +7,6 @@ class Users extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('Admin_model');
-
         $this->load->library('form_validation');
 
         // PROTEKSI MUTLAK: Hanya Super Admin (Role 1) yang diizinkan masuk
@@ -16,17 +15,13 @@ class Users extends Admin_Controller
         }
     }
 
-    // 1. Menampilkan Daftar Pengguna (Read)
     public function index()
     {
         $data['title'] = 'Manajemen Pengguna | Nuansa Rindu CMS';
         $data['users'] = $this->Admin_model->get_all_admins();
-
-        // [DIUBAH] Menggunakan render
         $this->render('cms/users/index', $data);
     }
 
-    // 2. Menambah Pengguna Baru (Create)
     public function create()
     {
         $data['title'] = 'Tambah Pengguna Baru | Nuansa Rindu CMS';
@@ -37,14 +32,18 @@ class Users extends Admin_Controller
         $this->form_validation->set_rules('role_id', 'Otoritas Akses', 'required|in_list[1,2,3]');
 
         if ($this->form_validation->run() == FALSE) {
-            // [DIUBAH] Menggunakan render
             $this->render('cms/users/create', $data);
         } else {
+            // Tangkap dan gabungkan array izin modul
+            $allowed_modules = $this->input->post('allowed_modules');
+            $allowed_str     = !empty($allowed_modules) ? implode(',', $allowed_modules) : '';
+
             $insert_data = [
-                'username' => $this->input->post('username', TRUE),
-                'email'    => $this->input->post('email', TRUE),
-                'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
-                'role_id'  => $this->input->post('role_id', TRUE)
+                'username'        => $this->input->post('username', TRUE),
+                'email'           => $this->input->post('email', TRUE),
+                'password'        => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
+                'role_id'         => $this->input->post('role_id', TRUE),
+                'allowed_modules' => $allowed_str
             ];
 
             $this->Admin_model->insert_admin($insert_data);
@@ -53,7 +52,6 @@ class Users extends Admin_Controller
         }
     }
 
-    // 3. Mengubah Data Pengguna (Update)
     public function edit($id)
     {
         $data['title'] = 'Edit Pengguna | Nuansa Rindu CMS';
@@ -68,7 +66,6 @@ class Users extends Admin_Controller
         $this->form_validation->set_rules('role_id', 'Otoritas Akses', 'required|in_list[1,2,3]');
 
         if ($this->form_validation->run() == FALSE) {
-            // [DIUBAH] Menggunakan render
             $this->render('cms/users/edit', $data);
         } else {
             $username = $this->input->post('username', TRUE);
@@ -82,10 +79,15 @@ class Users extends Admin_Controller
                 redirect('users/edit/' . $id);
             }
 
+            // Tangkap dan gabungkan array izin modul
+            $allowed_modules = $this->input->post('allowed_modules');
+            $allowed_str     = !empty($allowed_modules) ? implode(',', $allowed_modules) : '';
+
             $update_data = [
-                'username' => $username,
-                'email'    => $email,
-                'role_id'  => $this->input->post('role_id', TRUE)
+                'username'        => $username,
+                'email'           => $email,
+                'role_id'         => $this->input->post('role_id', TRUE),
+                'allowed_modules' => $allowed_str
             ];
 
             $new_password = $this->input->post('password');
@@ -99,7 +101,6 @@ class Users extends Admin_Controller
         }
     }
 
-    // 4. Menghapus Pengguna (Delete)
     public function delete($id)
     {
         if ($id == $this->session->userdata('admin_id')) {

@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Edit Artikel: <?= $journal->title ?></h1>
+    <h1 class="h3 mb-0 text-gray-800">Edit Artikel: <?= htmlspecialchars($journal->title) ?></h1>
     <a href="<?= base_url('journals') ?>" class="btn btn-sm btn-secondary shadow-sm">&larr; Kembali</a>
 </div>
 
@@ -26,6 +26,10 @@
                     <div class="mb-4">
                         <label class="form-label font-weight-bold">Judul Artikel <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-lg" name="title" value="<?= set_value('title', $journal->title) ?>" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label font-weight-bold">Tags / Label</label>
+                        <input type="text" class="form-control" name="tags" value="<?= set_value('tags', $journal->tags) ?>" placeholder="Contoh: Umroh, Inspirasi, Kajian (pisahkan dengan koma)">
                     </div>
                     <div class="mb-4">
                         <label class="form-label font-weight-bold">Isi Artikel (Konten) <span class="text-danger">*</span></label>

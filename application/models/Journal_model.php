@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Journal_model extends CI_Model
 {
-
     protected $table = 'journals';
 
     public function get_all()
@@ -16,6 +15,14 @@ class Journal_model extends CI_Model
         $this->db->where('status', 'Published')->order_by('created_at', 'DESC');
         if ($limit) $this->db->limit($limit);
         return $this->db->get($this->table)->result();
+    }
+
+    // [BARU] Mengambil data artikel khusus milik author (kontributor) tertentu
+    public function get_by_author($author_id)
+    {
+        return $this->db->where('author_id', $author_id)
+            ->order_by('created_at', 'DESC')
+            ->get($this->table)->result();
     }
 
     public function get_by_slug($slug)

@@ -1,10 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- * MY_Controller — Pengontrol Induk Utama
- * Gabungan: Variabel global (Ihwan) + Struktur Dasar (Anda)
- */
 class MY_Controller extends CI_Controller
 {
     protected $data = [];
@@ -12,16 +8,22 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
-        // Data global agar selalu tersedia di semua antarmuka (View)
         $this->data['base_url']    = base_url();
         $this->data['assets_url']  = base_url('assets/');
         $this->data['current_url'] = current_url();
+
+        if ($this->db->table_exists('homepage_settings')) {
+            $settings = $this->db->get('homepage_settings')->row();
+            $this->data['site_settings'] = $settings;
+            $this->data['show_journey']  = $settings ? $settings->show_journey : 1;
+            $this->data['show_fashion']  = $settings ? $settings->show_fashion : 1;
+        } else {
+            $this->data['site_settings'] = null;
+            $this->data['show_journey']  = 1;
+            $this->data['show_fashion']  = 1;
+        }
     }
 
-    /**
-     * Render view dengan layout publik utama
-     */
     protected function render($view, $data = [])
     {
         $data = array_merge($this->data, $data);
@@ -30,9 +32,6 @@ class MY_Controller extends CI_Controller
     }
 }
 
-/**
- * Public_Controller — Pengontrol Halaman Pengunjung (Frontend)
- */
 class Public_Controller extends MY_Controller
 {
     public function __construct()
@@ -41,60 +40,100 @@ class Public_Controller extends MY_Controller
     }
 }
 
-/**
- * Admin_Controller — Pengontrol Khusus Dasbor (CMS)
- */
 class Admin_Controller extends MY_Controller
 {
     public function __construct()
     {
         parent::__construct();
-
-        // 1. Eksekusi Proteksi Berlapis
         $this->check_authentication();
 
-        // 2. Siapkan data global untuk layout CMS
-        $this->data['admin_user'] = $this->session->userdata('username');
+        $session_id = $this->session->userdata('admin_id');
 
-        // [BARU] Injeksi role_id agar selalu tersedia di navigasi header
-        $this->data['role_id']    = (int) $this->session->userdata('role_id');
+        if ($session_id) {
+            $user = $this->db->where('id', $session_id)->get('admins')->row();
+
+            if ($user) {
+                // Set data Global User
+                $this->data['admin_id']        = $user->id;
+                $this->data['admin_user']      = $user->username;
+                $this->data['role_id']         = (int) $user->role_id;
+                $this->data['profile_picture'] = $user->profile_picture;
+
+                if ($this->data['role_id'] === 1) {
+                    $this->data['allowed_modules'] = ['journeys', 'journals', 'galleries', 'fashions', 'leads'];
+                } else {
+                    $modules = $user->allowed_modules ? explode(',', $user->allowed_modules) : [];
+
+                    // [FITUR BARU] Paksa modul 'Leads' agar selalu dapat diakses oleh semua user
+                    if (!in_array('leads', $modules)) {
+                        $modules[] = 'leads';
+                    }
+
+                    $this->data['allowed_modules'] = $modules;
+                }
+            } else {
+                $this->session->sess_destroy();
+                redirect('login');
+            }
+        }
     }
 
     private function check_authentication()
     {
         $current_url = uri_string();
-
-        if (strpos($current_url, 'auth') !== false) {
-            return;
-        }
-
-        if (!$this->session->userdata('is_logged_in')) {
-            // [DIUBAH] Menggunakan rute URL Bersih
-            redirect('login');
-        }
+        if (strpos($current_url, 'auth') !== false) return;
+        if (!$this->session->userdata('is_logged_in')) redirect('login');
     }
 
-    /**
-     * [DIUBAH] Fungsi Pembatasan Hak Akses menggunakan Redirect untuk UI/UX yang lebih baik
-     */
-    protected function require_role(array $allowed_roles)
+    // FUNGSI 1: Kunci Pintu Ruangan (Ditugaskan di __construct setiap Controller CMS)
+    protected function require_permission($module_name)
     {
-        if (!in_array($this->data['role_id'], $allowed_roles, true)) {
-            $this->session->set_flashdata('error_message', 'Mohon maaf, Anda tidak memiliki otoritas untuk mengakses area spesifik ini.');
+        if ($this->data['role_id'] === 1) return;
+
+        if (!in_array($module_name, $this->data['allowed_modules'])) {
+            $this->session->set_flashdata('error_message', 'Anda tidak memiliki izin melihat modul ' . ucfirst($module_name) . '.');
             redirect('dashboard');
+            exit;
         }
     }
 
-    /**
-     * [DIUBAH] Menimpa fungsi render khusus untuk halaman Admin
-     * Kini menggunakan layout Wrapper kita yang baru.
-     */
+    // FUNGSI 2: Kunci Tindakan Dalam Ruangan (Ditugaskan pada fungsi create/update/delete)
+    protected function restrict_action($module_name, $action = 'view', $item_author_id = null)
+    {
+        $role = $this->data['role_id'];
+
+        // Super Admin (1) & Administrator Manajer (2) bebas melakukan apapun
+        if ($role === 1 || $role === 2) return true;
+
+        // Aturan ketat khusus Kontributor (3)
+        if ($role === 3) {
+
+            // Aturan A: Leads, Journeys, Fashions = HANYA BOLEH MELIHAT (Read-Only)
+            if (in_array($module_name, ['journeys', 'fashions', 'leads'])) {
+                if ($action !== 'view') {
+                    $this->session->set_flashdata('error_message', 'Akses Ditolak! Kontributor hanya diizinkan untuk melihat data pada modul ini, tidak untuk mengubah atau menghapus.');
+                    redirect($_SERVER['HTTP_REFERER'] ?? 'dashboard');
+                    exit;
+                }
+            }
+
+            // Aturan B: Journals, Galleries = BOLEH EDIT/HAPUS TAPI HANYA MILIK SENDIRI
+            if (in_array($module_name, ['journals', 'galleries'])) {
+                if ($action === 'edit' || $action === 'delete') {
+                    if ($item_author_id != $this->data['admin_id']) {
+                        $this->session->set_flashdata('error_message', 'Akses Ditolak! Anda hanya diizinkan mengubah atau menghapus data yang Anda buat/unggah sendiri.');
+                        redirect($_SERVER['HTTP_REFERER'] ?? 'dashboard');
+                        exit;
+                    }
+                }
+            }
+        }
+    }
+
     protected function render($view, $data = [])
     {
         $data = array_merge($this->data, $data);
         $data['content_view'] = $view;
-
-        // Memanggil Wrapper sebagai fondasi utama layout CMS
         $this->load->view('cms/layout/wrapper', $data);
     }
 }

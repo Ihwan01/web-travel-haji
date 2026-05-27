@@ -1,22 +1,55 @@
-<nav class="navbar navbar-luxury d-flex justify-content-between align-items-center px-4 py-3">
-    <div class="d-flex align-items-center gap-4">
-        <div class="navbar-brand serif-font mb-0">Nuansa Rindu CMS</div>
-
-        <div class="d-none d-md-flex gap-3" style="font-size: 0.9rem;">
-            <a href="<?= base_url('dashboard') ?>" class="text-decoration-none" style="color: var(--text-dark);">Dasbor</a>
-
-            <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
-                <a href="<?= base_url('journeys') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Paket</a>
-                <a href="<?= base_url('journals') ?>" class="text-decoration-none" style="color: var(--text-dark);">Kelola Artikel</a>
-                <a href="<?= base_url('leads') ?>" class="text-decoration-none" style="color: var(--text-dark);">Konsultasi Masuk</a>
-            <?php endif; ?>
-
-            <?php if (isset($role_id) && $role_id == 1): ?>
-                <a href="#" class="text-decoration-none" style="color: var(--text-dark);">Pengaturan SEO</a>
-                <a href="<?= base_url('users') ?>" class="text-decoration-none" style="color: var(--text-dark);">Manajemen Pengguna</a>
-            <?php endif; ?>
-        </div>
+<nav id="cms-sidebar" class="d-flex flex-column">
+    <div class="p-4 border-bottom border-secondary border-opacity-25 text-center">
+        <span class="fs-4 serif-font fw-bold" style="color: #d4af37; letter-spacing:1px;">CMS RINDU</span>
     </div>
 
-    <a href="<?= base_url('logout') ?>" class="btn-outline-luxury" style="font-size: 0.85rem; letter-spacing: 1px;">KELUAR</a>
+    <ul class="nav flex-column mb-auto mt-3">
+        <li class="nav-item">
+            <a href="<?= base_url('dashboard') ?>" class="nav-link <?= ($this->uri->segment(1) == 'dashboard' || $this->uri->segment(1) == '') ? 'active' : '' ?>">
+                <i class="fas fa-fw fa-tachometer-alt me-3"></i> Dasbor
+            </a>
+        </li>
+
+        <li class="nav-item mt-4 mb-2 px-3 text-uppercase text-white-50" style="font-size: 0.7rem; letter-spacing: 2px;">Menu Utama</li>
+
+        <?php
+        $menus = [
+            'journeys'  => ['icon' => 'fa-route', 'label' => 'Paket Perjalanan'],
+            'journals'  => ['icon' => 'fa-book-open', 'label' => 'Artikel Jurnal'],
+            'galleries' => ['icon' => 'fa-images', 'label' => 'Galeri Media'],
+            'fashions'  => ['icon' => 'fa-tshirt', 'label' => 'Perlengkapan'],
+            'leads'     => ['icon' => 'fa-envelope', 'label' => 'Konsultasi']
+        ];
+
+        // Loop menu dan cek apakah allowed_modules mengandung key menu tersebut
+        foreach ($menus as $mod_key => $mod_data):
+            if (isset($allowed_modules) && in_array($mod_key, $allowed_modules)):
+        ?>
+                <li class="nav-item">
+                    <a href="<?= base_url($mod_key) ?>" class="nav-link <?= ($this->uri->segment(1) == $mod_key) ? 'active' : '' ?>">
+                        <i class="fas fa-fw <?= $mod_data['icon'] ?> me-3"></i> <?= $mod_data['label'] ?>
+                    </a>
+                </li>
+        <?php endif;
+        endforeach; ?>
+
+        <?php if (isset($role_id) && $role_id == 1): ?>
+            <li class="nav-item mt-4 mb-2 px-3 text-uppercase text-white-50" style="font-size: 0.7rem; letter-spacing: 2px;">Sistem Web</li>
+            <li class="nav-item">
+                <a href="<?= base_url('homepage_settings') ?>" class="nav-link <?= ($this->uri->segment(1) == 'homepage_settings') ? 'active' : '' ?>">
+                    <i class="fas fa-fw fa-home me-3"></i> Setelan Beranda
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= base_url('seo') ?>" class="nav-link <?= ($this->uri->segment(1) == 'seo') ? 'active' : '' ?>">
+                    <i class="fas fa-fw fa-search me-3"></i> Setelan SEO
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= base_url('users') ?>" class="nav-link <?= ($this->uri->segment(1) == 'users') ? 'active' : '' ?>">
+                    <i class="fas fa-fw fa-users me-3"></i> Pengguna
+                </a>
+            </li>
+        <?php endif; ?>
+    </ul>
 </nav>
