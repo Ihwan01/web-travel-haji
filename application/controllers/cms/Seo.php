@@ -3,12 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Seo extends Admin_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
-        // Proteksi ketat: Hanya Super Admin yang boleh mengubah SEO
-        $this->require_role([1]);
+
+        // Proteksi manual: Hanya Super Admin (Role 1) yang boleh mengakses SEO
+        if ($this->data['role_id'] != 1) {
+            $this->session->set_flashdata('error_message', 'Akses Ditolak. Hanya Super Admin yang dapat mengakses pengaturan SEO.');
+            redirect('dashboard');
+            exit;
+        }
 
         $this->load->model('Seo_model');
     }

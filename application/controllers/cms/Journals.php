@@ -16,8 +16,9 @@ class Journals extends Admin_Controller
     {
         $data['title'] = 'Manajemen Artikel | CMS';
 
-        if ($this->session->userdata('role_id') == 3) {
-            $data['journals'] = $this->db->where('author_id', $this->session->userdata('id'))
+        // Kontributor hanya melihat artikel miliknya di tabel
+        if ($this->data['role_id'] == 3) {
+            $data['journals'] = $this->db->where('author_id', $this->data['admin_id'])
                 ->order_by('created_at', 'DESC')
                 ->get('journals')->result();
         } else {
@@ -29,6 +30,7 @@ class Journals extends Admin_Controller
 
     public function create()
     {
+        $this->restrict_action('journals', 'create');
         $data['title'] = 'Tulis Artikel Baru | CMS';
 
         $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
@@ -40,12 +42,12 @@ class Journals extends Admin_Controller
             $this->render('cms/journals/create', $data);
         } else {
             $save_data = [
-                'author_id' => $this->session->userdata('id'),
-                'title'     => $this->input->post('title', TRUE),
-                'tags'      => $this->input->post('tags', TRUE),
-                'slug'      => url_title($this->input->post('title', TRUE), 'dash', TRUE),
-                'content'   => $this->input->post('content'),
-                'status'    => $this->input->post('status', TRUE),
+                'author_id'  => $this->data['admin_id'],
+                'title'      => $this->input->post('title', TRUE),
+                'tags'       => $this->input->post('tags', TRUE),
+                'slug'       => url_title($this->input->post('title', TRUE), 'dash', TRUE),
+                'content'    => $this->input->post('content'),
+                'status'     => $this->input->post('status', TRUE),
                 'created_at' => date('Y-m-d H:i:s')
             ];
 
@@ -74,10 +76,8 @@ class Journals extends Admin_Controller
             redirect('journals');
         }
 
-        if ($this->session->userdata('role_id') == 3 && $data['journal']->author_id != $this->session->userdata('id')) {
-            $this->session->set_flashdata('error_message', 'Akses Ditolak: Anda hanya dapat mengedit artikel yang Anda buat sendiri.');
-            redirect('journals');
-        }
+        // [GEMBOK AKTIF] Cek apakah Kontributor mengedit miliknya sendiri
+        $this->restrict_action('journals', 'edit', $data['journal']->author_id);
 
         $data['title'] = 'Edit Artikel: ' . $data['journal']->title;
 
@@ -89,11 +89,11 @@ class Journals extends Admin_Controller
             $this->render('cms/journals/edit', $data);
         } else {
             $update_data = [
-                'title'     => $this->input->post('title', TRUE),
-                'tags'      => $this->input->post('tags', TRUE),
-                'slug'      => url_title($this->input->post('title', TRUE), 'dash', TRUE),
-                'content'   => $this->input->post('content'),
-                'status'    => $this->input->post('status', TRUE),
+                'title'      => $this->input->post('title', TRUE),
+                'tags'       => $this->input->post('tags', TRUE),
+                'slug'       => url_title($this->input->post('title', TRUE), 'dash', TRUE),
+                'content'    => $this->input->post('content'),
+                'status'     => $this->input->post('status', TRUE),
                 'updated_at' => date('Y-m-d H:i:s')
             ];
 
@@ -121,10 +121,8 @@ class Journals extends Admin_Controller
     {
         $journal = $this->Journal_model->get_by_id($id);
         if ($journal) {
-            if ($this->session->userdata('role_id') == 3 && $journal->author_id != $this->session->userdata('id')) {
-                $this->session->set_flashdata('error_message', 'Akses Ditolak.');
-                redirect('journals');
-            }
+            // [GEMBOK AKTIF] Cek apakah Kontributor menghapus miliknya sendiri
+            $this->restrict_action('journals', 'delete', $journal->author_id);
 
             if ($journal->image && file_exists(FCPATH . 'assets/uploads/journals/' . $journal->image)) {
                 unlink(FCPATH . 'assets/uploads/journals/' . $journal->image);
@@ -139,10 +137,8 @@ class Journals extends Admin_Controller
     {
         $data['journal'] = $this->Journal_model->get_by_id($journal_id);
 
-        if ($this->session->userdata('role_id') == 3 && $data['journal']->author_id != $this->session->userdata('id')) {
-            $this->session->set_flashdata('error_message', 'Akses Ditolak.');
-            redirect('journals');
-        }
+        // [GEMBOK AKTIF] Anggap manajemen komentar sama dengan izin edit jurnal
+        $this->restrict_action('journals', 'edit', $data['journal']->author_id);
 
         $data['title']    = 'Kelola Komentar: ' . $data['journal']->title;
         $data['comments'] = $this->Journal_comment_model->get_by_journal($journal_id);
@@ -152,6 +148,7 @@ class Journals extends Admin_Controller
 
     public function approve_comment($comment_id, $journal_id, $status)
     {
+        // Gembok otomatis diamankan melalui fungsi comments() karena UI tidak akan tampil
         $this->Journal_comment_model->update_status($comment_id, $status);
         $this->session->set_flashdata('success_message', 'Status komentar berhasil diubah.');
         redirect('journals/comments/' . $journal_id);
@@ -160,12 +157,12 @@ class Journals extends Admin_Controller
     public function reply_comment($journal_id)
     {
         $reply_data = [
-            'journal_id'    => $journal_id,
-            'parent_id'     => $this->input->post('parent_id'),
-            'name'          => $this->session->userdata('username') . ' (Admin)',
-            'comment'       => $this->input->post('reply_message', TRUE),
+            'journal_id'     => $journal_id,
+            'parent_id'      => $this->input->post('parent_id'),
+            'name'           => $this->data['admin_user'] . ' (Admin)',
+            'comment'        => $this->input->post('reply_message', TRUE),
             'is_admin_reply' => 1,
-            'status'        => 'Approved'
+            'status'         => 'Approved'
         ];
 
         $this->Journal_comment_model->insert($reply_data);

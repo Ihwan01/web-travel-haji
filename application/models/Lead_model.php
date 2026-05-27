@@ -1,24 +1,40 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Lead_model extends CI_Model {
-
-    protected $table = 'leads_consultation';
-
-    public function get_all()
+class Lead_model extends CI_Model
+{
+    // Menghitung total data untuk keperluan paginasi
+    public function count_all_leads($search = null)
     {
-        return $this->db->order_by('created_at', 'DESC')->get($this->table)->result();
+        if ($search) {
+            $this->db->group_start();
+            $this->db->like('client_name', $search);
+            $this->db->or_like('whatsapp_number', $search);
+            $this->db->or_like('package_interest', $search);
+            $this->db->group_end();
+        }
+        return $this->db->count_all_results('leads_consultation');
     }
 
-    public function insert($data)
+    // Mengambil data dengan limit, offset, dan pencarian (Otomatis Terbaru)
+    public function get_paginated_leads($limit, $start, $search = null)
     {
-        $data['created_at'] = date('Y-m-d H:i:s');
-        $this->db->insert($this->table, $data);
-        return $this->db->insert_id();
+        if ($search) {
+            $this->db->group_start();
+            $this->db->like('client_name', $search);
+            $this->db->or_like('whatsapp_number', $search);
+            $this->db->or_like('package_interest', $search);
+            $this->db->group_end();
+        }
+
+        // PENGURUTAN: Terbaru ke Terlama
+        $this->db->order_by('created_at', 'DESC');
+
+        return $this->db->get('leads_consultation', $limit, $start)->result();
     }
 
     public function delete($id)
     {
-        $this->db->where('id', $id)->delete($this->table);
+        return $this->db->where('id', $id)->delete('leads_consultation');
     }
 }

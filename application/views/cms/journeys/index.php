@@ -1,8 +1,11 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><?= isset($title) ? $title : 'Manajemen Perjalanan' ?></h1>
-    <a href="<?= base_url('journeys/create') ?>" class="btn btn-sm btn-primary shadow-sm">
-        <i class="fas fa-plus fa-sm text-white-50 mr-1"></i> Tambah Perjalanan Baru
-    </a>
+
+    <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
+        <a href="<?= base_url('journeys/create') ?>" class="btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50 mr-1"></i> Tambah Perjalanan Baru
+        </a>
+    <?php endif; ?>
 </div>
 
 <?php if ($this->session->flashdata('success_message')) : ?>
@@ -34,7 +37,10 @@
                         <th width="12%">Koleksi</th>
                         <th width="15%">Harga Dasar</th>
                         <th width="10%" class="text-center">Status</th>
-                        <th width="15%" class="text-center">Aksi</th>
+
+                        <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
+                            <th width="15%" class="text-center">Aksi</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,19 +71,22 @@
                                         <span class="badge bg-warning text-dark">Draft</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="text-center">
-                                    <a href="<?= base_url('journeys/edit/' . $p->id) ?>" class="btn btn-sm btn-info text-white mb-1" title="Edit">
-                                        Edit
-                                    </a>
-                                    <a href="<?= base_url('journeys/delete/' . $p->id) ?>" class="btn btn-sm btn-danger mb-1" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini? Gambar yang terkait juga akan dihapus dari server.');">
-                                        Hapus
-                                    </a>
-                                </td>
+
+                                <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
+                                    <td class="text-center">
+                                        <a href="<?= base_url('journeys/edit/' . $p->id) ?>" class="btn btn-sm btn-info text-white mb-1" title="Edit">
+                                            Edit
+                                        </a>
+                                        <a href="<?= base_url('journeys/delete/' . $p->id) ?>" class="btn btn-sm btn-danger mb-1" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus paket ini? Gambar yang terkait juga akan dihapus dari server.');">
+                                            Hapus
+                                        </a>
+                                    </td>
+                                <?php endif; ?>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="7" class="text-center py-4">Belum ada data perjalanan. Silakan tambahkan paket baru.</td>
+                            <td colspan="<?= (isset($role_id) && in_array($role_id, [1, 2])) ? '7' : '6' ?>" class="text-center py-4">Belum ada data perjalanan. Silakan tambahkan paket baru.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>

@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Fashions extends Admin_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -22,6 +21,9 @@ class Fashions extends Admin_Controller
 
     public function create()
     {
+        // [GEMBOK AKTIF] Blokir Kontributor
+        $this->restrict_action('fashions', 'create');
+
         $data['title'] = 'Tambah Koleksi Baru | CMS';
 
         $this->form_validation->set_rules('name', 'Nama Koleksi', 'required|trim');
@@ -30,7 +32,6 @@ class Fashions extends Admin_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/fashions/create', $data);
         } else {
-            // Proses Upload Multiple Images
             $uploaded_images = $this->_upload_multiple_images('image_gallery', 'fashions');
 
             $save_data = [
@@ -50,6 +51,9 @@ class Fashions extends Admin_Controller
 
     public function edit($id)
     {
+        // [GEMBOK AKTIF] Blokir Kontributor
+        $this->restrict_action('fashions', 'edit');
+
         $data['item'] = $this->Fashion_model->get_by_id($id);
         if (!$data['item']) {
             $this->session->set_flashdata('error_message', 'Data tidak ditemukan.');
@@ -71,18 +75,15 @@ class Fashions extends Admin_Controller
                 'status'         => $this->input->post('status', TRUE)
             ];
 
-            // Cek jika ada file gambar baru yang diunggah
             if (!empty($_FILES['image_gallery']['name'][0])) {
                 $uploaded_images = $this->_upload_multiple_images('image_gallery', 'fashions');
                 if (!empty($uploaded_images)) {
-                    // Hapus gambar lama dari server
                     $old_images = json_decode($data['item']->image_gallery, true);
                     if ($old_images) {
                         foreach ($old_images as $old_img) {
                             if (file_exists(FCPATH . $old_img)) unlink(FCPATH . $old_img);
                         }
                     }
-                    // Simpan JSON gambar baru
                     $update_data['image_gallery'] = json_encode($uploaded_images);
                 }
             }
@@ -95,6 +96,9 @@ class Fashions extends Admin_Controller
 
     public function delete($id)
     {
+        // [GEMBOK AKTIF] Blokir Kontributor
+        $this->restrict_action('fashions', 'delete');
+
         $item = $this->Fashion_model->get_by_id($id);
         if ($item) {
             $images = json_decode($item->image_gallery, true);
@@ -109,7 +113,6 @@ class Fashions extends Admin_Controller
         redirect('fashions');
     }
 
-    // Fungsi khusus untuk menangani unggahan banyak file (Multiple Upload)
     private function _upload_multiple_images($field, $subfolder)
     {
         $upload_path = FCPATH . 'assets/uploads/' . $subfolder . '/';
@@ -121,12 +124,10 @@ class Fashions extends Admin_Controller
         $images_path = [];
         $files = $_FILES[$field];
 
-        // Hitung jumlah file yang diunggah
         $file_count = count($files['name']);
 
         for ($i = 0; $i < $file_count; $i++) {
             if ($files['error'][$i] === 0) {
-                // Manipulasi $_FILES untuk mengelabui library upload CI3
                 $_FILES['single_file']['name']     = $files['name'][$i];
                 $_FILES['single_file']['type']     = $files['type'][$i];
                 $_FILES['single_file']['tmp_name'] = $files['tmp_name'][$i];

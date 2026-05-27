@@ -13,101 +13,175 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/cms-style.css?v=' . time()); ?>">
 
     <style>
+        /* CSS LAYOUT INTI - Flexbox Sidebar & Main Content */
+        html,
         body {
-            background-color: #f8f9fc;
+            height: 100%;
             margin: 0;
-            padding: 0;
             overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
+            background-color: var(--soft-cream, #f9f8f6);
         }
 
-        /* WRAPPER UTAMA */
-        #cms-wrapper {
+        #cms-app {
             display: flex;
-            width: 100%;
             min-height: 100vh;
+            width: 100%;
         }
 
-        /* SIDEBAR KIRI (Terkunci / Fixed) */
+        /* SIDEBAR KIRI */
         #cms-sidebar {
             width: 260px;
+            min-width: 260px;
             background-color: #1a1c24;
             color: #fff;
-            position: fixed;
-            top: 0;
-            left: 0;
             height: 100vh;
+            position: sticky;
+            top: 0;
             overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            transition: all 0.3s;
         }
 
-        /* NAV LINKS DI SIDEBAR */
         #cms-sidebar .nav-link {
             color: rgba(255, 255, 255, 0.7);
-            border-radius: 6px;
-            margin-bottom: 4px;
-            padding: 12px 16px;
-            transition: 0.3s;
             font-size: 0.95rem;
+            padding: 12px 20px;
+            border-radius: 0;
+            margin-bottom: 2px;
         }
 
         #cms-sidebar .nav-link:hover,
         #cms-sidebar .nav-link.active {
             background-color: rgba(255, 255, 255, 0.1);
             color: #fff;
-        }
-
-        #cms-sidebar .nav-link.active {
             border-left: 4px solid var(--gold, #d4af37);
-            font-weight: 600;
         }
 
-        /* KONTEN KANAN (Dinamis) */
-        #cms-content-wrapper {
-            flex-grow: 1;
-            margin-left: 260px;
-            /* Lebar sidebar */
+        /* AREA KONTEN KANAN */
+        #cms-content-area {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            width: calc(100% - 260px);
+            min-width: 0;
         }
 
-        /* TOPBAR (Header Putih di Atas Konten) */
+        /* TOPBAR / HEADER ATAS */
         #cms-topbar {
             height: 70px;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-light, #e5e5e5);
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding: 0 30px;
+            justify-content: space-between;
+            padding: 0 2rem;
             z-index: 999;
         }
 
-        /* AREA KONTEN UTAMA HALAMAN */
-        #cms-main {
-            padding: 30px;
-            flex-grow: 1;
+        /* TAMPILAN PROFIL DI TOPBAR */
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .profile-img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-light);
+            margin-right: 12px;
+        }
+
+        .logout-icon {
+            color: #dc3545;
+            font-size: 1.3rem;
+            transition: 0.3s;
+        }
+
+        .logout-icon:hover {
+            color: #a71d2a;
+            transform: scale(1.1);
+        }
+
+        /* KONTROL RESPONSIVE MOBILE */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        #sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            display: none;
+        }
+
+        @media (max-width: 992px) {
+            #cms-sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+            }
+
+            /* Sembunyikan ke kiri */
+            #cms-sidebar.active {
+                transform: translateX(0);
+            }
+
+            /* Muncul saat diklik */
+            .mobile-toggle {
+                display: block;
+            }
+
+            #sidebar-overlay.active {
+                display: block;
+            }
+
+            #cms-topbar {
+                padding: 0 1rem;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div id="cms-wrapper">
+    <div id="cms-app">
 
         <?php $this->load->view('cms/layout/navbar'); ?>
+        <div id="sidebar-overlay"></div>
 
-        <div id="cms-content-wrapper">
+        <div id="cms-content-area">
 
-            <div id="cms-topbar">
-                <span class="fw-bold text-secondary">
-                    <i class="fas fa-user-circle me-2 fs-5 align-middle"></i>
-                    <span class="align-middle">Halo, <?= htmlspecialchars($admin_user ?? 'Admin') ?></span>
-                </span>
-            </div>
+            <header id="cms-topbar">
+                <div>
+                    <button class="mobile-toggle" id="btn-toggle-sidebar"><i class="fas fa-bars"></i></button>
+                </div>
 
-            <div id="cms-main">
-                <div class="container-fluid px-0">
+                <div class="d-flex align-items-center gap-4">
+                    <a href="<?= base_url('profile') ?>" class="profile-btn" title="Kelola Profil Saya">
+                        <?php if (!empty($profile_picture)): ?>
+                            <img src="<?= base_url($profile_picture) ?>" class="profile-img" alt="Profil">
+                        <?php else: ?>
+                            <i class="fas fa-user-circle fs-3 me-2" style="color:var(--border-light);"></i>
+                        <?php endif; ?>
+                        <span class="d-none d-md-inline">Halo, <?= htmlspecialchars($admin_user) ?></span>
+                    </a>
+
+                    <a href="<?= base_url('logout') ?>" class="logout-icon" title="Keluar dari Sistem">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </header>
+
+            <main class="p-4 flex-grow-1">

@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -22,6 +21,7 @@ class Gallery extends Admin_Controller
 
     public function create()
     {
+        $this->restrict_action('galleries', 'create');
         $data['title'] = 'Unggah Media Baru | CMS';
 
         $this->form_validation->set_rules('title', 'Judul Media', 'required|trim');
@@ -32,11 +32,9 @@ class Gallery extends Admin_Controller
             $this->render('cms/gallery/create', $data);
         } else {
             $media_type = $this->input->post('media_type', TRUE);
-            $file_url   = ''; // Variabel untuk menyimpan path gambar ATAU tautan video
+            $file_url   = '';
 
-            // LOGIKA CERDAS: Pisahkan cara simpan berdasarkan tipe
             if ($media_type === 'Photo') {
-                // Jika Foto, wajib unggah file
                 $upload_img = $this->_upload_file('file_url', 'photos');
                 if (!$upload_img) {
                     $this->session->set_flashdata('error_message', 'Gagal mengunggah foto. Pastikan format JPG/PNG dan maksimal 2MB.');
@@ -45,7 +43,6 @@ class Gallery extends Admin_Controller
                 }
                 $file_url = $upload_img;
             } else {
-                // Jika Video, ambil dari inputan teks Tautan URL
                 $file_url = $this->input->post('video_url', TRUE);
                 if (empty($file_url)) {
                     $this->session->set_flashdata('error_message', 'Tautan video wajib diisi.');
@@ -54,16 +51,16 @@ class Gallery extends Admin_Controller
                 }
             }
 
-            // Upload Thumbnail (Khusus Video sangat disarankan agar tampilan rapi)
             $thumb_url = null;
             if (!empty($_FILES['thumbnail_url']['name'])) {
                 $thumb_url = $this->_upload_file('thumbnail_url', 'thumbs');
             }
 
             $save_data = [
+                'author_id'     => $this->data['admin_id'], // Menyimpan ID pengunggah
                 'title'         => $this->input->post('title', TRUE),
                 'media_type'    => $media_type,
-                'file_url'      => $file_url, // Menyimpan file path (foto) ATAU url link (video)
+                'file_url'      => $file_url,
                 'thumbnail_url' => $thumb_url,
                 'aspect_ratio'  => $this->input->post('aspect_ratio', TRUE),
             ];
@@ -76,21 +73,15 @@ class Gallery extends Admin_Controller
 
     public function delete($id)
     {
-        $media = $this->Gallery_model->get_by_id($id);
+        $gallery = $this->Gallery_model->get_by_id($id);
 
-        if ($media) {
-            // Hapus file fisik dari server
-            if ($media->file_url && file_exists(FCPATH . $media->file_url)) {
-                unlink(FCPATH . $media->file_url);
-            }
-            if ($media->thumbnail_url && file_exists(FCPATH . $media->thumbnail_url)) {
-                unlink(FCPATH . $media->thumbnail_url);
-            }
+        if ($gallery) {
+            // [GEMBOK AKTIF] Cek apakah Kontributor menghapus miliknya sendiri
+            $this->restrict_action('galleries', 'delete', $gallery->author_id);
 
             $this->Gallery_model->delete($id);
-            $this->session->set_flashdata('success_message', 'Data media berhasil dihapus.');
+            $this->session->set_flashdata('success_message', 'Foto berhasil dihapus.');
         }
-
         redirect('galleries');
     }
 
@@ -98,7 +89,6 @@ class Gallery extends Admin_Controller
     {
         if (! isset($_FILES[$field]) || $_FILES[$field]['error'] !== 0) return null;
 
-        // Pindahkan ke folder uploads agar seragam dengan paket dan jurnal
         $upload_path = FCPATH . 'assets/uploads/gallery/' . $subfolder . '/';
 
         if (!is_dir($upload_path)) {
@@ -116,7 +106,6 @@ class Gallery extends Admin_Controller
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload($field)) {
-            // Return path relatif untuk disimpan di database
             return 'assets/uploads/gallery/' . $subfolder . '/' . $this->upload->data('file_name');
         }
 
