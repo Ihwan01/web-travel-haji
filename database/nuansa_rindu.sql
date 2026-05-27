@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Bulan Mei 2026 pada 14.57
+-- Waktu pembuatan: 27 Bulan Mei 2026 pada 15.39
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -77,6 +77,39 @@ CREATE TABLE `gallery_media` (
   `aspect_ratio` enum('Landscape','Portrait') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `homepage_settings`
+--
+
+CREATE TABLE `homepage_settings` (
+  `id` int(11) NOT NULL,
+  `show_journey` tinyint(1) NOT NULL DEFAULT 1,
+  `show_fashion` tinyint(1) NOT NULL DEFAULT 1,
+  `hero_type` enum('Single','Slideshow') NOT NULL DEFAULT 'Single',
+  `hero_media_type` enum('Video','Photo') NOT NULL DEFAULT 'Video',
+  `hero_media` varchar(255) DEFAULT 'assets/images/hero/hero.mp4',
+  `hero_tagline` varchar(150) DEFAULT 'Nuansa Rindu · Umrah & Spiritual Journey',
+  `hero_title` text DEFAULT 'Perjalanan hati,<br>pulang membawa<br><em>makna.</em>',
+  `hero_desc` text DEFAULT 'Nuansa Rindu hadir untuk menemani perjalanan spiritual Anda dengan ketenangan, kenyamanan, dan makna yang mendalam.',
+  `hero_btn1_text` varchar(50) DEFAULT 'Explore Journey',
+  `hero_btn1_url` varchar(255) DEFAULT 'journey',
+  `hero_btn2_text` varchar(50) DEFAULT 'Begin The Journey',
+  `hero_btn2_url` varchar(255) DEFAULT 'contact',
+  `about_title` text DEFAULT 'Lebih dari perjalanan,<br>ini tentang<br><em style="font-style:italic; color:var(--gold);">pulang.</em>',
+  `about_desc` text DEFAULT 'Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.',
+  `about_media_type` enum('Video','Photo') NOT NULL DEFAULT 'Photo',
+  `about_media` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `homepage_settings`
+--
+
+INSERT INTO `homepage_settings` (`id`, `show_journey`, `show_fashion`, `hero_type`, `hero_media_type`, `hero_media`, `hero_tagline`, `hero_title`, `hero_desc`, `hero_btn1_text`, `hero_btn1_url`, `hero_btn2_text`, `hero_btn2_url`, `about_title`, `about_desc`, `about_media_type`, `about_media`) VALUES
+(1, 1, 1, 'Single', 'Video', 'assets/images/hero/hero.mp4', 'Nuansa Rindu · Umrah & Spiritual Journey', 'Perjalanan hati,<br>pulang membawa<br><em>makna.</em>', 'Nuansa Rindu hadir untuk menemani perjalanan spiritual Anda dengan ketenangan, kenyamanan, dan makna yang mendalam.', 'Explore Journey', 'journey', 'Begin The Journey', 'contact', 'Lebih dari perjalanan,<br>ini tentang<br><em style=\"font-style:italic; color:var(--gold);\">pulang.</em>', 'Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.', 'Photo', NULL);
 
 -- --------------------------------------------------------
 
@@ -229,6 +262,12 @@ ALTER TABLE `gallery_media`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `homepage_settings`
+--
+ALTER TABLE `homepage_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `journals`
 --
 ALTER TABLE `journals`
@@ -285,6 +324,12 @@ ALTER TABLE `fashion_items`
 --
 ALTER TABLE `gallery_media`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `homepage_settings`
+--
+ALTER TABLE `homepage_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `journals`
