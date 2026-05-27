@@ -28,6 +28,10 @@
                         <input type="text" class="form-control form-control-lg" name="title" value="<?= set_value('title') ?>" required placeholder="Masukkan judul yang menarik...">
                     </div>
                     <div class="mb-4">
+                        <label class="form-label font-weight-bold">Tags / Label</label>
+                        <input type="text" class="form-control" name="tags" value="<?= set_value('tags') ?>" placeholder="Contoh: Umroh, Inspirasi, Kajian (pisahkan dengan koma)">
+                    </div>
+                    <div class="mb-4">
                         <label class="form-label font-weight-bold">Isi Artikel (Konten) <span class="text-danger">*</span></label>
                         <textarea class="form-control" name="content" id="content" rows="15"><?= set_value('content') ?></textarea>
                     </div>

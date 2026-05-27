@@ -7,13 +7,21 @@ class Journals extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('Journal_model');
+        $this->load->model('Journal_comment_model');
         $this->load->library('form_validation');
     }
 
     public function index()
     {
-        $data['title']    = 'Manajemen Artikel (Journal) | CMS';
-        $data['journals'] = $this->Journal_model->get_all();
+        $data['title'] = 'Manajemen Artikel | CMS';
+
+        if ($this->session->userdata('role_id') == 3) {
+            $data['journals'] = $this->db->where('author_id', $this->session->userdata('id'))
+                ->order_by('created_at', 'DESC')
+                ->get('journals')->result();
+        } else {
+            $data['journals'] = $this->Journal_model->get_all();
+        }
 
         $this->render('cms/journals/index', $data);
     }
@@ -23,6 +31,7 @@ class Journals extends Admin_Controller
         $data['title'] = 'Tulis Artikel Baru | CMS';
 
         $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
+        $this->form_validation->set_rules('tags', 'Tags', 'trim');
         $this->form_validation->set_rules('content', 'Konten Artikel', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[Draft,Published]');
 
@@ -30,10 +39,13 @@ class Journals extends Admin_Controller
             $this->render('cms/journals/create', $data);
         } else {
             $save_data = [
-                'title'   => $this->input->post('title', TRUE),
-                'slug'    => url_title($this->input->post('title', TRUE), 'dash', TRUE),
-                'content' => $this->input->post('content'),
-                'status'  => $this->input->post('status', TRUE)
+                'author_id' => $this->session->userdata('id'),
+                'title'     => $this->input->post('title', TRUE),
+                'tags'      => $this->input->post('tags', TRUE),
+                'slug'      => url_title($this->input->post('title', TRUE), 'dash', TRUE),
+                'content'   => $this->input->post('content'),
+                'status'    => $this->input->post('status', TRUE),
+                'created_at' => date('Y-m-d H:i:s')
             ];
 
             if (!empty($_FILES['image']['name'])) {
@@ -61,25 +73,32 @@ class Journals extends Admin_Controller
             redirect('journals');
         }
 
+        if ($this->session->userdata('role_id') == 3 && $data['journal']->author_id != $this->session->userdata('id')) {
+            $this->session->set_flashdata('error_message', 'Akses Ditolak: Anda hanya dapat mengedit artikel yang Anda buat sendiri.');
+            redirect('journals');
+        }
+
         $data['title'] = 'Edit Artikel: ' . $data['journal']->title;
 
         $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
+        $this->form_validation->set_rules('tags', 'Tags', 'trim');
         $this->form_validation->set_rules('content', 'Konten Artikel', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/journals/edit', $data);
         } else {
             $update_data = [
-                'title'   => $this->input->post('title', TRUE),
-                'slug'    => url_title($this->input->post('title', TRUE), 'dash', TRUE),
-                'content' => $this->input->post('content'),
-                'status'  => $this->input->post('status', TRUE)
+                'title'     => $this->input->post('title', TRUE),
+                'tags'      => $this->input->post('tags', TRUE),
+                'slug'      => url_title($this->input->post('title', TRUE), 'dash', TRUE),
+                'content'   => $this->input->post('content'),
+                'status'    => $this->input->post('status', TRUE),
+                'updated_at' => date('Y-m-d H:i:s')
             ];
 
             if (!empty($_FILES['image']['name'])) {
                 $upload = $this->_upload_image();
                 if ($upload['status']) {
-                    // Hapus gambar lama jika ada
                     if ($data['journal']->image && file_exists(FCPATH . 'assets/uploads/journals/' . $data['journal']->image)) {
                         unlink(FCPATH . 'assets/uploads/journals/' . $data['journal']->image);
                     }
@@ -100,36 +119,76 @@ class Journals extends Admin_Controller
     public function delete($id)
     {
         $journal = $this->Journal_model->get_by_id($id);
-
         if ($journal) {
-            // Hapus gambar dari folder server
+            if ($this->session->userdata('role_id') == 3 && $journal->author_id != $this->session->userdata('id')) {
+                $this->session->set_flashdata('error_message', 'Akses Ditolak.');
+                redirect('journals');
+            }
+
             if ($journal->image && file_exists(FCPATH . 'assets/uploads/journals/' . $journal->image)) {
                 unlink(FCPATH . 'assets/uploads/journals/' . $journal->image);
             }
             $this->Journal_model->delete($id);
             $this->session->set_flashdata('success_message', 'Artikel berhasil dihapus.');
-        } else {
-            $this->session->set_flashdata('error_message', 'Artikel tidak ditemukan.');
+        }
+        redirect('journals');
+    }
+
+    public function comments($journal_id)
+    {
+        $data['journal'] = $this->Journal_model->get_by_id($journal_id);
+
+        if ($this->session->userdata('role_id') == 3 && $data['journal']->author_id != $this->session->userdata('id')) {
+            $this->session->set_flashdata('error_message', 'Akses Ditolak.');
+            redirect('journals');
         }
 
-        redirect('journals');
+        $data['title']    = 'Kelola Komentar: ' . $data['journal']->title;
+        $data['comments'] = $this->Journal_comment_model->get_by_journal($journal_id);
+
+        $this->render('cms/journals/comments', $data);
+    }
+
+    public function approve_comment($comment_id, $journal_id, $status)
+    {
+        $this->Journal_comment_model->update_status($comment_id, $status);
+        $this->session->set_flashdata('success_message', 'Status komentar berhasil diubah.');
+        redirect('journals/comments/' . $journal_id);
+    }
+
+    public function reply_comment($journal_id)
+    {
+        $reply_data = [
+            'journal_id'    => $journal_id,
+            'parent_id'     => $this->input->post('parent_id'),
+            'name'          => $this->session->userdata('username') . ' (Admin)',
+            'comment'       => $this->input->post('reply_message', TRUE),
+            'is_admin_reply' => 1,
+            'status'        => 'Approved'
+        ];
+
+        $this->Journal_comment_model->insert($reply_data);
+        $this->session->set_flashdata('success_message', 'Balasan berhasil dikirim dan ditayangkan.');
+        redirect('journals/comments/' . $journal_id);
+    }
+
+    public function delete_comment($comment_id, $journal_id)
+    {
+        $this->Journal_comment_model->delete($comment_id);
+        $this->session->set_flashdata('success_message', 'Komentar berhasil dihapus.');
+        redirect('journals/comments/' . $journal_id);
     }
 
     private function _upload_image()
     {
-        // Menggunakan FCPATH untuk keamanan absolute path
         $config['upload_path']   = FCPATH . 'assets/uploads/journals/';
         $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
         $config['max_size']      = 2048;
         $config['encrypt_name']  = TRUE;
-
-        // Otomatis membuat folder jika belum ada
         if (!is_dir($config['upload_path'])) {
             mkdir($config['upload_path'], 0777, true);
         }
-
         $this->load->library('upload', $config);
-
         if ($this->upload->do_upload('image')) {
             return ['status' => true, 'file_name' => $this->upload->data('file_name')];
         } else {

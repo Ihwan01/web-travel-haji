@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Bulan Mei 2026 pada 16.25
+-- Waktu pembuatan: 27 Bulan Mei 2026 pada 14.57
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -86,8 +86,10 @@ CREATE TABLE `gallery_media` (
 
 CREATE TABLE `journals` (
   `id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL DEFAULT 1,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
+  `tags` varchar(255) DEFAULT NULL COMMENT 'Pisahkan dengan koma',
   `content` text NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
@@ -99,8 +101,27 @@ CREATE TABLE `journals` (
 -- Dumping data untuk tabel `journals`
 --
 
-INSERT INTO `journals` (`id`, `title`, `slug`, `content`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Persiapan Spiritual Sebelum Berangkat Umroh', 'persiapan-spiritual-sebelum-berangkat-umroh', '<p>Melakukan ibadah umroh bukan hanya tentang kesiapan fisik dan finansial, tetapi yang paling utama adalah kesiapan hati dan spiritual.</p><p>Berikut adalah beberapa hal yang perlu dipersiapkan...</p>', NULL, 'Published', '2026-05-25 21:22:30', NULL);
+INSERT INTO `journals` (`id`, `author_id`, `title`, `slug`, `tags`, `content`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Persiapan Spiritual Sebelum Berangkat Umroh', 'persiapan-spiritual-sebelum-berangkat-umroh', 'Persiapan, Spiritual, Umroh', '<p>Melakukan ibadah umroh bukan hanya tentang kesiapan fisik dan finansial, tetapi yang paling utama adalah kesiapan hati dan spiritual.</p><p>Berikut adalah beberapa hal yang perlu dipersiapkan...</p>', NULL, 'Draft', '2026-05-25 21:22:30', '2026-05-27 14:56:52'),
+(2, 1, 'Cara Menjaga Kesehatan Selama di Mekkah', 'cara-menjaga-kesehatan-selama-di-mekkah', 'Kesehatan, Cuaca, Tips Mekkah', '<p>Menjaga hidrasi adalah kunci utama. Pastikan Anda selalu membawa botol minum sendiri dan meminum air zam-zam secara teratur. Cuaca yang panas di Mekkah bisa menyebabkan dehidrasi dengan cepat jika kita tidak waspada. Jangan lupa gunakan pelembap bibir dan <i>sunblock</i>.</p>', NULL, 'Published', '2026-05-26 09:15:00', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `journal_comments`
+--
+
+CREATE TABLE `journal_comments` (
+  `id` int(11) NOT NULL,
+  `journal_id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL COMMENT 'ID komentar klien yang dibalas',
+  `name` varchar(150) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `comment` text NOT NULL,
+  `is_admin_reply` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1 jika ini balasan dari admin',
+  `status` enum('Pending','Approved','Rejected') NOT NULL DEFAULT 'Pending',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -177,6 +198,13 @@ CREATE TABLE `seo_tracking_settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Dumping data untuk tabel `seo_tracking_settings`
+--
+
+INSERT INTO `seo_tracking_settings` (`id`, `gsc_code`, `ga4_code`, `meta_pixel_code`, `updated_at`) VALUES
+(1, '', NULL, NULL, '2026-05-26 04:23:23');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -204,6 +232,12 @@ ALTER TABLE `gallery_media`
 -- Indeks untuk tabel `journals`
 --
 ALTER TABLE `journals`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `journal_comments`
+--
+ALTER TABLE `journal_comments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -256,7 +290,13 @@ ALTER TABLE `gallery_media`
 -- AUTO_INCREMENT untuk tabel `journals`
 --
 ALTER TABLE `journals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `journal_comments`
+--
+ALTER TABLE `journal_comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `leads_consultation`
@@ -280,7 +320,7 @@ ALTER TABLE `seo_metadata`
 -- AUTO_INCREMENT untuk tabel `seo_tracking_settings`
 --
 ALTER TABLE `seo_tracking_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
