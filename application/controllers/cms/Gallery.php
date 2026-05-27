@@ -7,6 +7,7 @@ class Gallery extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->require_permission('galleries');
         $this->load->model('Gallery_model');
         $this->load->library('form_validation');
     }

@@ -7,6 +7,7 @@ class Fashions extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->require_permission('fashions');
         $this->load->model('Fashion_model');
         $this->load->library('form_validation');
     }

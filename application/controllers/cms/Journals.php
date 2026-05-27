@@ -6,6 +6,7 @@ class Journals extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->require_permission('journals');
         $this->load->model('Journal_model');
         $this->load->model('Journal_comment_model');
         $this->load->library('form_validation');

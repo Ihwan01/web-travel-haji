@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Bulan Mei 2026 pada 16.06
+-- Waktu pembuatan: 27 Bulan Mei 2026 pada 17.08
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -33,6 +33,7 @@ CREATE TABLE `admins` (
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role_id` tinyint(1) NOT NULL COMMENT '1: Super Admin, 2: Admin, 3: Kontributor',
+  `allowed_modules` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Modul yang diizinkan (pisahkan koma)',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -40,10 +41,10 @@ CREATE TABLE `admins` (
 -- Dumping data untuk tabel `admins`
 --
 
-INSERT INTO `admins` (`id`, `username`, `password`, `email`, `role_id`, `created_at`) VALUES
-(1, 'superadmin', '$2y$10$5yEz0t.Eq.HO/AtzLx3Wo.frwFuR82L.M.1jekfUROUFZ.5ahjz/S', 'superadmin@nuansarindu.id', 1, '2026-05-23 07:21:01'),
-(2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', 'administrator@nuansarindu.id', 2, '2026-05-23 15:20:04'),
-(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', 'kontributor@nuansarindu.id', 3, '2026-05-23 17:34:52');
+INSERT INTO `admins` (`id`, `username`, `password`, `email`, `role_id`, `allowed_modules`, `created_at`) VALUES
+(1, 'superadmin', '$2y$10$5yEz0t.Eq.HO/AtzLx3Wo.frwFuR82L.M.1jekfUROUFZ.5ahjz/S', 'superadmin@nuansarindu.id', 1, 'journeys,journals,galleries,fashions,leads', '2026-05-23 00:21:01'),
+(2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', 'administrator@nuansarindu.id', 2, 'journeys,journals,galleries,fashions,leads', '2026-05-23 08:20:04'),
+(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', 'kontributor@nuansarindu.id', 3, 'journals', '2026-05-23 10:34:52');
 
 -- --------------------------------------------------------
 

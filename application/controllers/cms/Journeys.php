@@ -6,6 +6,7 @@ class Journeys extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->require_permission('journeys');
         $this->load->model('Package_model');
     }
 

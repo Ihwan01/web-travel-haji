@@ -7,6 +7,7 @@ class Leads extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->require_permission('leads');
         // Memuat Lead_model yang sudah Anda siapkan
         $this->load->model('Lead_model');
     }

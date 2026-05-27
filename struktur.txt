@@ -4,6 +4,7 @@ D:.
 |   .editorconfig
 |   .gitignore
 |   .htaccess
+|   assetsuploadspackages.gitkeep
 |   composer.json
 |   index.php
 |   license.txt
@@ -15,37 +16,51 @@ D:.
 |   |   index.html
 |   |   
 |   +---cache
+|   |       ci_session0ukc5t3ggieiqrtn0i402i6ejpe7qbun
+|   |       ci_session30jg8su36sgp9dn8snhq73be4c7s75lc
+|   |       ci_session3ivkqbnfkpiuo527jjfkg6t8bosmr59r
+|   |       ci_session7rbs55t3ji854lniq674d9r5vog1qt3k
+|   |       ci_session97kf266cg7q8e4m1c0q0ii8hke02hne3
+|   |       ci_session9fsk6s4c68j4dhfl2bjg4u3jjh35833o
+|   |       ci_sessiona0eplocji70cgkcmvlk7c5tqh36k98na
+|   |       ci_sessionb7a0j6jitvru47ahd3bvd8d1ant2suk6
+|   |       ci_sessionc2kogbcf0teq1qoti4jbsrrp31q6j17q
+|   |       ci_sessiondlcq23trfniuen9r6smo73qogic9i85k
+|   |       ci_sessionf3a9uq9p7m1jqs6gllmk1u4v93nkrnm6
+|   |       ci_sessiongei9eqkb0famukvnbskq27ojkl931ufu
+|   |       ci_sessionig6g90p10rrh7tcknrhd80t2jrvrnafq
+|   |       ci_sessionj397etp4fqjfs5pupicbgk23bccfbhol
+|   |       ci_sessionjftb184pgh5knl6u3jano377r2se20b7
+|   |       ci_sessionjmfd6sesoppc2ln6gvt6g0943a1m8l38
+|   |       ci_sessionlkrt22c8o98gq6tmrjv7e1dpnalpsrc4
+|   |       ci_sessionn0822j5ko9s8upe93bquv89tc196en5n
+|   |       ci_sessionoiv6ckf3n1ff9535l0eiicfucd3iso4g
+|   |       ci_sessionroi5n5fn7ggjhugr6nqsrsk1j798ghu2
+|   |       ci_sessiontpemrd6tihjrdei8hpb5ukdo4g6k4g75
+|   |       ci_sessionug96ahmfh7nbctpaui6o8ol6fhlisp9a
+|   |       ci_sessionunlirbb74dh543g98gb1n4ntrg19mloa
 |   |       index.html
 |   |       
 |   +---config
-|   |   |   autoload.php
-|   |   |   config.php
-|   |   |   constants.php
-|   |   |   doctypes.php
-|   |   |   foreign_chars.php
-|   |   |   hooks.php
-|   |   |   index.html
-|   |   |   memcached.php
-|   |   |   migration.php
-|   |   |   mimes.php
-|   |   |   profiler.php
-|   |   |   routes.php
-|   |   |   smileys.php
-|   |   |   user_agents.php
-|   |   |   
-|   |   +---development
-|   |   |       database.php
-|   |   |       
-|   |   \---production
-|   |           database.php
-|   |           
+|   |       autoload.php
+|   |       config.php
+|   |       constants.php
+|   |       database.php
+|   |       doctypes.php
+|   |       foreign_chars.php
+|   |       hooks.php
+|   |       index.html
+|   |       memcached.php
+|   |       migration.php
+|   |       mimes.php
+|   |       profiler.php
+|   |       routes.php
+|   |       smileys.php
+|   |       user_agents.php
+|   |       
 |   +---controllers
 |   |   |   About.php
 |   |   |   Admin.php
-|   |   |   Admin_Gallery.php
-|   |   |   Admin_Journal.php
-|   |   |   Admin_Journey.php
-|   |   |   Admin_Leads.php
 |   |   |   Contact.php
 |   |   |   Fashion.php
 |   |   |   Gallery.php
@@ -56,6 +71,13 @@ D:.
 |   |   \---cms
 |   |           Auth.php
 |   |           Dashboard.php
+|   |           Fashions.php
+|   |           Gallery.php
+|   |           Homepage_settings.php
+|   |           Journals.php
+|   |           Journeys.php
+|   |           Leads.php
+|   |           Seo.php
 |   |           Users.php
 |   |           
 |   +---core
@@ -84,10 +106,13 @@ D:.
 |   |       Admin_model.php
 |   |       Fashion_model.php
 |   |       Gallery_model.php
+|   |       Homepage_settings_model.php
 |   |       index.html
+|   |       Journal_comment_model.php
 |   |       Journal_model.php
 |   |       Lead_model.php
 |   |       Package_model.php
+|   |       Seo_model.php
 |   |       
 |   +---third_party
 |   |       index.html
@@ -121,9 +146,40 @@ D:.
 |       |   +---dashboard
 |       |   |       index.php
 |       |   |       
+|       |   +---fashions
+|       |   |       create.php
+|       |   |       edit.php
+|       |   |       index.php
+|       |   |       
+|       |   +---gallery
+|       |   |       create.php
+|       |   |       index.php
+|       |   |       
+|       |   +---homepage_settings
+|       |   |       index.php
+|       |   |       
+|       |   +---journals
+|       |   |       comments.php
+|       |   |       create.php
+|       |   |       edit.php
+|       |   |       index.php
+|       |   |       
+|       |   +---journeys
+|       |   |       create.php
+|       |   |       edit.php
+|       |   |       index.php
+|       |   |       
 |       |   +---layout
 |       |   |       footer.php
 |       |   |       header.php
+|       |   |       navbar.php
+|       |   |       wrapper.php
+|       |   |       
+|       |   +---leads
+|       |   |       index.php
+|       |   |       
+|       |   +---seo
+|       |   |       index.php
 |       |   |       
 |       |   \---users
 |       |           create.php
@@ -195,9 +251,20 @@ D:.
 |   |       navbar.css
 |   |       style.css
 |   |       
-|   \---js
-|           main.js
-|           
+|   +---js
+|   |       main.js
+|   |       
+|   \---uploads
+|       +---journals
+|       |       d25c0e8a4536faafb5727dadda52a254.jpg
+|       |       d4158661cac2e423bc719d10e1740044.jpg
+|       |       
+|       \---packages
+|               29218be97a15abd18459038905187599.jpg
+|               5d26f04a647c2526136b3634f3a8c127.jpg
+|               c34f2d245b2c48cffd08adabd2f2eeec.jpg
+|               ca64b7d2840df5fcf9b9c9133cb9210e.jpg
+|               
 +---database
 |       .htaccess
 |       nuansa_rindu.sql
