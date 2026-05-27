@@ -1,57 +1,61 @@
-<!-- ══════════════════════════════════════════════════════
-     HOME — index.php
-     ══════════════════════════════════════════════════════ -->
+<?php
+// Persiapan Variabel Dinamis
+$set = $site_settings;
+$hero_media_type = $set->hero_media_type ?? 'Video';
+$hero_media      = $set->hero_media ?? 'assets/images/hero/hero.mp4';
+$hero_is_link    = (strpos($hero_media, 'http') === 0);
+?>
 
-<!-- ── HERO ───────────────────────────────────────────── -->
 <section class="hero">
     <div class="hero-video-wrap" id="heroWrap">
-        <!--
-            Letakkan file video di assets/images/hero/hero.mp4
-            Gunakan slow-motion: desert light, flowing fabric, jamaah berjalan
-        -->
-        <video id="heroVideo" autoplay muted loop playsinline poster="<?= $assets_url ?>images/hero/hero-poster.jpg">
-            <source src="<?= $assets_url ?>images/hero/hero.mp4" type="video/mp4">
-        </video>
+        <?php if ($hero_media_type == 'Video'): ?>
+            <video id="heroVideo" autoplay muted loop playsinline poster="<?= base_url('assets/images/hero/hero-poster.jpg') ?>">
+                <source src="<?= $hero_is_link ? $hero_media : base_url($hero_media) ?>" type="video/mp4">
+            </video>
+        <?php else: ?>
+            <img src="<?= $hero_is_link ? $hero_media : base_url($hero_media) ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Nuansa Rindu Hero">
+        <?php endif; ?>
     </div>
 
     <div class="hero-content">
-        <p class="hero-tag">Nuansa Rindu · Umrah & Spiritual Journey</p>
+        <p class="hero-tag"><?= htmlspecialchars($set->hero_tagline ?? 'Nuansa Rindu · Umrah & Spiritual Journey') ?></p>
         <h1 class="hero-title">
-            Perjalanan hati,<br>
-            pulang membawa<br>
-            <em>makna.</em>
+            <?= $set->hero_title ?? "Perjalanan hati,<br>pulang membawa<br><em>makna.</em>" ?>
         </h1>
         <p class="hero-desc">
-            Nuansa Rindu hadir untuk menemani perjalanan spiritual Anda dengan ketenangan, kenyamanan, dan makna yang mendalam.
+            <?= htmlspecialchars($set->hero_desc ?? 'Nuansa Rindu hadir untuk menemani perjalanan spiritual Anda dengan ketenangan, kenyamanan, dan makna yang mendalam.') ?>
         </p>
         <div class="hero-actions">
-            <a href="<?= base_url('journey') ?>" class="arrow-link light">Explore Journey</a>
-            <a href="<?= base_url('contact') ?>" class="btn-outline light">Begin The Journey</a>
+            <?php if (!empty($set->hero_btn1_text)): ?>
+                <a href="<?= base_url($set->hero_btn1_url ?? 'journey') ?>" class="arrow-link light"><?= htmlspecialchars($set->hero_btn1_text) ?></a>
+            <?php endif; ?>
+            <?php if (!empty($set->hero_btn2_text)): ?>
+                <a href="<?= base_url($set->hero_btn2_url ?? 'contact') ?>" class="btn-outline light"><?= htmlspecialchars($set->hero_btn2_text) ?></a>
+            <?php endif; ?>
         </div>
     </div>
 
     <div class="hero-scroll">Scroll</div>
 
-    <div class="hero-dots-wrap">
-        <span class="hero-dot active"></span>
-        <span class="hero-dot"></span>
-        <span class="hero-dot"></span>
-    </div>
+    <?php if (($set->hero_type ?? 'Single') == 'Slideshow'): ?>
+        <div class="hero-dots-wrap">
+            <span class="hero-dot active"></span>
+            <span class="hero-dot"></span>
+            <span class="hero-dot"></span>
+        </div>
+    <?php endif; ?>
 </section>
 
-<!-- ── MENGAPA NUANSA RINDU ────────────────────────────── -->
-<section class="why-section">
+<section class="why-section" id="about">
     <p class="section-label reveal">Mengapa Memilih Nuansa Rindu</p>
 
     <div class="why-grid">
         <div class="reveal">
             <h2 class="why-intro-heading">
-                Lebih dari perjalanan,<br>
-                ini tentang<br>
-                <em style="font-style:italic; color:var(--gold);">pulang.</em>
+                <?= $set->about_title ?? "Lebih dari perjalanan,<br>ini tentang<br><em style=\"font-style:italic; color:var(--gold);\">pulang.</em>" ?>
             </h2>
             <p class="why-intro-text">
-                Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.
+                <?= htmlspecialchars($set->about_desc ?? 'Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.') ?>
             </p>
         </div>
 
@@ -85,68 +89,66 @@
     </div>
 </section>
 
-<!-- ── SIGNATURE JOURNEY ───────────────────────────────── -->
-<section class="journey-section">
-    <div class="journey-header">
-        <div class="reveal">
-            <p class="section-label">Signature Journey</p>
-            <h2 class="display-heading" style="font-size:clamp(2rem,3.5vw,3rem); max-width:320px; line-height:1.2;">
-                Pilih perjalanan yang<br>sesuai dengan hati Anda.
-            </h2>
-        </div>
-        <a href="<?= base_url('journey') ?>" class="arrow-link reveal">View All Journey</a>
-    </div>
-
-    <div class="journey-cards reveal">
-        <?php if (!empty($packages)): ?>
-            <?php foreach ($packages as $pkg): ?>
-            <a href="<?= base_url('journey/' . $pkg->slug) ?>" class="j-card">
-                <?php if ($pkg->main_image): ?>
-                    <img class="j-card-img" src="<?= base_url($pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
-                <?php else: ?>
-                    <div class="j-card-img j-card-bg-<?= strtolower($pkg->collection_type) ?>"></div>
-                <?php endif; ?>
-                <div class="j-card-overlay">
-                    <span class="j-card-collection">Rindu <?= htmlspecialchars($pkg->collection_type) ?></span>
-                    <h3 class="j-card-name"><?= htmlspecialchars($pkg->name) ?></h3>
-                    <?php if ($pkg->tagline): ?>
-                    <p class="j-card-tagline"><?= htmlspecialchars($pkg->tagline) ?></p>
-                    <?php endif; ?>
-                    <span class="j-card-arrow"></span>
-                </div>
-            </a>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <!-- Placeholder cards jika DB masih kosong -->
-            <?php
-            $placeholders = [
-                ['Classic',   'Rindu Classic',   'Umrah Regular — Perjalanan penuh ketenangan'],
-                ['Signature', 'Rindu Signature', 'Umrah Premium — Pengalaman yang tak terlupakan'],
-                ['Private',   'Rindu Private',   'Umrah Private — Dirancang khusus untuk Anda'],
-                ['Sacred',    'Sacred Journey',  'Perjalanan Haji yang Bermakna'],
-            ];
-            foreach ($placeholders as $p): ?>
-            <div class="j-card">
-                <div class="j-card-img j-card-bg-<?= strtolower($p[0]) ?>"></div>
-                <div class="j-card-overlay">
-                    <span class="j-card-collection">Rindu <?= $p[0] ?></span>
-                    <h3 class="j-card-name"><?= $p[1] ?></h3>
-                    <p class="j-card-tagline"><?= $p[2] ?></p>
-                    <span class="j-card-arrow"></span>
-                </div>
+<?php if ($show_journey): ?>
+    <section class="journey-section" id="journey">
+        <div class="journey-header">
+            <div class="reveal">
+                <p class="section-label">Signature Journey</p>
+                <h2 class="display-heading" style="font-size:clamp(2rem,3.5vw,3rem); max-width:320px; line-height:1.2;">
+                    Pilih perjalanan yang<br>sesuai dengan hati Anda.
+                </h2>
             </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
-</section>
+            <a href="<?= base_url('journey') ?>" class="arrow-link reveal">View All Journey</a>
+        </div>
 
-<!-- ── VISUAL STORY ────────────────────────────────────── -->
-<section class="visual-story">
+        <div class="journey-cards reveal">
+            <?php if (!empty($packages)): ?>
+                <?php foreach ($packages as $pkg): ?>
+                    <a href="<?= base_url('journey/' . $pkg->slug) ?>" class="j-card">
+                        <?php if ($pkg->main_image): ?>
+                            <img class="j-card-img" src="<?= base_url('assets/uploads/packages/' . $pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
+                        <?php else: ?>
+                            <div class="j-card-img j-card-bg-<?= strtolower($pkg->collection_type) ?>"></div>
+                        <?php endif; ?>
+                        <div class="j-card-overlay">
+                            <span class="j-card-collection">Rindu <?= htmlspecialchars($pkg->collection_type) ?></span>
+                            <h3 class="j-card-name"><?= htmlspecialchars($pkg->name) ?></h3>
+                            <?php if ($pkg->tagline): ?>
+                                <p class="j-card-tagline"><?= htmlspecialchars($pkg->tagline) ?></p>
+                            <?php endif; ?>
+                            <span class="j-card-arrow"></span>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <?php
+                $placeholders = [
+                    ['Classic',   'Rindu Classic',   'Umrah Regular — Perjalanan penuh ketenangan'],
+                    ['Signature', 'Rindu Signature', 'Umrah Premium — Pengalaman yang tak terlupakan'],
+                    ['Private',   'Rindu Private',   'Umrah Private — Dirancang khusus untuk Anda'],
+                    ['Sacred',    'Sacred Journey',  'Perjalanan Haji yang Bermakna'],
+                ];
+                foreach ($placeholders as $p): ?>
+                    <div class="j-card">
+                        <div class="j-card-img j-card-bg-<?= strtolower($p[0]) ?>"></div>
+                        <div class="j-card-overlay">
+                            <span class="j-card-collection">Rindu <?= $p[0] ?></span>
+                            <h3 class="j-card-name"><?= $p[1] ?></h3>
+                            <p class="j-card-tagline"><?= $p[2] ?></p>
+                            <span class="j-card-arrow"></span>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </section>
+<?php endif; ?>
+
+<section class="visual-story" id="experience">
     <p class="section-label reveal">Visual Story</p>
     <h2 class="vs-heading reveal">Momen yang terasa,<br>bukan sekadar terlihat.</h2>
 
     <div class="vs-grid reveal">
-        <!-- Item besar kiri -->
         <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= $assets_url ?>images/gallery/vs-1.jpg">
             <div class="vs-img vs-bg-1"></div>
         </div>
@@ -169,34 +171,34 @@
     </div>
 </section>
 
-<!-- ── FASHION IDENTITY ────────────────────────────────── -->
-<section class="fashion-section">
-    <div class="fashion-header">
-        <div class="reveal">
-            <p class="section-label">Fashion Identity</p>
-            <h2 class="display-heading" style="font-size:clamp(2rem,3.5vw,3rem); line-height:1.2;">
-                Berpakaian dengan<br>makna dan keanggunan.
-            </h2>
-        </div>
-        <a href="<?= base_url('fashion') ?>" class="arrow-link reveal">Lihat Koleksi</a>
-    </div>
-
-    <div class="fashion-strip reveal">
-        <?php
-        $fashion_labels = ['Seragam Jamaah', 'Travel Essentials', 'Passport Holder', 'Tote Bag', 'Outfit Details'];
-        $fashion_bgs    = ['fs-bg-1','fs-bg-2','fs-bg-3','fs-bg-4','fs-bg-5'];
-        for ($i = 0; $i < 5; $i++): ?>
-        <div class="fs-item">
-            <div class="fs-img <?= $fashion_bgs[$i] ?>"></div>
-            <div class="fs-overlay">
-                <p class="fs-name"><?= $fashion_labels[$i] ?></p>
+<?php if ($show_fashion): ?>
+    <section class="fashion-section">
+        <div class="fashion-header">
+            <div class="reveal">
+                <p class="section-label">Fashion Identity</p>
+                <h2 class="display-heading" style="font-size:clamp(2rem,3.5vw,3rem); line-height:1.2;">
+                    Berpakaian dengan<br>makna dan keanggunan.
+                </h2>
             </div>
+            <a href="<?= base_url('fashion') ?>" class="arrow-link reveal">Lihat Koleksi</a>
         </div>
-        <?php endfor; ?>
-    </div>
-</section>
 
-<!-- ── JOURNAL ─────────────────────────────────────────── -->
+        <div class="fashion-strip reveal">
+            <?php
+            $fashion_labels = ['Seragam Jamaah', 'Travel Essentials', 'Passport Holder', 'Tote Bag', 'Outfit Details'];
+            $fashion_bgs    = ['fs-bg-1', 'fs-bg-2', 'fs-bg-3', 'fs-bg-4', 'fs-bg-5'];
+            for ($i = 0; $i < 5; $i++): ?>
+                <div class="fs-item">
+                    <div class="fs-img <?= $fashion_bgs[$i] ?>"></div>
+                    <div class="fs-overlay">
+                        <p class="fs-name"><?= $fashion_labels[$i] ?></p>
+                    </div>
+                </div>
+            <?php endfor; ?>
+        </div>
+    </section>
+<?php endif; ?>
+
 <section class="journal-section">
     <div class="journal-header">
         <div class="reveal">
@@ -211,18 +213,18 @@
     <div class="journal-cards reveal">
         <?php if (!empty($journals)): ?>
             <?php foreach ($journals as $idx => $jn): ?>
-            <a href="<?= base_url('journal/' . $jn->slug) ?>" class="jn-card">
-                <?php if ($jn->main_image): ?>
-                    <img class="jn-card-img" src="<?= base_url($jn->main_image) ?>" alt="<?= htmlspecialchars($jn->title) ?>">
-                <?php else: ?>
-                    <div class="jn-card-img jn-bg-<?= ($idx % 3) + 1 ?>"></div>
-                <?php endif; ?>
-                <div class="jn-card-overlay">
-                    <span class="jn-card-date"><?= date('d M Y', strtotime($jn->created_at)) ?></span>
-                    <h3 class="jn-card-title"><?= htmlspecialchars($jn->title) ?></h3>
-                    <span class="arrow-link light" style="font-size:0.6rem;">Baca Selengkapnya</span>
-                </div>
-            </a>
+                <a href="<?= base_url('journal/' . $jn->slug) ?>" class="jn-card">
+                    <?php if ($jn->image): ?>
+                        <img class="jn-card-img" src="<?= base_url('assets/uploads/journals/' . $jn->image) ?>" alt="<?= htmlspecialchars($jn->title) ?>">
+                    <?php else: ?>
+                        <div class="jn-card-img jn-bg-<?= ($idx % 3) + 1 ?>"></div>
+                    <?php endif; ?>
+                    <div class="jn-card-overlay">
+                        <span class="jn-card-date"><?= date('d M Y', strtotime($jn->created_at)) ?></span>
+                        <h3 class="jn-card-title"><?= htmlspecialchars($jn->title) ?></h3>
+                        <span class="arrow-link light" style="font-size:0.6rem;">Baca Selengkapnya</span>
+                    </div>
+                </a>
             <?php endforeach; ?>
         <?php else: ?>
             <?php
@@ -232,13 +234,13 @@
                 ['Mengapa perjalanan ini begitu bermakna?', 'jn-bg-3'],
             ];
             foreach ($dummy_journals as $dj): ?>
-            <div class="jn-card">
-                <div class="jn-card-img <?= $dj[1] ?>"></div>
-                <div class="jn-card-overlay">
-                    <h3 class="jn-card-title"><?= $dj[0] ?></h3>
-                    <span class="arrow-link light" style="font-size:0.6rem;">Baca Selengkapnya</span>
+                <div class="jn-card">
+                    <div class="jn-card-img <?= $dj[1] ?>"></div>
+                    <div class="jn-card-overlay">
+                        <h3 class="jn-card-title"><?= $dj[0] ?></h3>
+                        <span class="arrow-link light" style="font-size:0.6rem;">Baca Selengkapnya</span>
+                    </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         <?php endif; ?>
     </div>

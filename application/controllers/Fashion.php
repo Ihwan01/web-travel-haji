@@ -1,12 +1,18 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Fashion extends MY_Controller {
+class Fashion extends MY_Controller
+{
     public function __construct()
     {
         parent::__construct();
+        // [BARU] Blokir akses publik jika fitur disembunyikan
+        if (empty($this->data['show_fashion'])) {
+            show_404();
+        }
         $this->load->model('Fashion_model');
     }
+
     public function index()
     {
         $data['items'] = $this->Fashion_model->get_published();

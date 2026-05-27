@@ -32,6 +32,10 @@ $route['users/create']        = 'cms/users/create';
 $route['users/edit/(:any)']   = 'cms/users/edit/$1';
 $route['users/delete/(:any)'] = 'cms/users/delete/$1';
 
+// [BARU] Pengaturan Beranda (Homepage Settings)
+$route['homepage_settings']        = 'cms/homepage_settings';
+$route['homepage_settings/update'] = 'cms/homepage_settings/update';
+
 // [BARU] Manajemen Perjalanan (Journeys)
 $route['journeys']               = 'cms/journeys';
 $route['journeys/create']        = 'cms/journeys/create';
