@@ -1,50 +1,105 @@
 <?php
-// Persiapan Variabel Dinamis
+// Persiapan Variabel Dinamis dari tabel homepage_settings
 $set = $site_settings;
-$hero_media_type = $set->hero_media_type ?? 'Video';
-$hero_media      = $set->hero_media ?? 'assets/images/hero/hero.mp4';
-$hero_is_link    = (strpos($hero_media, 'http') === 0);
+$is_slideshow = $set->is_slideshow ?? 0;
 ?>
 
-<section class="hero">
-    <div class="hero-video-wrap" id="heroWrap">
-        <?php if ($hero_media_type == 'Video'): ?>
-            <video id="heroVideo" autoplay muted loop playsinline poster="<?= base_url('assets/images/hero/hero-poster.jpg') ?>">
-                <source src="<?= $hero_is_link ? $hero_media : base_url($hero_media) ?>" type="video/mp4">
-            </video>
-        <?php else: ?>
-            <img src="<?= $hero_is_link ? $hero_media : base_url($hero_media) ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Nuansa Rindu Hero">
-        <?php endif; ?>
-    </div>
+<?php if ($is_slideshow && count($hero_slides) > 1): ?>
 
-    <div class="hero-content">
-        <p class="hero-tag"><?= htmlspecialchars($set->hero_tagline ?? 'Nuansa Rindu · Umrah & Spiritual Journey') ?></p>
-        <h1 class="hero-title">
-            <?= $set->hero_title ?? "Perjalanan hati,<br>pulang membawa<br><em>makna.</em>" ?>
-        </h1>
-        <p class="hero-desc">
-            <?= htmlspecialchars($set->hero_desc ?? 'Nuansa Rindu hadir untuk menemani perjalanan spiritual Anda dengan ketenangan, kenyamanan, dan makna yang mendalam.') ?>
-        </p>
-        <div class="hero-actions">
-            <?php if (!empty($set->hero_btn1_text)): ?>
-                <a href="<?= base_url($set->hero_btn1_url ?? 'journey') ?>" class="arrow-link light"><?= htmlspecialchars($set->hero_btn1_text) ?></a>
-            <?php endif; ?>
-            <?php if (!empty($set->hero_btn2_text)): ?>
-                <a href="<?= base_url($set->hero_btn2_url ?? 'contact') ?>" class="btn-outline light"><?= htmlspecialchars($set->hero_btn2_text) ?></a>
-            <?php endif; ?>
+    <section class="hero hero-carousel" data-autoplay="<?= $set->slideshow_autoplay ?? 1 ?>">
+        <div class="swiper-wrapper">
+            <?php foreach ($hero_slides as $slide):
+                $is_link = (strpos($slide->media_url, 'http') === 0);
+            ?>
+                <div class="swiper-slide hero-slide-item" style="position: relative; width: 100%; height: 100vh;">
+                    <div class="hero-video-wrap">
+                        <?php if ($slide->media_type == 'Video'): ?>
+                            <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                                <source src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" type="video/mp4">
+                            </video>
+                        <?php else: ?>
+                            <img src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" class="hero-img-bg" alt="Hero Banner" style="width: 100%; height: 100%; object-fit: cover;">
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="hero-content">
+                        <?php if (!empty($slide->tagline)): ?>
+                            <p class="hero-tag"><?= htmlspecialchars($slide->tagline) ?></p>
+                        <?php endif; ?>
+
+                        <h1 class="hero-title"><?= $slide->title ?></h1>
+
+                        <?php if (!empty($slide->desc_text)): ?>
+                            <p class="hero-desc"><?= htmlspecialchars($slide->desc_text) ?></p>
+                        <?php endif; ?>
+
+                        <div class="hero-actions">
+                            <?php if (!empty($slide->btn1_text)): ?>
+                                <a href="<?= base_url($slide->btn1_url) ?>" class="arrow-link light"><?= htmlspecialchars($slide->btn1_text) ?></a>
+                            <?php endif; ?>
+                            <?php if (!empty($slide->btn2_text)): ?>
+                                <a href="<?= base_url($slide->btn2_url) ?>" class="btn-outline light"><?= htmlspecialchars($slide->btn2_text) ?></a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
-    </div>
 
-    <div class="hero-scroll">Scroll</div>
-
-    <?php if (($set->hero_type ?? 'Single') == 'Slideshow'): ?>
-        <div class="hero-dots-wrap">
-            <span class="hero-dot active"></span>
-            <span class="hero-dot"></span>
-            <span class="hero-dot"></span>
+        <div class="hero-slider-nav">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
+        <div class="hero-dots-wrap swiper-pagination"></div>
+
+        <div class="hero-scroll">Scroll</div>
+    </section>
+
+<?php else: ?>
+
+    <?php
+    // Tarik 1 slide saja
+    $slide = !empty($hero_slides) ? $hero_slides[0] : null;
+    if ($slide):
+        $is_link = (strpos($slide->media_url, 'http') === 0);
+    ?>
+        <section class="hero hero-static">
+            <div class="hero-video-wrap" id="heroWrap">
+                <?php if ($slide->media_type == 'Video'): ?>
+                    <video id="heroVideo" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" type="video/mp4">
+                    </video>
+                <?php else: ?>
+                    <img src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Hero Banner">
+                <?php endif; ?>
+            </div>
+
+            <div class="hero-content">
+                <?php if (!empty($slide->tagline)): ?>
+                    <p class="hero-tag"><?= htmlspecialchars($slide->tagline) ?></p>
+                <?php endif; ?>
+
+                <h1 class="hero-title"><?= $slide->title ?></h1>
+
+                <?php if (!empty($slide->desc_text)): ?>
+                    <p class="hero-desc"><?= htmlspecialchars($slide->desc_text) ?></p>
+                <?php endif; ?>
+
+                <div class="hero-actions">
+                    <?php if (!empty($slide->btn1_text)): ?>
+                        <a href="<?= base_url($slide->btn1_url) ?>" class="arrow-link light"><?= htmlspecialchars($slide->btn1_text) ?></a>
+                    <?php endif; ?>
+                    <?php if (!empty($slide->btn2_text)): ?>
+                        <a href="<?= base_url($slide->btn2_url) ?>" class="btn-outline light"><?= htmlspecialchars($slide->btn2_text) ?></a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="hero-scroll">Scroll</div>
+        </section>
     <?php endif; ?>
-</section>
+
+<?php endif; ?>
 
 <section class="why-section" id="about">
     <p class="section-label reveal">Mengapa Memilih Nuansa Rindu</p>
@@ -54,9 +109,32 @@ $hero_is_link    = (strpos($hero_media, 'http') === 0);
             <h2 class="why-intro-heading">
                 <?= $set->about_title ?? "Lebih dari perjalanan,<br>ini tentang<br><em style=\"font-style:italic; color:var(--gold);\">pulang.</em>" ?>
             </h2>
-            <p class="why-intro-text">
+            <p class="why-intro-text mb-4">
                 <?= htmlspecialchars($set->about_desc ?? 'Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.') ?>
             </p>
+
+            <?php if (!empty($set->about_media)):
+                $is_about_link = (strpos($set->about_media, 'http') === 0);
+            ?>
+                <?php if ($set->about_media_type == 'Video'): ?>
+                    <div class="about-media-wrapper mt-4 position-relative" style="cursor: pointer;" data-lightbox data-type="Video" data-src="<?= $set->about_media ?>">
+                        <?php if (!empty($set->about_video_thumbnail)): ?>
+                            <img src="<?= base_url($set->about_video_thumbnail) ?>" alt="Video Cover" class="img-fluid rounded shadow" style="width:100%; height:auto; object-fit: cover;">
+                        <?php else: ?>
+                            <div class="bg-dark text-white rounded d-flex align-items-center justify-content-center" style="height:250px;"><i class="fas fa-play-circle fa-3x"></i></div>
+                        <?php endif; ?>
+                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
+                            <svg width="60" height="60" viewBox="0 0 24 24" fill="white" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
+                                <polygon points="5,3 19,12 5,21" />
+                            </svg>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="about-media-wrapper mt-4">
+                        <img src="<?= $is_about_link ? $set->about_media : base_url($set->about_media) ?>" alt="Tentang Nuansa Rindu" class="img-fluid rounded shadow" style="width:100%; height:auto;">
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
         </div>
 
         <div class="why-items">

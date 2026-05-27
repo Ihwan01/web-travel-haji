@@ -16,9 +16,11 @@ class Home extends Public_Controller
         $data['journals'] = $this->Journal_model->get_published(3);
         $data['page']     = 'home';
 
-        // Dinamiskan Judul dari Settings jika ada
+        // [BARU] Tarik data Slides untuk Hero Section
+        $data['hero_slides'] = $this->db->order_by('sort_order', 'ASC')->get('hero_slides')->result();
+
         $site_title = isset($this->data['site_settings']->hero_tagline) ? $this->data['site_settings']->hero_tagline : 'Nuansa Rindu — Perjalanan Hati, Pulang Membawa Makna';
-        $data['title']    = $site_title;
+        $data['title'] = $site_title;
 
         $this->render('home/index', $data);
     }
