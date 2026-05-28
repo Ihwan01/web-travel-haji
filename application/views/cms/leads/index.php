@@ -1,3 +1,5 @@
+<?php $this->load->helper('whatsapp'); // Muat helper untuk view ini 
+?>
 <div class="d-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><?= isset($title) ? $title : 'Konsultasi Masuk' ?></h1>
 </div>
@@ -57,10 +59,12 @@
                                 </td>
                                 <td><strong><?= htmlspecialchars($lead->client_name) ?></strong></td>
                                 <td>
-                                    <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $lead->whatsapp_number) ?>" target="_blank" class="btn btn-sm btn-success mb-1 w-100 text-start">
-                                        <i class="fab fa-whatsapp me-1"></i> WhatsApp
+                                    <a href="https://wa.me/<?= normalize_whatsapp($lead->whatsapp_number) ?>" target="_blank" class="btn btn-sm btn-success mb-1 w-100 text-start shadow-sm">
+                                        <i class="fab fa-whatsapp me-1"></i> Hubungi Balik
                                     </a>
-                                    <div class="small text-muted mt-1 px-1"><?= htmlspecialchars($lead->whatsapp_number) ?></div>
+                                    <div class="small fw-bold text-dark mt-1 text-center font-monospace" style="letter-spacing: 0.5px;">
+                                        <?= format_whatsapp($lead->whatsapp_number) ?>
+                                    </div>
                                 </td>
                                 <td>
                                     <?php if (!empty($lead->package_interest)): ?>

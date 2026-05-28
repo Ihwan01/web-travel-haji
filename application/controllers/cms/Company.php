@@ -15,6 +15,9 @@ class Company extends Admin_Controller
         }
 
         $this->load->model('Company_model');
+
+        // [BARU] Muat Helper WhatsApp
+        $this->load->helper('whatsapp');
     }
 
     public function index()
@@ -30,8 +33,11 @@ class Company extends Admin_Controller
         $data = [
             'company_name'       => $this->input->post('company_name', TRUE),
             'email'              => $this->input->post('email', TRUE),
-            'whatsapp'           => $this->input->post('whatsapp', TRUE),
-            'whatsapp_message'   => $this->input->post('whatsapp_message', TRUE), // TANGKAP PESAN AWALAN
+
+            // [NORMALISASI] Bersihkan input admin (Apapun inputnya misal 0812-3456, jadi 628123456)
+            'whatsapp'           => normalize_whatsapp($this->input->post('whatsapp', TRUE)),
+
+            'whatsapp_message'   => $this->input->post('whatsapp_message', TRUE),
             'phone'              => $this->input->post('phone', TRUE),
             'address'            => $this->input->post('address', TRUE),
             'instagram_url'      => $this->input->post('instagram_url', TRUE),
