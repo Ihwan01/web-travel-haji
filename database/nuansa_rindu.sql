@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Bulan Mei 2026 pada 20.41
+-- Waktu pembuatan: 28 Bulan Mei 2026 pada 15.27
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -46,6 +46,34 @@ INSERT INTO `admins` (`id`, `username`, `password`, `email`, `profile_picture`, 
 (1, 'superadmin', '$2y$10$5yEz0t.Eq.HO/AtzLx3Wo.frwFuR82L.M.1jekfUROUFZ.5ahjz/S', 'superadmin@nuansarindu.id', NULL, 1, 'journeys,journals,galleries,fashions,leads', '2026-05-23 00:21:01'),
 (2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', 'administrator@nuansarindu.id', NULL, 2, 'journeys,journals,galleries,fashions,leads', '2026-05-23 08:20:04'),
 (4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', 'kontributor@nuansarindu.id', NULL, 3, 'journals,galleries,journeys,fashions', '2026-05-23 10:34:52');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `company_profile`
+--
+
+CREATE TABLE `company_profile` (
+  `id` int(11) NOT NULL,
+  `company_name` varchar(255) DEFAULT 'Nuansa Rindu',
+  `email` varchar(150) DEFAULT NULL,
+  `whatsapp` varchar(50) DEFAULT NULL,
+  `whatsapp_message` text DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `instagram_url` varchar(255) DEFAULT NULL,
+  `facebook_url` varchar(255) DEFAULT NULL,
+  `youtube_url` varchar(255) DEFAULT NULL,
+  `Maps_iframe` text DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `company_profile`
+--
+
+INSERT INTO `company_profile` (`id`, `company_name`, `email`, `whatsapp`, `whatsapp_message`, `phone`, `address`, `instagram_url`, `facebook_url`, `youtube_url`, `Maps_iframe`, `updated_at`) VALUES
+(1, 'Nuansa Rindu', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-05-28 12:20:32');
 
 -- --------------------------------------------------------
 
@@ -306,6 +334,12 @@ ALTER TABLE `admins`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indeks untuk tabel `company_profile`
+--
+ALTER TABLE `company_profile`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `fashion_items`
 --
 ALTER TABLE `fashion_items`
@@ -375,6 +409,12 @@ ALTER TABLE `seo_tracking_settings`
 --
 ALTER TABLE `admins`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT untuk tabel `company_profile`
+--
+ALTER TABLE `company_profile`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `fashion_items`
