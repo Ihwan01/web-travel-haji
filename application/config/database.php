@@ -38,9 +38,9 @@ if (ENVIRONMENT === 'development') {
     $db['default'] = array(
         'dsn'      => '',
         'hostname' => 'localhost',
-        'username' => 'u711561307_nuansa',
-        'password' => 'N3w!v8Qp7#L2xS9m',
-        'database' => 'u711561307_nuansa',
+        'username' => 'u930669699_nuansarindu',
+        'password' => 'Q7m!4vP2#zL8sT9@kR6xN1$h',
+        'database' => 'u930669699_nuansarindu',
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,
