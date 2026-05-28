@@ -37,6 +37,24 @@ class Public_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+
+        // Memuat Model SEO & Company
+        $this->load->model('Seo_model');
+        $this->load->model('Company_model'); // Pastikan model ini sudah Anda buat sesuai arahan sebelumnya
+
+        // Tarik Data SEO
+        $this->data['seo_tracking'] = $this->Seo_model->get_tracking();
+
+        $current_page = $this->uri->segment(1) ? $this->uri->segment(1) : 'home';
+        $meta = $this->Seo_model->get_meta_by_url($current_page);
+        $this->data['seo_meta'] = $meta;
+
+        if ($meta && !empty($meta->meta_title)) {
+            $this->data['title'] = $meta->meta_title;
+        }
+
+        // [BARU] Tarik Data Profil & Kontak Perusahaan secara Global untuk Frontend
+        $this->data['company'] = $this->Company_model->get_profile();
     }
 }
 
@@ -85,7 +103,7 @@ class Admin_Controller extends MY_Controller
         if (!$this->session->userdata('is_logged_in')) redirect('login');
     }
 
-    // FUNGSI 1: Kunci Pintu Ruangan (Ditugaskan di __construct setiap Controller CMS)
+    // FUNGSI 1: Kunci Pintu Ruangan
     protected function require_permission($module_name)
     {
         if ($this->data['role_id'] === 1) return;
@@ -97,18 +115,14 @@ class Admin_Controller extends MY_Controller
         }
     }
 
-    // FUNGSI 2: Kunci Tindakan Dalam Ruangan (Ditugaskan pada fungsi create/update/delete)
+    // FUNGSI 2: Kunci Tindakan Dalam Ruangan
     protected function restrict_action($module_name, $action = 'view', $item_author_id = null)
     {
         $role = $this->data['role_id'];
 
-        // Super Admin (1) & Administrator Manajer (2) bebas melakukan apapun
         if ($role === 1 || $role === 2) return true;
 
-        // Aturan ketat khusus Kontributor (3)
         if ($role === 3) {
-
-            // Aturan A: Leads, Journeys, Fashions = HANYA BOLEH MELIHAT (Read-Only)
             if (in_array($module_name, ['journeys', 'fashions', 'leads'])) {
                 if ($action !== 'view') {
                     $this->session->set_flashdata('error_message', 'Akses Ditolak! Kontributor hanya diizinkan untuk melihat data pada modul ini, tidak untuk mengubah atau menghapus.');
@@ -117,7 +131,6 @@ class Admin_Controller extends MY_Controller
                 }
             }
 
-            // Aturan B: Journals, Galleries = BOLEH EDIT/HAPUS TAPI HANYA MILIK SENDIRI
             if (in_array($module_name, ['journals', 'galleries'])) {
                 if ($action === 'edit' || $action === 'delete') {
                     if ($item_author_id != $this->data['admin_id']) {

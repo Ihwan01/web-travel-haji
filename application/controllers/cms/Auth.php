@@ -17,7 +17,7 @@ class Auth extends Public_Controller
     {
         // Sesi hanya diperiksa saat seseorang mencoba mengakses halaman login
         if ($this->session->userdata('is_logged_in')) {
-            redirect('cms/dashboard');
+            redirect('dashboard');
         }
 
         $this->form_validation->set_rules('username', 'Username', 'required|trim');
@@ -45,7 +45,7 @@ class Auth extends Public_Controller
                 'is_logged_in' => TRUE
             ];
             $this->session->set_userdata($session_data);
-            redirect('cms/dashboard');
+            redirect('dashboard');
         } else {
             $this->session->set_flashdata('error_message', 'Kredensial tidak valid. Silakan coba kembali.');
             redirect('login');

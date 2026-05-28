@@ -23,7 +23,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['login']  = 'cms/auth/login';
 $route['logout'] = 'cms/auth/logout';
 
-// Dasbor
+// Dasbor Utama CMS
 $route['dashboard'] = 'cms/dashboard';
 
 // Manajemen Pengguna
@@ -32,45 +32,50 @@ $route['users/create']        = 'cms/users/create';
 $route['users/edit/(:any)']   = 'cms/users/edit/$1';
 $route['users/delete/(:any)'] = 'cms/users/delete/$1';
 
-// [BARU] Profil Pengguna
+// Profil Pengguna
 $route['profile']        = 'cms/profile/index';
 $route['profile/update'] = 'cms/profile/update';
 
-// [BARU] Pengaturan Beranda (Homepage Settings)
+// Pengaturan Beranda (Homepage Settings)
 $route['homepage_settings']        = 'cms/homepage_settings';
 $route['homepage_settings/update'] = 'cms/homepage_settings/update';
 
-// [BARU] Manajemen Perjalanan (Journeys)
+// Manajemen Perjalanan (Journeys)
 $route['journeys']               = 'cms/journeys';
 $route['journeys/create']        = 'cms/journeys/create';
 $route['journeys/edit/(:any)']   = 'cms/journeys/edit/$1';
 $route['journeys/delete/(:any)'] = 'cms/journeys/delete/$1';
 
-// [BARU] Manajemen Perlengkapan (Fashions)
+// Manajemen Perlengkapan (Fashions)
 $route['fashions']               = 'cms/fashions';
 $route['fashions/create']        = 'cms/fashions/create';
 $route['fashions/edit/(:any)']   = 'cms/fashions/edit/$1';
 $route['fashions/delete/(:any)'] = 'cms/fashions/delete/$1';
 
-// [BARU] Manajemen Jurnal (Journals)
+// Manajemen Jurnal (Journals)
 $route['journals']               = 'cms/journals';
 $route['journals/create']        = 'cms/journals/create';
 $route['journals/edit/(:any)']   = 'cms/journals/edit/$1';
 $route['journals/delete/(:any)'] = 'cms/journals/delete/$1';
 
-// [BARU] Manajemen Konsultasi Masuk (Leads)
+// Manajemen Konsultasi Masuk (Leads)
 $route['leads']               = 'cms/leads';
 $route['leads/delete/(:any)'] = 'cms/leads/delete/$1';
 
-// [BARU] Manajemen Galeri (Galleries)
+// Manajemen Galeri (Galleries)
+// Catatan: Controller Anda bernama Gallery.php (tanpa 's')
 $route['galleries']               = 'cms/gallery';
 $route['galleries/create']        = 'cms/gallery/create';
 $route['galleries/delete/(:any)'] = 'cms/gallery/delete/$1';
 
-// [BARU] Pengaturan SEO & Tracking
+// Pengaturan SEO & Tracking
 $route['seo']                 = 'cms/seo';
 $route['seo/update_tracking'] = 'cms/seo/update_tracking';
 $route['seo/save_meta']       = 'cms/seo/save_meta';
+
+// ROUTING MODUL PROFIL & KONTAK GLOBAL
+$route['company'] = 'cms/company';
+$route['company/update'] = 'cms/company/update';
 
 /*
 |--------------------------------------------------------------------------

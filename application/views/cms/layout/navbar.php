@@ -45,6 +45,13 @@
                     <i class="fas fa-fw fa-search me-3"></i> Setelan SEO
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="<?= base_url('company') ?>" class="nav-link <?= ($this->uri->segment(1) == 'company') ? 'active' : '' ?>">
+                    <i class="fas fa-fw fa-building me-3"></i> Profil & Kontak
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a href="<?= base_url('users') ?>" class="nav-link <?= ($this->uri->segment(1) == 'users') ? 'active' : '' ?>">
                     <i class="fas fa-fw fa-users me-3"></i> Pengguna
