@@ -33,6 +33,13 @@
         <?php endif;
         endforeach; ?>
 
+        <li class="nav-item mt-4 mb-2 px-3 text-uppercase text-white-50" style="font-size: 0.7rem; letter-spacing: 2px;">Akun Saya</li>
+        <li class="nav-item">
+            <a href="<?= base_url('profile') ?>" class="nav-link <?= ($this->uri->segment(1) == 'profile') ? 'active' : '' ?>">
+                <i class="fas fa-fw fa-user-circle me-3"></i> Profil Saya
+            </a>
+        </li>
+
         <?php if (isset($role_id) && $role_id == 1): ?>
             <li class="nav-item mt-4 mb-2 px-3 text-uppercase text-white-50" style="font-size: 0.7rem; letter-spacing: 2px;">Sistem Web</li>
             <li class="nav-item">

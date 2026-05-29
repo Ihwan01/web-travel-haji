@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Gallery_model extends CI_Model {
+class Gallery_model extends CI_Model
+{
 
     protected $table = 'gallery_media';
 
@@ -30,5 +31,10 @@ class Gallery_model extends CI_Model {
     public function delete($id)
     {
         $this->db->where('id', $id)->delete($this->table);
+    }
+
+    public function update($id, $data)
+    {
+        $this->db->where('id', $id)->update($this->table, $data);
     }
 }

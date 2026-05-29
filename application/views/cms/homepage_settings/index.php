@@ -70,7 +70,12 @@
                                         </div>
                                         <div class="mb-3 box-video" style="display: <?= ($slide->media_type == 'Video') ? 'block' : 'none' ?>;">
                                             <label class="form-label font-weight-bold">Tautan Video Publik</label>
-                                            <input type="text" class="form-control" name="slide_video_link[]" value="<?= ($slide->media_type == 'Video') ? htmlspecialchars($slide->media_url) : '' ?>" placeholder="https://...">
+                                            <input type="text" class="form-control mb-2" name="slide_video_link[]" value="<?= ($slide->media_type == 'Video') ? htmlspecialchars($slide->media_url) : '' ?>" placeholder="https://...">
+
+                                            <label class="form-label font-weight-bold text-info mt-2">Sampul (Thumbnail) Video</label>
+                                            <input type="file" class="form-control" name="slide_video_thumbnail[]" accept="image/*">
+                                            <input type="hidden" name="old_slide_video_thumbnail[]" value="<?= isset($slide->video_thumbnail) ? $slide->video_thumbnail : '' ?>">
+                                            <small class="text-muted d-block mt-1">Opsional: Gambar preview sebelum video dimainkan.</small>
                                         </div>
                                         <div class="mb-3 box-photo" style="display: <?= ($slide->media_type == 'Photo') ? 'block' : 'none' ?>;">
                                             <label class="form-label font-weight-bold">File Foto (Maks 2MB)</label>

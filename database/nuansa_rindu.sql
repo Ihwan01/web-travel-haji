@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Bulan Mei 2026 pada 15.52
+-- Waktu pembuatan: 29 Bulan Mei 2026 pada 18.30
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -137,6 +137,7 @@ CREATE TABLE `hero_slides` (
   `id` int(11) NOT NULL,
   `media_type` enum('Video','Photo') NOT NULL DEFAULT 'Video',
   `media_url` varchar(255) NOT NULL,
+  `video_thumbnail` varchar(255) DEFAULT NULL,
   `tagline` varchar(150) DEFAULT NULL,
   `title` text DEFAULT NULL,
   `desc_text` text DEFAULT NULL,
@@ -151,9 +152,8 @@ CREATE TABLE `hero_slides` (
 -- Dumping data untuk tabel `hero_slides`
 --
 
-INSERT INTO `hero_slides` (`id`, `media_type`, `media_url`, `tagline`, `title`, `desc_text`, `btn1_text`, `btn1_url`, `btn2_text`, `btn2_url`, `sort_order`) VALUES
-(1, 'Photo', 'hero_mekkah.jpg', 'Perjalanan Spiritual', 'Kembali ke Baitullah bersama Nuansa Rindu', 'Wujudkan kerinduan Anda ke Tanah Suci dengan pelayanan premium dan bimbingan ibadah yang khusyuk.', 'Jelajahi Paket', '/packages', 'Konsultasi Gratis', '/contact', 1),
-(2, 'Video', 'hero_video_bg.mp4', 'Fasilitas Bintang 5', 'Kenyamanan dalam Beribadah', 'Kami memastikan tempat istirahat terbaik di Ring 1 Masjidil Haram dan Masjid Nabawi untuk Anda.', 'Tentang Kami', '/about', NULL, NULL, 2);
+INSERT INTO `hero_slides` (`id`, `media_type`, `media_url`, `video_thumbnail`, `tagline`, `title`, `desc_text`, `btn1_text`, `btn1_url`, `btn2_text`, `btn2_url`, `sort_order`) VALUES
+(3, 'Video', 'https://youtu.be/L-YyR1oN66w?si=Y__YFSJEK4uXqAec', NULL, 'Perjalanan Spiritual', 'Kembali ke Baitullah bersama Nuansa Rindu', 'Wujudkan kerinduan Anda ke Tanah Suci dengan pelayanan premium dan bimbingan ibadah yang khusyuk.', 'Jelajahi Paket', '/packages', 'Konsultasi Gratis', '/contact', 0);
 
 -- --------------------------------------------------------
 
@@ -179,7 +179,7 @@ CREATE TABLE `homepage_settings` (
 --
 
 INSERT INTO `homepage_settings` (`id`, `show_journey`, `show_fashion`, `is_slideshow`, `slideshow_autoplay`, `about_title`, `about_desc`, `about_media_type`, `about_media`, `about_video_thumbnail`) VALUES
-(1, 1, 1, 0, 1, 'Lebih dari perjalanan,<br>ini tentang<br><em style=\"font-style:italic; color:var(--gold);\">pulang.</em>', 'Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.', 'Photo', NULL, NULL);
+(1, 1, 1, 0, 1, 'Lebih dari perjalanan,<br>ini tentang<br><em xss=removed>pulang.</em>', 'Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.', 'Photo', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -467,7 +467,7 @@ ALTER TABLE `gallery_media`
 -- AUTO_INCREMENT untuk tabel `hero_slides`
 --
 ALTER TABLE `hero_slides`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `homepage_settings`

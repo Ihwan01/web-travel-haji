@@ -54,7 +54,10 @@
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="<?= base_url('galleries/delete/' . $m->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus media ini secara permanen?');">
+                                    <a href="<?= base_url('galleries/edit/' . $m->id) ?>" class="btn btn-sm btn-info text-white" title="Edit Media">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="<?= base_url('galleries/delete/' . $m->id) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus media ini secara permanen?');" title="Hapus Media">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>

@@ -71,6 +71,52 @@ class Gallery extends Admin_Controller
         }
     }
 
+    public function edit($id)
+    {
+        $data['media'] = $this->Gallery_model->get_by_id($id);
+        if (!$data['media']) {
+            $this->session->set_flashdata('error_message', 'Media tidak ditemukan.');
+            redirect('galleries');
+        }
+
+        // [GEMBOK AKTIF] Cek apakah Kontributor mengedit miliknya sendiri
+        $this->restrict_action('galleries', 'edit', $data['media']->author_id);
+
+        $data['title'] = 'Edit Media | CMS';
+
+        $this->form_validation->set_rules('title', 'Judul Media', 'required|trim');
+        $this->form_validation->set_rules('aspect_ratio', 'Rasio Aspek', 'required|in_list[Landscape,Portrait]');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->render('cms/gallery/edit', $data);
+        } else {
+            $update_data = [
+                'title'        => $this->input->post('title', TRUE),
+                'aspect_ratio' => $this->input->post('aspect_ratio', TRUE),
+            ];
+
+            // Update file/tautan jika ada input baru
+            if ($data['media']->media_type === 'Video') {
+                $new_video = $this->input->post('video_url', TRUE);
+                if (!empty($new_video)) $update_data['file_url'] = $new_video;
+
+                if (!empty($_FILES['thumbnail_url']['name'])) {
+                    $thumb_url = $this->_upload_file('thumbnail_url', 'thumbs');
+                    if ($thumb_url) $update_data['thumbnail_url'] = $thumb_url;
+                }
+            } else {
+                if (!empty($_FILES['file_url']['name'])) {
+                    $upload_img = $this->_upload_file('file_url', 'photos');
+                    if ($upload_img) $update_data['file_url'] = $upload_img;
+                }
+            }
+
+            $this->Gallery_model->update($id, $update_data);
+            $this->session->set_flashdata('success_message', 'Media berhasil diperbarui.');
+            redirect('galleries');
+        }
+    }
+
     public function delete($id)
     {
         $gallery = $this->Gallery_model->get_by_id($id);

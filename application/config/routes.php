@@ -62,6 +62,12 @@ $route['journals/create']        = 'cms/journals/create';
 $route['journals/edit/(:any)']   = 'cms/journals/edit/$1';
 $route['journals/delete/(:any)'] = 'cms/journals/delete/$1';
 
+// [TAMBAHAN BARU: Rute Fitur Komentar Jurnal]
+$route['journals/comments/(:any)']                       = 'cms/journals/comments/$1';
+$route['journals/approve_comment/(:any)/(:any)/(:any)'] = 'cms/journals/approve_comment/$1/$2/$3';
+$route['journals/reply_comment/(:any)']                  = 'cms/journals/reply_comment/$1';
+$route['journals/delete_comment/(:any)/(:any)']          = 'cms/journals/delete_comment/$1/$2';
+
 // Manajemen Konsultasi Masuk (Leads)
 $route['leads']               = 'cms/leads';
 $route['leads/index']         = 'cms/leads/index'; // [PERBAIKAN ERROR 404]
