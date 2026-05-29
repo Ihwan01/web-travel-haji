@@ -78,6 +78,7 @@ $route['galleries']               = 'cms/gallery';
 $route['galleries/index']         = 'cms/gallery/index'; // [TAMBAHAN] Untuk Paginasi
 $route['galleries/create']        = 'cms/gallery/create';
 $route['galleries/delete/(:any)'] = 'cms/gallery/delete/$1';
+$route['galleries/edit/(:any)']   = 'cms/gallery/edit/$1';
 
 // Pengaturan SEO & Tracking
 $route['seo']                 = 'cms/seo';
