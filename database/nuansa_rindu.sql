@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Bulan Mei 2026 pada 15.27
+-- Waktu pembuatan: 29 Bulan Mei 2026 pada 15.52
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -92,6 +92,15 @@ CREATE TABLE `fashion_items` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `fashion_items`
+--
+
+INSERT INTO `fashion_items` (`id`, `name`, `slug`, `description`, `fabric_details`, `image_gallery`, `status`, `created_at`) VALUES
+(1, 'Abaya Hitam Elegan Al-Haram', 'abaya-hitam-elegan-al-haram', '<p>Abaya eksklusif yang dirancang khusus untuk kenyamanan maksimal saat beribadah di cuaca panas Mekkah.</p>', 'Katun Toyobo Premium', 'abaya1.jpg,abaya2.jpg', 'Published', '2026-05-29 03:00:00'),
+(2, 'Koko Putih Madinah Signature', 'koko-putih-madinah-signature', '<p>Baju koko berlengan panjang dengan potongan modern yang tetap menjaga kesopanan dan sirkulasi udara.</p>', 'Katun Madinah', 'koko_putih1.jpg,koko_putih2.jpg', 'Published', '2026-05-29 03:15:00'),
+(3, 'Bergo Instan Syari Safa', 'bergo-instan-syari-safa', '<p>Hijab bergo instan yang sangat praktis digunakan selama aktivitas Sa\'i dan Thawaf.</p>', 'Ceruty Babydoll', 'bergo_safa.jpg', 'Draft', '2026-05-29 03:30:00');
+
 -- --------------------------------------------------------
 
 --
@@ -108,6 +117,15 @@ CREATE TABLE `gallery_media` (
   `aspect_ratio` enum('Landscape','Portrait') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `gallery_media`
+--
+
+INSERT INTO `gallery_media` (`id`, `author_id`, `title`, `media_type`, `file_url`, `thumbnail_url`, `aspect_ratio`, `created_at`) VALUES
+(1, 1, 'Senja di Masjid Nabawi', 'Photo', 'nabawi_senja.jpg', 'thumb_nabawi_senja.jpg', 'Landscape', '2026-05-29 04:00:00'),
+(2, 2, 'Testimoni Keluarga Bapak Ridwan', 'Video', 'https://youtube.com/watch?v=dummy123', 'thumb_testimoni_ridwan.jpg', 'Landscape', '2026-05-29 04:15:00'),
+(3, 1, 'Kekhusyukan Thawaf', 'Photo', 'thawaf_potret.jpg', 'thumb_thawaf_potret.jpg', 'Portrait', '2026-05-29 04:30:00');
 
 -- --------------------------------------------------------
 
@@ -128,6 +146,14 @@ CREATE TABLE `hero_slides` (
   `btn2_url` varchar(255) DEFAULT NULL,
   `sort_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `hero_slides`
+--
+
+INSERT INTO `hero_slides` (`id`, `media_type`, `media_url`, `tagline`, `title`, `desc_text`, `btn1_text`, `btn1_url`, `btn2_text`, `btn2_url`, `sort_order`) VALUES
+(1, 'Photo', 'hero_mekkah.jpg', 'Perjalanan Spiritual', 'Kembali ke Baitullah bersama Nuansa Rindu', 'Wujudkan kerinduan Anda ke Tanah Suci dengan pelayanan premium dan bimbingan ibadah yang khusyuk.', 'Jelajahi Paket', '/packages', 'Konsultasi Gratis', '/contact', 1),
+(2, 'Video', 'hero_video_bg.mp4', 'Fasilitas Bintang 5', 'Kenyamanan dalam Beribadah', 'Kami memastikan tempat istirahat terbaik di Ring 1 Masjidil Haram dan Masjid Nabawi untuk Anda.', 'Tentang Kami', '/about', NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -199,6 +225,15 @@ CREATE TABLE `journal_comments` (
   `status` enum('Pending','Approved','Rejected') NOT NULL DEFAULT 'Pending',
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `journal_comments`
+--
+
+INSERT INTO `journal_comments` (`id`, `journal_id`, `parent_id`, `name`, `email`, `comment`, `is_admin_reply`, `status`, `created_at`) VALUES
+(1, 1, NULL, 'Bapak Santoso', 'santoso.b@email.com', 'Artikel yang sangat bermanfaat. Apakah ada sesi manasik khusus untuk mematangkan persiapan ini?', 0, 'Approved', '2026-05-28 08:30:00'),
+(2, 1, 1, 'Admin Nuansa Rindu', 'admin@nuansarindu.id', 'Terima kasih Bapak Santoso. Betul, kami menyediakan sesi manasik eksklusif sebanyak 3 kali sebelum keberangkatan.', 1, 'Approved', '2026-05-28 09:00:00'),
+(3, 2, NULL, 'Ibu Aminah', 'aminah.siti@email.com', 'Tipsnya sangat membantu, kebetulan saya punya riwayat asma, apakah obat bawaan boleh masuk ke kabin?', 0, 'Pending', '2026-05-29 07:15:00');
 
 -- --------------------------------------------------------
 
@@ -420,19 +455,19 @@ ALTER TABLE `company_profile`
 -- AUTO_INCREMENT untuk tabel `fashion_items`
 --
 ALTER TABLE `fashion_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `gallery_media`
 --
 ALTER TABLE `gallery_media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `hero_slides`
 --
 ALTER TABLE `hero_slides`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `homepage_settings`
@@ -450,7 +485,7 @@ ALTER TABLE `journals`
 -- AUTO_INCREMENT untuk tabel `journal_comments`
 --
 ALTER TABLE `journal_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `leads_consultation`

@@ -3,11 +3,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Homepage_settings extends Admin_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
-        $this->require_role([1]);
+
+        // [PERBAIKAN] Proteksi mutlak: Hanya Super Admin (Role 1)
+        if ($this->data['role_id'] != 1) {
+            $this->session->set_flashdata('error_message', 'Akses Ditolak. Hanya Super Admin yang dapat mengakses Pengaturan Halaman Depan.');
+            redirect('dashboard');
+            exit;
+        }
+
         $this->load->model('Homepage_settings_model');
     }
 
@@ -21,14 +27,14 @@ class Homepage_settings extends Admin_Controller
         if (empty($data['slides'])) {
             $data['slides'] = [(object)[
                 'media_type' => 'Video',
-                'media_url' => '',
-                'tagline' => '',
-                'title' => '',
-                'desc_text' => '',
-                'btn1_text' => '',
-                'btn1_url' => '',
-                'btn2_text' => '',
-                'btn2_url' => ''
+                'media_url'  => '',
+                'tagline'    => '',
+                'title'      => '',
+                'desc_text'  => '',
+                'btn1_text'  => '',
+                'btn1_url'   => '',
+                'btn2_text'  => '',
+                'btn2_url'   => ''
             ]];
         }
 
@@ -43,7 +49,7 @@ class Homepage_settings extends Admin_Controller
             'show_fashion'       => $this->input->post('show_fashion') ? 1 : 0,
             'is_slideshow'       => $this->input->post('is_slideshow') ? 1 : 0,
             'slideshow_autoplay' => $this->input->post('slideshow_autoplay') ? 1 : 0,
-            'about_title'        => $this->input->post('about_title'),
+            'about_title'        => $this->input->post('about_title', TRUE),
             'about_desc'         => $this->input->post('about_desc'),
             'about_media_type'   => $this->input->post('about_media_type', TRUE),
         ];
