@@ -26,7 +26,6 @@ class Gallery extends Admin_Controller
 
         $this->form_validation->set_rules('title', 'Judul Media', 'required|trim');
         $this->form_validation->set_rules('media_type', 'Tipe Media', 'required|in_list[Video,Photo]');
-        $this->form_validation->set_rules('aspect_ratio', 'Rasio Aspek', 'required|in_list[Landscape,Portrait]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/gallery/create', $data);
@@ -57,12 +56,11 @@ class Gallery extends Admin_Controller
             }
 
             $save_data = [
-                'author_id'     => $this->data['admin_id'], // Menyimpan ID pengunggah
+                'author_id'     => $this->data['admin_id'],
                 'title'         => $this->input->post('title', TRUE),
                 'media_type'    => $media_type,
                 'file_url'      => $file_url,
-                'thumbnail_url' => $thumb_url,
-                'aspect_ratio'  => $this->input->post('aspect_ratio', TRUE),
+                'thumbnail_url' => $thumb_url
             ];
 
             $this->Gallery_model->insert($save_data);
@@ -79,23 +77,19 @@ class Gallery extends Admin_Controller
             redirect('galleries');
         }
 
-        // [GEMBOK AKTIF] Cek apakah Kontributor mengedit miliknya sendiri
         $this->restrict_action('galleries', 'edit', $data['media']->author_id);
 
         $data['title'] = 'Edit Media | CMS';
 
         $this->form_validation->set_rules('title', 'Judul Media', 'required|trim');
-        $this->form_validation->set_rules('aspect_ratio', 'Rasio Aspek', 'required|in_list[Landscape,Portrait]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/gallery/edit', $data);
         } else {
             $update_data = [
-                'title'        => $this->input->post('title', TRUE),
-                'aspect_ratio' => $this->input->post('aspect_ratio', TRUE),
+                'title' => $this->input->post('title', TRUE),
             ];
 
-            // Update file/tautan jika ada input baru
             if ($data['media']->media_type === 'Video') {
                 $new_video = $this->input->post('video_url', TRUE);
                 if (!empty($new_video)) $update_data['file_url'] = $new_video;
@@ -122,9 +116,7 @@ class Gallery extends Admin_Controller
         $gallery = $this->Gallery_model->get_by_id($id);
 
         if ($gallery) {
-            // [GEMBOK AKTIF] Cek apakah Kontributor menghapus miliknya sendiri
             $this->restrict_action('galleries', 'delete', $gallery->author_id);
-
             $this->Gallery_model->delete($id);
             $this->session->set_flashdata('success_message', 'Foto berhasil dihapus.');
         }
@@ -144,7 +136,7 @@ class Gallery extends Admin_Controller
         $config = [
             'upload_path'   => $upload_path,
             'allowed_types' => 'jpg|jpeg|png|webp|mp4|mov|webm',
-            'max_size'      => 102400, // 100MB
+            'max_size'      => 102400,
             'file_name'     => uniqid() . '_' . time(),
         ];
 

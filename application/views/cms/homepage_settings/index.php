@@ -91,31 +91,24 @@
                                         <div class="row">
                                             <div class="col-12 mb-3">
                                                 <label class="form-label font-weight-bold">Tagline (Sub-judul)</label>
-                                                <input type="text" class="form-control" name="slide_tagline[]" value="<?= htmlspecialchars($slide->tagline) ?>">
+                                                <input type="text" class="form-control" name="slide_tagline[]" value="<?= htmlspecialchars($slide->tagline ?? '') ?>">
                                             </div>
                                             <div class="col-12 mb-3">
                                                 <label class="form-label font-weight-bold">Judul Utama (HTML diizinkan)</label>
-                                                <textarea class="form-control" name="slide_title[]" rows="2"><?= $slide->title ?></textarea>
+                                                <textarea class="form-control" name="slide_title[]" rows="2"><?= $slide->title ?? '' ?></textarea>
                                             </div>
                                             <div class="col-12 mb-3">
                                                 <label class="form-label font-weight-bold">Deskripsi</label>
-                                                <textarea class="form-control" name="slide_desc[]" rows="2"><?= $slide->desc_text ?></textarea>
+                                                <textarea class="form-control" name="slide_desc[]" rows="2"><?= $slide->desc_text ?? '' ?></textarea>
+                                            </div>
+                                            <!-- [UPDATE] Tombol Single -->
+                                            <div class="col-6 mb-3">
+                                                <label class="form-label font-weight-bold">Teks Tombol Aksi</label>
+                                                <input type="text" class="form-control" name="slide_btn_text[]" value="<?= htmlspecialchars($slide->btn_text ?? '') ?>" placeholder="Misal: Lihat Paket">
                                             </div>
                                             <div class="col-6 mb-3">
-                                                <label class="form-label font-weight-bold">Teks Tombol Kiri</label>
-                                                <input type="text" class="form-control" name="slide_btn1_text[]" value="<?= htmlspecialchars($slide->btn1_text) ?>">
-                                            </div>
-                                            <div class="col-6 mb-3">
-                                                <label class="form-label font-weight-bold">URL Kiri</label>
-                                                <input type="text" class="form-control" name="slide_btn1_url[]" value="<?= htmlspecialchars($slide->btn1_url) ?>">
-                                            </div>
-                                            <div class="col-6 mb-3">
-                                                <label class="form-label font-weight-bold">Teks Tombol Kanan</label>
-                                                <input type="text" class="form-control" name="slide_btn2_text[]" value="<?= htmlspecialchars($slide->btn2_text) ?>">
-                                            </div>
-                                            <div class="col-6 mb-3">
-                                                <label class="form-label font-weight-bold">URL Kanan</label>
-                                                <input type="text" class="form-control" name="slide_btn2_url[]" value="<?= htmlspecialchars($slide->btn2_url) ?>">
+                                                <label class="form-label font-weight-bold">URL Tautan</label>
+                                                <input type="text" class="form-control" name="slide_btn_url[]" value="<?= htmlspecialchars($slide->btn_url ?? '') ?>" placeholder="Misal: /journeys">
                                             </div>
                                         </div>
                                     </div>
@@ -193,17 +186,20 @@
             btnAdd.style.display = 'inline-block';
             autoWrap.style.display = 'block';
             delBtns.forEach(btn => btn.style.display = 'block');
-            // Sembunyikan tombol delete untuk elemen pertama
-            if (delBtns.length > 0) delBtns[0].style.display = 'none';
+
+            if (delBtns.length > 0) delBtns[0].style.display = 'none'; // Sembunyikan delete untuk index 0
+
             document.querySelectorAll('.slide-title-head').forEach((el, idx) => el.innerText = 'Slide ' + (idx + 1));
         } else {
             btnAdd.style.display = 'none';
             autoWrap.style.display = 'none';
-            // Jika mode statis, hapus paksa elemen slide ke-2 dan seterusnya
+
+            // [PENTING] DOM Remove semua form slide KECUALI yang pertama (indeks 0)
             for (let i = slides.length - 1; i > 0; i--) {
                 slides[i].remove();
             }
-            delBtns.forEach(btn => btn.style.display = 'none');
+
+            if (delBtns.length > 0) delBtns[0].style.display = 'none';
             if (document.querySelector('.slide-title-head')) {
                 document.querySelector('.slide-title-head').innerText = 'Data Banner Statis';
             }
@@ -238,13 +234,15 @@
         var firstSlide = container.querySelector('.slide-item');
         var newSlide = firstSlide.cloneNode(true);
 
-        // Bersihkan data form di clone
+        // Bersihkan form
         newSlide.querySelectorAll('input[type="text"], textarea, input[type="hidden"]').forEach(input => input.value = '');
-        newSlide.querySelector('.box-photo small') ? newSlide.querySelector('.box-photo small').remove() : null;
+        let smallPhoto = newSlide.querySelector('.box-photo small');
+        if (smallPhoto) smallPhoto.remove();
+
         newSlide.querySelector('.btn-remove-slide').style.display = 'block';
 
         container.appendChild(newSlide);
-        toggleMode(); // Update nomor judul
+        toggleMode();
     }
 
     function removeSlide(btn) {
@@ -254,6 +252,6 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         toggleAboutMedia();
-        toggleMode();
+        toggleMode(); // Pastikan script tereksekusi rapi saat pertama muat
     });
 </script>

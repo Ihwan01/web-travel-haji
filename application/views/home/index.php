@@ -2,23 +2,35 @@
 // Persiapan Variabel Dinamis dari tabel homepage_settings
 $set = $site_settings;
 $is_slideshow = $set->is_slideshow ?? 0;
+
+// Logika kondisional utama: Aktif jika pengaturan slideshow = 1 DAN data lebih dari 1
+$use_slider = ($is_slideshow == 1 && count($hero_slides) > 1);
+
+// Tentukan data yang dirender: Semua slide jika carousel, ATAU hanya slide pertama [0] jika statis
+$display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_slides[0]] : []);
 ?>
 
-<?php if ($is_slideshow && count($hero_slides) > 1): ?>
+<?php if (!empty($display_slides)): ?>
+    <section class="hero <?= $use_slider ? 'hero-carousel' : 'hero-static' ?>" <?= $use_slider ? 'data-autoplay="' . ($set->slideshow_autoplay ?? 1) . '"' : '' ?>>
 
-    <section class="hero hero-carousel" data-autoplay="<?= $set->slideshow_autoplay ?? 1 ?>">
-        <div class="swiper-wrapper">
-            <?php foreach ($hero_slides as $slide):
+        <?php if ($use_slider): ?>
+            <div class="swiper-wrapper">
+            <?php endif; ?>
+
+            <?php foreach ($display_slides as $slide):
                 $is_link = (strpos($slide->media_url, 'http') === 0);
             ?>
-                <div class="swiper-slide hero-slide-item" style="position: relative; width: 100%; height: 100vh;">
-                    <div class="hero-video-wrap">
+                <?php if ($use_slider): ?>
+                    <div class="swiper-slide hero-slide-item" style="position: relative; width: 100%; height: 100vh;">
+                    <?php endif; ?>
+
+                    <div class="hero-video-wrap" <?= !$use_slider ? 'id="heroWrap"' : '' ?>>
                         <?php if ($slide->media_type == 'Video'): ?>
-                            <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
+                            <video <?= !$use_slider ? 'id="heroVideo"' : '' ?> autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
                                 <source src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" type="video/mp4">
                             </video>
                         <?php else: ?>
-                            <img src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" class="hero-img-bg" alt="Hero Banner" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" <?= $use_slider ? 'class="hero-img-bg"' : '' ?> alt="Hero Banner" style="width: 100%; height: 100%; object-fit: cover;">
                         <?php endif; ?>
                     </div>
 
@@ -42,63 +54,25 @@ $is_slideshow = $set->is_slideshow ?? 0;
                             <?php endif; ?>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
 
-        <div class="hero-slider-nav">
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
-        <div class="hero-dots-wrap swiper-pagination"></div>
+                    <?php if ($use_slider): ?>
+                    </div>
+                <?php endif; ?>
+
+            <?php endforeach; ?>
+
+            <?php if ($use_slider): ?>
+            </div>
+
+            <div class="hero-slider-nav">
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+            <div class="hero-dots-wrap swiper-pagination"></div>
+        <?php endif; ?>
 
         <div class="hero-scroll">Scroll</div>
     </section>
-
-<?php else: ?>
-
-    <?php
-    // Tarik 1 slide saja
-    $slide = !empty($hero_slides) ? $hero_slides[0] : null;
-    if ($slide):
-        $is_link = (strpos($slide->media_url, 'http') === 0);
-    ?>
-        <section class="hero hero-static">
-            <div class="hero-video-wrap" id="heroWrap">
-                <?php if ($slide->media_type == 'Video'): ?>
-                    <video id="heroVideo" autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                        <source src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" type="video/mp4">
-                    </video>
-                <?php else: ?>
-                    <img src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" style="width: 100%; height: 100%; object-fit: cover;" alt="Hero Banner">
-                <?php endif; ?>
-            </div>
-
-            <div class="hero-content">
-                <?php if (!empty($slide->tagline)): ?>
-                    <p class="hero-tag"><?= htmlspecialchars($slide->tagline) ?></p>
-                <?php endif; ?>
-
-                <h1 class="hero-title"><?= $slide->title ?></h1>
-
-                <?php if (!empty($slide->desc_text)): ?>
-                    <p class="hero-desc"><?= htmlspecialchars($slide->desc_text) ?></p>
-                <?php endif; ?>
-
-                <div class="hero-actions">
-                    <?php if (!empty($slide->btn1_text)): ?>
-                        <a href="<?= base_url($slide->btn1_url) ?>" class="arrow-link light"><?= htmlspecialchars($slide->btn1_text) ?></a>
-                    <?php endif; ?>
-                    <?php if (!empty($slide->btn2_text)): ?>
-                        <a href="<?= base_url($slide->btn2_url) ?>" class="btn-outline light"><?= htmlspecialchars($slide->btn2_text) ?></a>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <div class="hero-scroll">Scroll</div>
-        </section>
-    <?php endif; ?>
-
 <?php endif; ?>
 
 <section class="why-section" id="about">

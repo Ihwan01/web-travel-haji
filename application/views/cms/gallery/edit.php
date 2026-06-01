@@ -2,21 +2,13 @@
     <h1 class="h3 mb-0 text-gray-800">Edit Media</h1>
 </div>
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4 border-left-info">
     <div class="card-body">
         <form action="<?= base_url('galleries/edit/' . $media->id) ?>" method="POST" enctype="multipart/form-data">
-            
+
             <div class="mb-3">
                 <label class="form-label font-weight-bold">Judul Media</label>
                 <input type="text" name="title" class="form-control" value="<?= htmlspecialchars($media->title) ?>" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label font-weight-bold">Rasio Aspek</label>
-                <select name="aspect_ratio" class="form-select form-control" required>
-                    <option value="Landscape" <?= $media->aspect_ratio == 'Landscape' ? 'selected' : '' ?>>Landscape (Horizontal)</option>
-                    <option value="Portrait" <?= $media->aspect_ratio == 'Portrait' ? 'selected' : '' ?>>Portrait (Vertikal)</option>
-                </select>
             </div>
 
             <?php if ($media->media_type == 'Video'): ?>

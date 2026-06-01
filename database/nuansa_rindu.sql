@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 29 Bulan Mei 2026 pada 18.30
+-- Waktu pembuatan: 01 Jun 2026 pada 16.59
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -114,7 +114,6 @@ CREATE TABLE `gallery_media` (
   `media_type` enum('Video','Photo') COLLATE utf8mb4_unicode_ci NOT NULL,
   `file_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `thumbnail_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `aspect_ratio` enum('Landscape','Portrait') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -122,10 +121,9 @@ CREATE TABLE `gallery_media` (
 -- Dumping data untuk tabel `gallery_media`
 --
 
-INSERT INTO `gallery_media` (`id`, `author_id`, `title`, `media_type`, `file_url`, `thumbnail_url`, `aspect_ratio`, `created_at`) VALUES
-(1, 1, 'Senja di Masjid Nabawi', 'Photo', 'nabawi_senja.jpg', 'thumb_nabawi_senja.jpg', 'Landscape', '2026-05-29 04:00:00'),
-(2, 2, 'Testimoni Keluarga Bapak Ridwan', 'Video', 'https://youtube.com/watch?v=dummy123', 'thumb_testimoni_ridwan.jpg', 'Landscape', '2026-05-29 04:15:00'),
-(3, 1, 'Kekhusyukan Thawaf', 'Photo', 'thawaf_potret.jpg', 'thumb_thawaf_potret.jpg', 'Portrait', '2026-05-29 04:30:00');
+INSERT INTO `gallery_media` (`id`, `author_id`, `title`, `media_type`, `file_url`, `thumbnail_url`, `created_at`) VALUES
+(1, 1, 'Senja di Masjid Nabawi', 'Photo', 'nabawi_senja.jpg', 'thumb_nabawi_senja.jpg', '2026-05-29 04:00:00'),
+(2, 2, 'Testimoni Keluarga Bapak Ridwan', 'Video', 'https://youtube.com/watch?v=dummy123', 'thumb_testimoni_ridwan.jpg', '2026-05-29 04:15:00');
 
 -- --------------------------------------------------------
 
@@ -141,10 +139,8 @@ CREATE TABLE `hero_slides` (
   `tagline` varchar(150) DEFAULT NULL,
   `title` text DEFAULT NULL,
   `desc_text` text DEFAULT NULL,
-  `btn1_text` varchar(50) DEFAULT NULL,
-  `btn1_url` varchar(255) DEFAULT NULL,
-  `btn2_text` varchar(50) DEFAULT NULL,
-  `btn2_url` varchar(255) DEFAULT NULL,
+  `btn_text` varchar(50) DEFAULT NULL,
+  `btn_url` varchar(255) DEFAULT NULL,
   `sort_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -152,8 +148,8 @@ CREATE TABLE `hero_slides` (
 -- Dumping data untuk tabel `hero_slides`
 --
 
-INSERT INTO `hero_slides` (`id`, `media_type`, `media_url`, `video_thumbnail`, `tagline`, `title`, `desc_text`, `btn1_text`, `btn1_url`, `btn2_text`, `btn2_url`, `sort_order`) VALUES
-(3, 'Video', 'https://youtu.be/L-YyR1oN66w?si=Y__YFSJEK4uXqAec', NULL, 'Perjalanan Spiritual', 'Kembali ke Baitullah bersama Nuansa Rindu', 'Wujudkan kerinduan Anda ke Tanah Suci dengan pelayanan premium dan bimbingan ibadah yang khusyuk.', 'Jelajahi Paket', '/packages', 'Konsultasi Gratis', '/contact', 0);
+INSERT INTO `hero_slides` (`id`, `media_type`, `media_url`, `video_thumbnail`, `tagline`, `title`, `desc_text`, `btn_text`, `btn_url`, `sort_order`) VALUES
+(3, 'Video', 'https://youtu.be/L-YyR1oN66w?si=Y__YFSJEK4uXqAec', NULL, 'Perjalanan Spiritual', 'Kembali ke Baitullah bersama Nuansa Rindu', 'Wujudkan kerinduan Anda ke Tanah Suci dengan pelayanan premium dan bimbingan ibadah yang khusyuk.', 'Jelajahi Paket', '/packages', 0);
 
 -- --------------------------------------------------------
 

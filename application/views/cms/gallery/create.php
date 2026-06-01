@@ -15,7 +15,7 @@
     <div class="card-body">
         <form action="<?= base_url('galleries/create') ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
-                <div class="col-md-6 mb-4">
+                <div class="col-md-9 mb-4">
                     <label class="form-label font-weight-bold">Judul / Keterangan Media <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="title" value="<?= set_value('title') ?>" required placeholder="Contoh: Keseruan Jamaah di Madinah">
                 </div>
@@ -24,13 +24,6 @@
                     <select class="form-select form-control" name="media_type" id="media_type" required onchange="toggleMediaInput()">
                         <option value="Photo" <?= set_select('media_type', 'Photo'); ?>>Foto</option>
                         <option value="Video" <?= set_select('media_type', 'Video'); ?>>Tautan Video (YouTube/IG)</option>
-                    </select>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <label class="form-label font-weight-bold">Rasio (Bentuk) <span class="text-danger">*</span></label>
-                    <select class="form-select form-control" name="aspect_ratio" required>
-                        <option value="Landscape" <?= set_select('aspect_ratio', 'Landscape'); ?>>Landscape (Mendatar)</option>
-                        <option value="Portrait" <?= set_select('aspect_ratio', 'Portrait'); ?>>Portrait (Memanjang)</option>
                     </select>
                 </div>
             </div>
@@ -71,19 +64,18 @@
 
         if (type === 'Video') {
             photoBox.style.display = 'none';
-            filePhotoInput.removeAttribute('required'); // Matikan required untuk file foto
+            filePhotoInput.removeAttribute('required');
 
             videoBox.style.display = 'block';
             thumbBox.style.display = 'block';
         } else {
             photoBox.style.display = 'block';
-            filePhotoInput.setAttribute('required', 'required'); // Nyalakan required untuk file foto
+            filePhotoInput.setAttribute('required', 'required');
 
             videoBox.style.display = 'none';
             thumbBox.style.display = 'none';
         }
     }
 
-    // Jalankan saat halaman pertama kali dimuat
     document.addEventListener("DOMContentLoaded", toggleMediaInput);
 </script>

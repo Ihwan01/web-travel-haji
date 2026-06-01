@@ -6,14 +6,11 @@ class Homepage_settings extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
-        // [PERBAIKAN] Proteksi mutlak: Hanya Super Admin (Role 1)
         if ($this->data['role_id'] != 1) {
             $this->session->set_flashdata('error_message', 'Akses Ditolak. Hanya Super Admin yang dapat mengakses Pengaturan Halaman Depan.');
             redirect('dashboard');
             exit;
         }
-
         $this->load->model('Homepage_settings_model');
     }
 
@@ -31,10 +28,8 @@ class Homepage_settings extends Admin_Controller
                 'tagline'    => '',
                 'title'      => '',
                 'desc_text'  => '',
-                'btn1_text'  => '',
-                'btn1_url'   => '',
-                'btn2_text'  => '',
-                'btn2_url'   => ''
+                'btn_text'   => '',
+                'btn_url'    => ''
             ]];
         }
 
@@ -57,13 +52,11 @@ class Homepage_settings extends Admin_Controller
         // Media About
         if ($settings_data['about_media_type'] === 'Video') {
             $settings_data['about_media'] = $this->input->post('about_video_link', TRUE);
-            // Upload Thumbnail (Jika ada)
             if (!empty($_FILES['about_video_thumbnail']['name'])) {
                 $upload_thumb = $this->_upload_single_file('about_video_thumbnail');
                 if ($upload_thumb) $settings_data['about_video_thumbnail'] = $upload_thumb;
             }
         } else {
-            // Upload Foto Utama About
             if (!empty($_FILES['about_photo']['name'])) {
                 $upload_photo = $this->_upload_single_file('about_photo');
                 if ($upload_photo) $settings_data['about_media'] = $upload_photo;
@@ -80,13 +73,11 @@ class Homepage_settings extends Admin_Controller
         $taglines    = $this->input->post('slide_tagline');
         $titles      = $this->input->post('slide_title');
         $descs       = $this->input->post('slide_desc');
-        $btn1_texts  = $this->input->post('slide_btn1_text');
-        $btn1_urls   = $this->input->post('slide_btn1_url');
-        $btn2_texts  = $this->input->post('slide_btn2_text');
-        $btn2_urls   = $this->input->post('slide_btn2_url');
+        $btn_texts   = $this->input->post('slide_btn_text');
+        $btn_urls    = $this->input->post('slide_btn_url');
 
         if (!empty($media_types)) {
-            // Jika mode statis (is_slideshow == 0), kita HANYA memproses indeks [0] (slide pertama)
+            // Jika mode statis (is_slideshow == 0), HANYA memproses indeks [0]
             $total_items = ($settings_data['is_slideshow'] == 1) ? count($media_types) : 1;
 
             for ($i = 0; $i < $total_items; $i++) {
@@ -95,9 +86,7 @@ class Homepage_settings extends Admin_Controller
                 if ($media_types[$i] === 'Video') {
                     $media_url = $video_links[$i];
                 } else {
-                    // Cek apakah ada file foto yang diunggah untuk indeks ini
                     if (!empty($_FILES['slide_photo']['name'][$i])) {
-                        // Trik untuk mengelabui library upload CI3 dalam array
                         $_FILES['temp_file']['name']     = $_FILES['slide_photo']['name'][$i];
                         $_FILES['temp_file']['type']     = $_FILES['slide_photo']['type'][$i];
                         $_FILES['temp_file']['tmp_name'] = $_FILES['slide_photo']['tmp_name'][$i];
@@ -117,10 +106,8 @@ class Homepage_settings extends Admin_Controller
                     'tagline'    => $taglines[$i],
                     'title'      => $titles[$i],
                     'desc_text'  => $descs[$i],
-                    'btn1_text'  => $btn1_texts[$i],
-                    'btn1_url'   => $btn1_urls[$i],
-                    'btn2_text'  => $btn2_texts[$i],
-                    'btn2_url'   => $btn2_urls[$i],
+                    'btn_text'   => isset($btn_texts[$i]) ? $btn_texts[$i] : '',
+                    'btn_url'    => isset($btn_urls[$i]) ? $btn_urls[$i] : '',
                     'sort_order' => $i
                 ];
                 $this->Homepage_settings_model->insert_slide($slide_data);
