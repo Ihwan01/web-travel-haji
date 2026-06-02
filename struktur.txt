@@ -36,6 +36,7 @@ D:.
 |   |       ci_session7kcv8mumgra5jar44sg9rkr46v40mrdj
 |   |       ci_session7obnqk2af1l7ei338hp70r6ki5heo1u2
 |   |       ci_session8c06o3vnp5q2ch940dg4v14pbefl4cig
+|   |       ci_session8fuke8ev2mi953buli4vfmucks0hmiia
 |   |       ci_session8m1u04au1bf081l7uo3lckksjnf4j6i0
 |   |       ci_session8td65qjpj4fsm9vo3eop5fb0t549o0na
 |   |       ci_session97kf266cg7q8e4m1c0q0ii8hke02hne3
@@ -81,6 +82,7 @@ D:.
 |   |       ci_sessionp49ilu9dj4q26kpac15pk890eu0bkm4p
 |   |       ci_sessionp9baclcbeenh7p64puacb0g4223dah83
 |   |       ci_sessionpiicnvno7pho7fov234nsr3cos009d43
+|   |       ci_sessionpjhnaa0lvablbg5c3rkr83n89jq2cr7g
 |   |       ci_sessionrs0j37i908kv71bv70qqutmu30ueqohg
 |   |       ci_sessions438guofllbqk7mmuq3733cu10gumj6f
 |   |       ci_sessionsp6ago23akb9moogb5cgmo63n0214mo0
@@ -93,6 +95,7 @@ D:.
 |   |       ci_sessionu5h2sah82kvckutf8lekr1imjd72u9nr
 |   |       ci_sessionunlirbb74dh543g98gb1n4ntrg19mloa
 |   |       ci_sessionv59ubqjouufiq89an5lvrlbg4h4dacd7
+|   |       ci_sessionvpuntea7cnl3g18gdbqt8b88qog1h5o8
 |   |       index.html
 |   |       
 |   +---config
@@ -327,6 +330,10 @@ D:.
 |   |       main.js
 |   |       
 |   \---uploads
+|       +---gallery
+|       |   \---photos
+|       |           6a1eed6c68e14_1780411756.jpg
+|       |           
 |       +---journals
 |       |       d25c0e8a4536faafb5727dadda52a254.jpg
 |       |       d4158661cac2e423bc719d10e1740044.jpg

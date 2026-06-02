@@ -46,7 +46,7 @@
                                 </td>
                                 <td>
                                     <strong><?= $m->title ?></strong><br>
-                                    <small class="text-muted">Rasio: <?= $m->aspect_ratio ?> | Diunggah: <?= date('d M Y', strtotime($m->created_at)) ?></small>
+                                    <small class="text-muted"> Diunggah: <?= date('d M Y', strtotime($m->created_at)) ?></small>
                                 </td>
                                 <td class="text-center">
                                     <span class="badge <?= $m->media_type == 'Video' ? 'bg-danger' : 'bg-success' ?>">
