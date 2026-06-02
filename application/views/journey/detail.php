@@ -103,7 +103,7 @@
                     Konsultasi Sekarang
                 </a>
                 <?php
-                $wa_num = '628xxxxxxxxxx'; // Silakan ganti dengan nomor WhatsApp aktif Anda
+                $wa_num = '6281188889326'; // Silakan ganti dengan nomor WhatsApp aktif AndaIni dulu bang wa.me/6281188889326
                 $wa_msg = urlencode('Assalamu\'alaikum, saya ingin mengetahui lebih lanjut tentang ' . $package->name . ' dari Nuansa Rindu.');
                 ?>
                 <a href="https://wa.me/<?= $wa_num ?>?text=<?= $wa_msg ?>" class="sidebar-cta outline" target="_blank" rel="noopener">
