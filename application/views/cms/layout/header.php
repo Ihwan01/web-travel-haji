@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="<?= base_url('assets/css/cms-style.css?v=' . time()); ?>">
+    <link rel="icon" type="image/png" href="<?= base_url('assets/images/Logo.png') ?>" />
 
     <style>
         /* CSS LAYOUT INTI - Flexbox Sidebar & Main Content */

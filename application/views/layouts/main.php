@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="<?= $assets_url ?>css/navbar.css">
     <link rel="stylesheet" href="<?= $assets_url ?>css/footer.css">
     <link rel="stylesheet" href="<?= $assets_url ?>css/<?= isset($page) ? $page : 'home' ?>.css">
+    <link rel="icon" type="image/png" href="<?= base_url('assets/images/Logo.png') ?>" />
 </head>
 <body class="page-<?= isset($page) ? $page : 'home' ?>">
 

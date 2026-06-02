@@ -176,24 +176,6 @@
         </div>
     </div>
 
-    <!-- ── PACKAGE CHIPS ───────────────────────────────── -->
-    <section class="contact-packages reveal">
-        <h3>Atau pilih langsung perjalanan yang Anda minati:</h3>
-
-        <!-- [UI INTERAKTIF] Membuat tombol-tombol mini (chips) sebagai jalan pintas untuk memilih opsi form select di atas -->
-        <div class="pkg-chips">
-            <?php
-            // Memetakan ulang objek paket menjadi array berisi nama paket, jika DB kosong gunakan fallback list
-            $chip_list = !empty($packages)
-                ? array_map(fn($p) => $p->name, $packages)
-                : ['Rindu Classic', 'Rindu Signature', 'Rindu Private', 'Sacred Journey', 'Belum Tahu'];
-
-            foreach ($chip_list as $chip): ?>
-                <button class="pkg-chip" onclick="selectPackage('<?= htmlspecialchars($chip) ?>')"><?= htmlspecialchars($chip) ?></button>
-            <?php endforeach; ?>
-        </div>
-    </section>
-
 </div>
 
 <!-- [JAVASCRIPT FRONTEND] Skrip untuk memproses klik pada tombol Chip di atas -->
