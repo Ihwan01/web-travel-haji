@@ -11,7 +11,7 @@
 
     <div class="footer-bottom">
         <a href="<?= base_url() ?>" class="footer-logo">
-            <img src="<?= base_url('assets/images/Logo-tulisan.png') ?>" alt="Nuansa Rindu" style="height: 200px; width: auto; display: block;">
+            <img src="<?= base_url('assets/images/Logo-tulisan.png') ?>" alt="Nuansa Rindu" style="height: 50px; width: auto; display: block;">
         </a>
 
         <ul class="footer-nav">
