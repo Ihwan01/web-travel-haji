@@ -20,6 +20,7 @@ D:.
 |   |       ci_session0qd8kds0huco6v9jta0okpb50bbkcnnd
 |   |       ci_session0rok1kj48benresqkgjinru5ploubetn
 |   |       ci_session12gm7s1qj2pn3f93gf3aa061vb6fs7pi
+|   |       ci_session1958os7rkm7ifgbd2o3du9q13cjmsdg0
 |   |       ci_session2t1j5ihnruj7vl7g9m9k69do22kn4ap5
 |   |       ci_session347p319unirekbrptgmlqah5h5vivi73
 |   |       ci_session3fpsjsofsvj21113qf90rjq7uje9r8hi
@@ -30,13 +31,18 @@ D:.
 |   |       ci_session6ci2n41juhmu2p7rmmm0fhropkc1r8dk
 |   |       ci_session6hlpkkbqt7jfanfmivv9vqpt98g8k12m
 |   |       ci_session6q86517er203bdr1bp6mglqsn6ki4obj
+|   |       ci_session6tcck64bfq6nfsfutarfnhh7m7i7gltq
 |   |       ci_session76c2vd22dofal7p9gmkjldb545gh5ie6
+|   |       ci_session7kcv8mumgra5jar44sg9rkr46v40mrdj
 |   |       ci_session7obnqk2af1l7ei338hp70r6ki5heo1u2
 |   |       ci_session8c06o3vnp5q2ch940dg4v14pbefl4cig
+|   |       ci_session8m1u04au1bf081l7uo3lckksjnf4j6i0
 |   |       ci_session8td65qjpj4fsm9vo3eop5fb0t549o0na
 |   |       ci_session97kf266cg7q8e4m1c0q0ii8hke02hne3
+|   |       ci_session9a9vlg9pc5llhv94osuip42slloq7qa4
 |   |       ci_session9dr6ooi3ru6bmbfphbe5bjhf0tcsh22t
 |   |       ci_session9fsk6s4c68j4dhfl2bjg4u3jjh35833o
+|   |       ci_session9m8pmbipf7nbusnnsj3e9la87t7klrsd
 |   |       ci_sessionbd6e1o10600b1as9mnkbm0h644dm6020
 |   |       ci_sessionc4ueler4pc8mh0jtk4orhost0u9v3jd4
 |   |       ci_sessionc8acu0k13r7io32cl08kj94p9i8bgkmu
@@ -53,10 +59,12 @@ D:.
 |   |       ci_sessiong4b4dsnrckfpp7canrm4e7cb0uorghmt
 |   |       ci_sessiongei9eqkb0famukvnbskq27ojkl931ufu
 |   |       ci_sessionhldg01rh9e7smui7dql63pb8f0opraa0
+|   |       ci_sessioni8a6p2625auq0ul2vh0epah77rjb6gpp
 |   |       ci_sessionig6g90p10rrh7tcknrhd80t2jrvrnafq
 |   |       ci_sessionitp7b29ir94dtvfcrd2vcmrm5ddb1bgn
 |   |       ci_sessionjca7vnuk2jrds6jpilaaf6pl2vtljco0
 |   |       ci_sessionjftb184pgh5knl6u3jano377r2se20b7
+|   |       ci_sessionjh2ne8m5o8vt2duo4rg7c6n0o3o8uql4
 |   |       ci_sessionjs5r3t5rsu76hdef4dmqh0u4s39mcuag
 |   |       ci_sessionkdachgvmh0nspqe1bq7vf3m037q6mlt9
 |   |       ci_sessionkjgbproinc2pdthf9fv6elsd54b19vfg
@@ -93,6 +101,7 @@ D:.
 |   |       constants.php
 |   |       database.php
 |   |       doctypes.php
+|   |       email.php
 |   |       foreign_chars.php
 |   |       hooks.php
 |   |       index.html
@@ -191,7 +200,9 @@ D:.
 |       |           
 |       +---cms
 |       |   +---auth
+|       |   |       forgot_password.php
 |       |   |       login.php
+|       |   |       reset_password.php
 |       |   |       
 |       |   +---company
 |       |   |       index.php
@@ -308,6 +319,10 @@ D:.
 |   |       navbar.css
 |   |       style.css
 |   |       
+|   +---images
+|   |       Logo-tulisan.png
+|   |       Logo.png
+|   |       
 |   +---js
 |   |       main.js
 |   |       
@@ -323,6 +338,8 @@ D:.
 |       |       ca64b7d2840df5fcf9b9c9133cb9210e.jpg
 |       |       
 |       \---profile
+|               cc3595c6f9976fb860145063cf0b3520.jpg
+|               
 +---database
 |       .htaccess
 |       nuansa_rindu.sql
