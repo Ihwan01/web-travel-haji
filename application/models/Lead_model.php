@@ -3,6 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Lead_model extends CI_Model
 {
+    public function insert($data) {
+        return $this->db->insert('nama_tabel_leads_anda', $data);
+    }
     // Menghitung total data untuk keperluan paginasi
     public function count_all_leads($search = null)
     {

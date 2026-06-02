@@ -120,7 +120,7 @@
                         <div>
                             <p class="channel-label">Email</p>
                             <!-- [INTEGRASI CMS] Menarik data email dari tabel company_profile -->
-                            <p class="channel-value"><?= htmlspecialchars($company->email ?? 'hello@nuansarindu.com') ?></p>
+                            <p class="channel-value"><?= htmlspecialchars($company->email ?? 'nuansarindu.id@gmail.com') ?></p>
                             <p class="channel-note">Respon dalam 24 jam kerja</p>
                         </div>
                     </div>
