@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Jun 2026 pada 16.59
+-- Waktu pembuatan: 02 Jun 2026 pada 15.14
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -31,6 +31,8 @@ CREATE TABLE `admins` (
   `id` int(11) NOT NULL,
   `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reset_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reset_token_expires` datetime DEFAULT NULL,
   `email` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `profile_picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `role_id` tinyint(1) NOT NULL COMMENT '1: Super Admin, 2: Admin, 3: Kontributor',
@@ -42,10 +44,10 @@ CREATE TABLE `admins` (
 -- Dumping data untuk tabel `admins`
 --
 
-INSERT INTO `admins` (`id`, `username`, `password`, `email`, `profile_picture`, `role_id`, `allowed_modules`, `created_at`) VALUES
-(1, 'superadmin', '$2y$10$5yEz0t.Eq.HO/AtzLx3Wo.frwFuR82L.M.1jekfUROUFZ.5ahjz/S', 'superadmin@nuansarindu.id', NULL, 1, 'journeys,journals,galleries,fashions,leads', '2026-05-23 00:21:01'),
-(2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', 'administrator@nuansarindu.id', NULL, 2, 'journeys,journals,galleries,fashions,leads', '2026-05-23 08:20:04'),
-(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', 'kontributor@nuansarindu.id', NULL, 3, 'journals,galleries,journeys,fashions', '2026-05-23 10:34:52');
+INSERT INTO `admins` (`id`, `username`, `password`, `reset_token`, `reset_token_expires`, `email`, `profile_picture`, `role_id`, `allowed_modules`, `created_at`) VALUES
+(1, 'superadmin', '$2y$10$bmJh7JrSxIowFL7YwEpmUeSS6.Aoh8cgrkmA9pvTDQoqagjHyLOLG', NULL, NULL, 'superadmin@nuansarindu.id', 'assets/uploads/94d2a347bc3a76f8d62917e79939e81a.jpg', 1, 'journeys,journals,galleries,fashions,leads', '2026-05-23 00:21:01'),
+(2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', NULL, NULL, 'administrator@nuansarindu.id', NULL, 2, 'journeys,journals,galleries,fashions,leads', '2026-05-23 08:20:04'),
+(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', NULL, NULL, 'kontributor@nuansarindu.id', NULL, 3, 'journals,galleries,journeys,fashions', '2026-05-23 10:34:52');
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,7 @@ CREATE TABLE `company_profile` (
 --
 
 INSERT INTO `company_profile` (`id`, `company_name`, `email`, `whatsapp`, `whatsapp_message`, `phone`, `address`, `instagram_url`, `facebook_url`, `youtube_url`, `Maps_iframe`, `updated_at`) VALUES
-(1, 'Nuansa Rindu', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2026-05-28 12:20:32');
+(1, 'Nuansa Rindu', '', '', '', '', '', 'https://www.instagram.com/nuansarindu.id', '', '', '', '2026-06-01 15:30:05');
 
 -- --------------------------------------------------------
 

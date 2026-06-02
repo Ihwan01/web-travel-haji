@@ -16,12 +16,15 @@
                 <li class="nav-item">
                     <button class="nav-link active font-weight-bold" data-bs-toggle="tab" data-bs-target="#tab-general" type="button">General</button>
                 </li>
+
+                <?php /* --- [MODIFIKASI] TAB HERO & ABOUT DISEMBUNYIKAN --- ?>
                 <li class="nav-item">
                     <button class="nav-link font-weight-bold" data-bs-toggle="tab" data-bs-target="#tab-hero" type="button">Hero Section</button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link font-weight-bold" data-bs-toggle="tab" data-bs-target="#tab-about" type="button">About Us</button>
                 </li>
+                <?php ---------------------------------------------------- */ ?>
             </ul>
         </div>
 
@@ -38,6 +41,7 @@
                         <label class="form-check-label ml-3 mt-1 font-weight-bold" for="show_fashion">Tampilkan Modul Perlengkapan (Fashion Identity)</label>
                     </div>
 
+                    <?php /* --- [MODIFIKASI] TOGGLE SLIDESHOW DISEMBUNYIKAN --- ?>
                     <h6 class="font-weight-bold text-primary mt-4 mb-3">Mode Hero Section</h6>
                     <div class="mb-4 form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="is_slideshow" name="is_slideshow" value="1" <?= ($settings->is_slideshow == 1) ? 'checked' : '' ?> onchange="toggleMode()" style="width: 3em; height: 1.5em;">
@@ -49,8 +53,10 @@
                         <input class="form-check-input" type="checkbox" role="switch" id="slideshow_autoplay" name="slideshow_autoplay" value="1" <?= ($settings->slideshow_autoplay == 1) ? 'checked' : '' ?> style="width: 3em; height: 1.5em;">
                         <label class="form-check-label ml-3 mt-1 font-weight-bold" for="slideshow_autoplay">Putar Otomatis (Auto-play Slideshow)</label>
                     </div>
+                    <?php ---------------------------------------------------- */ ?>
                 </div>
 
+                <?php /* --- [MODIFIKASI] ISI TAB HERO & ABOUT DISEMBUNYIKAN --- ?>
                 <div class="tab-pane fade" id="tab-hero">
                     <div id="slides_container">
                         <?php foreach ($slides as $index => $slide): ?>
@@ -101,7 +107,6 @@
                                                 <label class="form-label font-weight-bold">Deskripsi</label>
                                                 <textarea class="form-control" name="slide_desc[]" rows="2"><?= $slide->desc_text ?? '' ?></textarea>
                                             </div>
-                                            <!-- [UPDATE] Tombol Single -->
                                             <div class="col-6 mb-3">
                                                 <label class="form-label font-weight-bold">Teks Tombol Aksi</label>
                                                 <input type="text" class="form-control" name="slide_btn_text[]" value="<?= htmlspecialchars($slide->btn_text ?? '') ?>" placeholder="Misal: Lihat Paket">
@@ -165,6 +170,7 @@
                         </div>
                     </div>
                 </div>
+                <?php ---------------------------------------------------- */ ?>
 
             </div>
         </div>
@@ -175,6 +181,7 @@
 </form>
 
 <script>
+    /* --- [MODIFIKASI] SCRIPT DOM DISEMBUNYIKAN KARENA ELEMENT DI COMMENT ---
     function toggleMode() {
         var isSlide = document.getElementById('is_slideshow').checked;
         var btnAdd = document.getElementById('btnAddSlide');
@@ -187,14 +194,13 @@
             autoWrap.style.display = 'block';
             delBtns.forEach(btn => btn.style.display = 'block');
 
-            if (delBtns.length > 0) delBtns[0].style.display = 'none'; // Sembunyikan delete untuk index 0
+            if (delBtns.length > 0) delBtns[0].style.display = 'none';
 
             document.querySelectorAll('.slide-title-head').forEach((el, idx) => el.innerText = 'Slide ' + (idx + 1));
         } else {
             btnAdd.style.display = 'none';
             autoWrap.style.display = 'none';
 
-            // [PENTING] DOM Remove semua form slide KECUALI yang pertama (indeks 0)
             for (let i = slides.length - 1; i > 0; i--) {
                 slides[i].remove();
             }
@@ -234,7 +240,6 @@
         var firstSlide = container.querySelector('.slide-item');
         var newSlide = firstSlide.cloneNode(true);
 
-        // Bersihkan form
         newSlide.querySelectorAll('input[type="text"], textarea, input[type="hidden"]').forEach(input => input.value = '');
         let smallPhoto = newSlide.querySelector('.box-photo small');
         if (smallPhoto) smallPhoto.remove();
@@ -252,6 +257,7 @@
 
     document.addEventListener("DOMContentLoaded", function() {
         toggleAboutMedia();
-        toggleMode(); // Pastikan script tereksekusi rapi saat pertama muat
+        toggleMode(); 
     });
+    ------------------------------------------------------------------------ */
 </script>

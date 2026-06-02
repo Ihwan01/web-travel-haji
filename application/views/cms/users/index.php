@@ -40,7 +40,12 @@
                             </td>
                             <td class="px-4 py-3 text-end">
                                 <a href="<?= base_url('users/edit/' . $u['id']) ?>" class="btn btn-sm btn-outline-secondary rounded-0 px-3 me-2" style="font-size: 0.8rem;">Edit</a>
+
                                 <?php if ($u['id'] != $this->session->userdata('admin_id')): ?>
+                                    <a href="<?= base_url('users/force_reset_password/' . $u['id']) ?>" class="btn btn-sm btn-warning rounded-0 px-3 me-2" style="font-size: 0.8rem; font-weight:500;" onclick="return confirm('Anda yakin ingin me-reset kata sandi <?= $u['username'] ?> ke sandi bawaan sistem (NuansaRindu2026!)?')">
+                                        <i class="fas fa-key me-1"></i> Reset Sandi
+                                    </a>
+
                                     <a href="<?= base_url('users/delete/' . $u['id']) ?>" class="btn btn-sm btn-outline-danger rounded-0 px-3" style="font-size: 0.8rem;" onclick="return confirm('Tindakan ini tidak dapat dibatalkan. Hapus akun ini?')">Hapus</a>
                                 <?php endif; ?>
                             </td>

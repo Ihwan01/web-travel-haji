@@ -7,6 +7,9 @@ class Company extends Admin_Controller
     {
         parent::__construct();
 
+        // [MODIFIKASI] Modul dinonaktifkan sementara (Akses URL dikunci)
+        show_404();
+
         // Proteksi mutlak: Hanya Super Admin
         if ($this->data['role_id'] != 1) {
             $this->session->set_flashdata('error_message', 'Akses Ditolak. Hanya Super Admin yang dapat mengakses Pengaturan Kontak Global.');

@@ -85,9 +85,16 @@ $route['seo']                 = 'cms/seo';
 $route['seo/update_tracking'] = 'cms/seo/update_tracking';
 $route['seo/save_meta']       = 'cms/seo/save_meta';
 
-// ROUTING MODUL PROFIL & KONTAK GLOBAL
-$route['company']        = 'cms/company';
-$route['company/update'] = 'cms/company/update';
+// // ROUTING MODUL PROFIL & KONTAK GLOBAL
+// $route['company']        = 'cms/company';
+// $route['company/update'] = 'cms/company/update';
+
+// --- RUTE AUTENTIKASI BARU (FORGOT & RESET PASSWORD) ---
+$route['auth/forgot_password']       = 'cms/auth/forgot_password';
+$route['auth/reset_password/(:any)'] = 'cms/auth/reset_password/$1';
+
+// --- RUTE AKSI SUPER ADMIN (FORCE RESET PASSWORD) ---
+$route['users/force_reset_password/(:any)'] = 'cms/users/force_reset_password/$1';
 
 /*
 |--------------------------------------------------------------------------

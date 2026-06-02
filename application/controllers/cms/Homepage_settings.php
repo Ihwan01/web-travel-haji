@@ -42,13 +42,17 @@ class Homepage_settings extends Admin_Controller
         $settings_data = [
             'show_journey'       => $this->input->post('show_journey') ? 1 : 0,
             'show_fashion'       => $this->input->post('show_fashion') ? 1 : 0,
+
+            /* --- [MODIFIKASI] DATA FORM HERO & ABOUT DISEMBUNYIKAN ---
             'is_slideshow'       => $this->input->post('is_slideshow') ? 1 : 0,
             'slideshow_autoplay' => $this->input->post('slideshow_autoplay') ? 1 : 0,
             'about_title'        => $this->input->post('about_title', TRUE),
             'about_desc'         => $this->input->post('about_desc'),
             'about_media_type'   => $this->input->post('about_media_type', TRUE),
+            ---------------------------------------------------------- */
         ];
 
+        /* --- [MODIFIKASI] PROSES MEDIA ABOUT DISEMBUNYIKAN ---
         // Media About
         if ($settings_data['about_media_type'] === 'Video') {
             $settings_data['about_media'] = $this->input->post('about_video_link', TRUE);
@@ -62,8 +66,11 @@ class Homepage_settings extends Admin_Controller
                 if ($upload_photo) $settings_data['about_media'] = $upload_photo;
             }
         }
+        -------------------------------------------------------- */
+
         $this->Homepage_settings_model->update_settings($settings_data);
 
+        /* --- [MODIFIKASI] PROSES REPEATER SLIDE DISEMBUNYIKAN ---
         // 2. Simpan Data Repeater Hero Slides
         $this->Homepage_settings_model->clear_slides(); // Bersihkan data lama
 
@@ -113,6 +120,7 @@ class Homepage_settings extends Admin_Controller
                 $this->Homepage_settings_model->insert_slide($slide_data);
             }
         }
+        -------------------------------------------------------- */
 
         $this->session->set_flashdata('success_message', 'Pengaturan beranda berhasil diperbarui.');
         redirect('homepage_settings');

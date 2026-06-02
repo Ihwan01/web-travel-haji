@@ -112,4 +112,34 @@ class Users extends Admin_Controller
         $this->session->set_flashdata('success_message', 'Akun pengguna berhasil dihapus secara permanen.');
         redirect('users');
     }
+
+    // ==========================================
+    // [BARU] FUNGSI RESET INSTAN SUPER ADMIN
+    // ==========================================
+    public function force_reset_password($id)
+    {
+        // Proteksi: Pastikan hanya Super Admin
+        if ($this->session->userdata('role_id') != 1) {
+            show_404();
+        }
+
+        $user = $this->Admin_model->get_admin_by_id($id);
+        if (!$user) {
+            $this->session->set_flashdata('error_message', 'Pengguna tidak ditemukan.');
+            redirect('users');
+        }
+
+        $default_password = 'NuansaRindu2026!';
+        $update_data = [
+            'password' => password_hash($default_password, PASSWORD_BCRYPT)
+        ];
+
+        $this->Admin_model->update_admin($id, $update_data);
+
+        // Flash message dengan output password default untuk di-copy
+        $msg = "Akses dipulihkan! Kata sandi akun <b>{$user['username']}</b> telah di-reset.<br>Sandi Sementara: <span class='badge bg-warning text-dark fs-6 mt-1 px-3 py-2'>{$default_password}</span><br><small>Harap arahkan pengguna untuk segera menggantinya di halaman profil.</small>";
+
+        $this->session->set_flashdata('success_message', $msg);
+        redirect('users');
+    }
 }

@@ -28,10 +28,18 @@
                         <label class="form-label text-muted" style="font-size: 0.85rem; letter-spacing: 1px;">EMAIL</label>
                         <input type="email" name="email" class="form-control" value="<?= set_value('email', $user['email']) ?>" required autocomplete="off">
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label text-muted" style="font-size: 0.85rem; letter-spacing: 1px;">KATA SANDI BARU (OPSIONAL)</label>
-                        <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah kata sandi">
+
+                    <div class="mb-4 bg-light p-3 border rounded">
+                        <label class="form-label font-weight-bold text-danger">Ganti Kata Sandi (Opsional)</label>
+                        <div class="input-group">
+                            <input type="password" id="edit_user_pass" name="password" class="form-control" placeholder="Biarkan kosong jika tidak ingin mengubah sandi">
+                            <button class="btn btn-outline-secondary toggle-password bg-white" type="button" data-target="#edit_user_pass">
+                                <i class="fas fa-eye text-muted"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted d-block mt-1">Hanya diisi jika Super Admin ingin mereset sandi pengguna ini secara manual.</small>
                     </div>
+
                     <div class="mb-4">
                         <label class="form-label text-muted" style="font-size: 0.85rem; letter-spacing: 1px;">OTORITAS AKSES</label>
                         <select name="role_id" class="form-select form-control" style="cursor: pointer;" required>
@@ -78,3 +86,22 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.toggle-password').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const input = document.querySelector(this.getAttribute('data-target'));
+            const icon = this.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+</script>
