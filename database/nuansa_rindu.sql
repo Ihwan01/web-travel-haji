@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Jun 2026 pada 15.14
+-- Waktu pembuatan: 02 Jun 2026 pada 18.28
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -45,9 +45,9 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `username`, `password`, `reset_token`, `reset_token_expires`, `email`, `profile_picture`, `role_id`, `allowed_modules`, `created_at`) VALUES
-(1, 'superadmin', '$2y$10$bmJh7JrSxIowFL7YwEpmUeSS6.Aoh8cgrkmA9pvTDQoqagjHyLOLG', NULL, NULL, 'superadmin@nuansarindu.id', 'assets/uploads/94d2a347bc3a76f8d62917e79939e81a.jpg', 1, 'journeys,journals,galleries,fashions,leads', '2026-05-23 00:21:01'),
+(1, 'superadmin', '$2y$10$e/gCeXxYSFurf9nqUoiCX.4c8vua4k77Jn0TdrFdVRed68P.OoHdq', NULL, NULL, 'superadmin@nuansarindu.id', 'assets/uploads/profile/cc3595c6f9976fb860145063cf0b3520.jpg', 1, 'journeys,journals,galleries,fashions,leads', '2026-05-23 00:21:01'),
 (2, 'administrator', '$2y$10$iSweWUqh0jhwHgcdpkbBGOuwr78CMHwCRB3kIsxJBd6e9huTXBUCy', NULL, NULL, 'administrator@nuansarindu.id', NULL, 2, 'journeys,journals,galleries,fashions,leads', '2026-05-23 08:20:04'),
-(4, 'kontributor', '$2y$10$mx6Hi4u9StZYg2k63U7nV.IwtcLCxQqPDJaXkLUQACUy4StnJ3Dbu', NULL, NULL, 'kontributor@nuansarindu.id', NULL, 3, 'journals,galleries,journeys,fashions', '2026-05-23 10:34:52');
+(4, 'kontributor', '$2y$10$lq5lQ224IQShJ9NJmtMvTOaUmXKWn0yivZXQitMul/IyZ6nmruLSS', 'c3915247d4ec81589584ec047c0bc8086683ee4e6ccc9a12771ade951838d938', '2026-06-02 16:30:49', 'rusman.putra.712@gmail.com', NULL, 3, 'journals,galleries,journeys,fashions,leads', '2026-05-23 10:34:52');
 
 -- --------------------------------------------------------
 
@@ -99,9 +99,11 @@ CREATE TABLE `fashion_items` (
 --
 
 INSERT INTO `fashion_items` (`id`, `name`, `slug`, `description`, `fabric_details`, `image_gallery`, `status`, `created_at`) VALUES
-(1, 'Abaya Hitam Elegan Al-Haram', 'abaya-hitam-elegan-al-haram', '<p>Abaya eksklusif yang dirancang khusus untuk kenyamanan maksimal saat beribadah di cuaca panas Mekkah.</p>', 'Katun Toyobo Premium', 'abaya1.jpg,abaya2.jpg', 'Published', '2026-05-29 03:00:00'),
-(2, 'Koko Putih Madinah Signature', 'koko-putih-madinah-signature', '<p>Baju koko berlengan panjang dengan potongan modern yang tetap menjaga kesopanan dan sirkulasi udara.</p>', 'Katun Madinah', 'koko_putih1.jpg,koko_putih2.jpg', 'Published', '2026-05-29 03:15:00'),
-(3, 'Bergo Instan Syari Safa', 'bergo-instan-syari-safa', '<p>Hijab bergo instan yang sangat praktis digunakan selama aktivitas Sa\'i dan Thawaf.</p>', 'Ceruty Babydoll', 'bergo_safa.jpg', 'Draft', '2026-05-29 03:30:00');
+(1, 'Abaya Hitam Elegan Al-Haram', 'abaya-hitam-elegan-al-haram', '<p>Abaya eksklusif yang dirancang khusus untuk kenyamanan maksimal saat beribadah di cuaca panas Mekkah.</p>', 'Katun Toyobo Premium', '[\"assets\\/uploads\\/fashions\\/6a1f0266698cf_1780417126_0.jpg\"]', 'Published', '2026-05-29 03:00:00'),
+(2, 'Koko Putih Madinah Signature', 'koko-putih-madinah-signature', '<p>Baju koko berlengan panjang dengan potongan modern yang tetap menjaga kesopanan dan sirkulasi udara.</p>', 'Katun Madinah', '[\"assets\\/uploads\\/fashions\\/6a1f023601522_1780417078_0.jpg\"]', 'Published', '2026-05-29 03:15:00'),
+(3, 'Bergo Instan Syari Safa', 'bergo-instan-syari-safa', '<p>Hijab bergo instan yang sangat praktis digunakan selama aktivitas Sa\'i dan Thawaf.</p>', 'Ceruty Babydoll', '[\"assets\\/uploads\\/fashions\\/6a1f020eeee22_1780417038_0.jpg\"]', 'Published', '2026-05-29 03:30:00'),
+(4, 'Bagasi Eksklusif', 'bagasi-eksklusif', 'Bagasi Eksklusif dapat custom sesuai keinginan. Hindari kesan monoton dalam perjalanan anda', 'Tampilan hardcase custom', '[\"assets\\/uploads\\/fashions\\/6a1f02e6b3b16_1780417254_0.jpg\"]', 'Published', '2026-06-02 11:20:54'),
+(5, 'Passport Holder Luxury', 'passport-holder-luxury', 'Bosan dengan aksesoris monoton? beragam keunikan kini berada di tangan anda', 'Genuine Leather', '[\"assets\\/uploads\\/fashions\\/6a1f03afb3be9_1780417455_0.jpg\",\"assets\\/uploads\\/fashions\\/6a1f03afc0f53_1780417455_1.jpg\"]', 'Published', '2026-06-02 11:24:15');
 
 -- --------------------------------------------------------
 
@@ -124,8 +126,12 @@ CREATE TABLE `gallery_media` (
 --
 
 INSERT INTO `gallery_media` (`id`, `author_id`, `title`, `media_type`, `file_url`, `thumbnail_url`, `created_at`) VALUES
-(1, 1, 'Senja di Masjid Nabawi', 'Photo', 'nabawi_senja.jpg', 'thumb_nabawi_senja.jpg', '2026-05-29 04:00:00'),
-(2, 2, 'Testimoni Keluarga Bapak Ridwan', 'Video', 'https://youtube.com/watch?v=dummy123', 'thumb_testimoni_ridwan.jpg', '2026-05-29 04:15:00');
+(1, 1, 'Senja di Masjid Nabawi', 'Photo', 'assets/uploads/gallery/photos/6a1eff81a382e_1780416385.jpg', 'thumb_nabawi_senja.jpg', '2026-05-29 04:00:00'),
+(4, 1, 'Madinah yang dirindukan', 'Photo', 'assets/uploads/gallery/photos/6a1eed6c68e14_1780411756.jpg', NULL, '2026-06-02 09:49:16'),
+(5, 1, 'Senja di Ka\'bah', 'Photo', 'assets/uploads/gallery/photos/6a1f0134a3915_1780416820.jpg', NULL, '2026-06-02 11:13:40'),
+(6, 1, 'Senja di Madinah', 'Photo', 'assets/uploads/gallery/photos/6a1f01487edd2_1780416840.jpg', NULL, '2026-06-02 11:14:00'),
+(7, 1, 'Ka\'bah cerah Tawaf berkah', 'Photo', 'assets/uploads/gallery/photos/6a1f0173890a9_1780416883.jpg', NULL, '2026-06-02 11:14:43'),
+(8, 1, 'Senja Syahduh Ka\'bah Kurindu', 'Photo', 'assets/uploads/gallery/photos/6a1f019a326f5_1780416922.jpg', NULL, '2026-06-02 11:15:22');
 
 -- --------------------------------------------------------
 
@@ -203,8 +209,13 @@ CREATE TABLE `journals` (
 --
 
 INSERT INTO `journals` (`id`, `author_id`, `title`, `slug`, `tags`, `content`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Persiapan Spiritual Sebelum Berangkat Umroh', 'persiapan-spiritual-sebelum-berangkat-umroh', 'Persiapan, Spiritual, Umroh', '<p>Melakukan ibadah umroh bukan hanya tentang kesiapan fisik dan finansial, tetapi yang paling utama adalah kesiapan hati dan spiritual.</p><p>Berikut adalah beberapa hal yang perlu dipersiapkan...</p>', NULL, 'Draft', '2026-05-25 21:22:30', '2026-05-27 14:56:52'),
-(2, 1, 'Cara Menjaga Kesehatan Selama di Mekkah', 'cara-menjaga-kesehatan-selama-di-mekkah', 'Kesehatan, Cuaca, Tips Mekkah', '<p>Menjaga hidrasi adalah kunci utama. Pastikan Anda selalu membawa botol minum sendiri dan meminum air zam-zam secara teratur. Cuaca yang panas di Mekkah bisa menyebabkan dehidrasi dengan cepat jika kita tidak waspada. Jangan lupa gunakan pelembap bibir dan <i>sunblock</i>.</p>', NULL, 'Published', '2026-05-26 09:15:00', NULL);
+(1, 1, 'Persiapan Spiritual Sebelum Berangkat Umroh', 'persiapan-spiritual-sebelum-berangkat-umroh', 'Persiapan, Spiritual, Umroh', '<p>Melakukan ibadah umroh bukan hanya tentang kesiapan fisik dan finansial, tetapi yang paling utama adalah kesiapan hati dan spiritual.</p><p>Berikut adalah beberapa hal yang perlu dipersiapkan...</p>', 'fea44d70ee14490b2c8958fb7ec3f205.jpg', 'Published', '2026-05-25 21:22:30', '2026-06-02 17:51:02'),
+(2, 1, 'Cara Menjaga Kesehatan Selama di Mekkah', 'cara-menjaga-kesehatan-selama-di-mekkah', 'Kesehatan, Cuaca, Tips Mekkah', '<p>Menjaga hidrasi adalah kunci utama. Pastikan Anda selalu membawa botol minum sendiri dan meminum air zam-zam secara teratur. Cuaca yang panas di Mekkah bisa menyebabkan dehidrasi dengan cepat jika kita tidak waspada. Jangan lupa gunakan pelembap bibir dan <i>sunblock</i>.</p>', '70396676c20915fc9ab5f92c99deaebb.jpg', 'Published', '2026-05-26 09:15:00', '2026-06-02 17:49:43'),
+(3, 2, 'Mengapa Madinah Selalu Dirindukan?', 'mengapa-madinah-selalu-dirindukan', 'Madinah, Inspirasi, Rindu', '<p>Kota Madinah Al-Munawwarah selalu memiliki tempat khusus di hati para jamaah. Ketenangan yang merasuk ke dalam jiwa saat menginjakkan kaki di pelataran Masjid Nabawi tidak bisa diungkapkan dengan kata-kata.</p><p>Banyak ulama mengatakan bahwa Madinah adalah kota di mana hati merasa pulang. Di sinilah letak makam manusia paling mulia, Rasulullah SAW.</p>', '889d609a568c2585b2bdf762578fa4f3.jpg', 'Published', '2026-05-27 10:00:00', '2026-06-02 18:05:44'),
+(4, 1, 'Mengenal Sejarah Hajar Aswad', 'mengenal-sejarah-hajar-aswad', 'Sejarah, Mekkah, Hajar Aswad', '<p>Hajar Aswad adalah batu hitam yang terletak di sudut timur Ka\'bah. Mencium atau menyentuh Hajar Aswad adalah sunnah bagi jamaah yang sedang melakukan Thawaf.</p><p>Sejarah mencatat bahwa Hajar Aswad diturunkan langsung dari surga dan awalnya berwarna sangat putih, namun menghitam karena dosa-dosa manusia.</p>', 'bb0d6d2a41d5be4e6e96d7aeff0efad0.jpg', 'Published', '2026-05-28 14:30:00', '2026-06-02 18:05:03'),
+(5, 4, 'Tips Memilih Paket Umroh yang Tepat untuk Keluarga', 'tips-memilih-paket-umroh-yang-tepat-untuk-keluarga', 'Tips, Paket Umroh, Keluarga', '<p>Membawa keluarga, terutama anak-anak atau orang tua yang sudah lanjut usia untuk beribadah umroh membutuhkan pertimbangan khusus.</p><p>Pertama, pastikan jarak hotel ke masjid tidak terlalu jauh. Kedua, perhatikan jadwal maskapai penerbangan agar jamaah lansia bisa beristirahat dengan baik selama perjalanan.</p>', 'a49766e5db341f49063a4ff2a10dc195.jpg', 'Published', '2026-05-29 09:15:00', '2026-06-02 18:03:56'),
+(6, 1, 'Keutamaan Shalat di Hijir Ismail', 'keutamaan-shalat-di-hijir-ismail', 'Mekkah, Fiqih, Ka\'bah', '<p>Hijir Ismail adalah area setengah lingkaran yang berada di sebelah utara Ka\'bah. Tahukah Anda bahwa shalat di dalam Hijir Ismail hukumnya sama dengan shalat di dalam Ka\'bah?</p><p>Oleh karena itu, area ini selalu dipenuhi oleh jamaah yang ingin memanjatkan doa-doa khusus mereka.</p>', '21c76722c8507b073194e2350f495268.jpg', 'Published', '2026-05-30 11:00:00', '2026-06-02 18:02:29'),
+(7, 2, 'Pengalaman Umroh di Bulan Ramadhan', 'pengalaman-umroh-di-bulan-ramadhan', 'Ramadhan, Umroh, Inspirasi', '<p>Nabi Muhammad SAW bersabda, \"Umroh di bulan Ramadhan pahalanya sama dengan menunaikan haji bersamaku.\"</p><p>Suasana berbuka puasa bersama jutaan umat muslim dari seluruh dunia di pelataran Masjidil Haram adalah pengalaman spiritual puncak yang akan terus membekas seumur hidup.</p>', '941996bbdf39a18f1f7f194d216b1059.jpg', 'Published', '2026-06-01 16:45:00', '2026-06-02 18:00:48');
 
 -- --------------------------------------------------------
 
@@ -231,7 +242,13 @@ CREATE TABLE `journal_comments` (
 INSERT INTO `journal_comments` (`id`, `journal_id`, `parent_id`, `name`, `email`, `comment`, `is_admin_reply`, `status`, `created_at`) VALUES
 (1, 1, NULL, 'Bapak Santoso', 'santoso.b@email.com', 'Artikel yang sangat bermanfaat. Apakah ada sesi manasik khusus untuk mematangkan persiapan ini?', 0, 'Approved', '2026-05-28 08:30:00'),
 (2, 1, 1, 'Admin Nuansa Rindu', 'admin@nuansarindu.id', 'Terima kasih Bapak Santoso. Betul, kami menyediakan sesi manasik eksklusif sebanyak 3 kali sebelum keberangkatan.', 1, 'Approved', '2026-05-28 09:00:00'),
-(3, 2, NULL, 'Ibu Aminah', 'aminah.siti@email.com', 'Tipsnya sangat membantu, kebetulan saya punya riwayat asma, apakah obat bawaan boleh masuk ke kabin?', 0, 'Pending', '2026-05-29 07:15:00');
+(3, 2, NULL, 'Ibu Aminah', 'aminah.siti@email.com', 'Tipsnya sangat membantu, kebetulan saya punya riwayat asma, apakah obat bawaan boleh masuk ke kabin?', 0, 'Pending', '2026-05-29 07:15:00'),
+(4, 3, NULL, 'Fatimah Az-Zahra', 'fatimah.azz@email.com', 'MasyaAllah, membaca artikel ini membuat kerinduan ke Madinah semakin membuncah. Semoga tahun depan bisa kembali bersama Nuansa Rindu.', 0, 'Approved', '2026-05-28 07:10:00'),
+(5, 3, 4, 'Admin Nuansa Rindu', 'administrator@nuansarindu.id', 'Aamiin Yaa Rabbal \'Alamin. Kami senantiasa mendoakan dan menantikan kehadiran Ibu Fatimah kembali di baitullah.', 1, 'Approved', '2026-05-28 08:05:00'),
+(6, 4, NULL, 'Rizky Fadillah', 'rizky.fadillah@email.com', 'Apakah sangat sulit untuk mencium Hajar Aswad saat musim umroh biasa?', 0, 'Approved', '2026-05-29 10:20:00'),
+(7, 4, 6, 'Admin Nuansa Rindu', 'superadmin@nuansarindu.id', 'Halo Bapak Rizky. Kondisinya fluktuatif, namun pembimbing kami (Muthawwif) akan selalu membantu mencarikan celah waktu terbaik bagi jamaah yang memiliki fisik mumpuni untuk mencoba.', 1, 'Approved', '2026-05-29 11:15:00'),
+(8, 5, NULL, 'Keluarga Hermanto', 'hermanto.fam@email.com', 'Kebetulan kami berencana umroh membawa ibu yang menggunakan kursi roda. Apakah paket Classic sudah cukup ramah lansia?', 0, 'Pending', '2026-05-30 09:00:00'),
+(9, 7, NULL, 'Anisa Nabilah', 'anisa.nab@email.com', 'Saya pernah merasakan umroh Ramadhan, dan memang suasananya sangat magis. Artikel yang bagus!', 0, 'Approved', '2026-06-02 08:30:00');
 
 -- --------------------------------------------------------
 
@@ -316,7 +333,7 @@ CREATE TABLE `packages` (
 
 INSERT INTO `packages` (`id`, `name`, `slug`, `collection_type`, `tagline`, `price_display`, `price`, `itinerary`, `hotel_details`, `main_image`, `status`, `created_at`, `updated_at`) VALUES
 (2, 'Rindu Signature', 'rindu-signature', 'Signature', 'Pengalaman premium tak terlupakan', 'Hubungi Kami', 45000000, '<p>Paket umroh premium dengan akomodasi bintang 5 pilihan, pembimbingan personal, dan dokumentasi sinematik eksklusif untuk setiap jamaah.</p>', '<p><strong>Mekkah:</strong> Fairmont Makkah Clock Royal Tower</p><p><strong>Madinah:</strong> The Oberoi Madinah</p>', '5d26f04a647c2526136b3634f3a8c127.jpg', 'Published', '2026-05-25 19:33:12', NULL),
-(3, 'Rindu Private', 'rindu-private', 'Private', 'Dirancang khusus untuk Anda', 'Custom', 75000000, '<p>Perjalanan umroh privat yang sepenuhnya disesuaikan dengan kebutuhan dan keinginan Anda. Jadwal fleksibel, layanan concierge personal, dan pengalaman tak tertandingi.</p>', '<p>Menyesuaikan dengan preferensi keluarga (Pilihan Hotel Bintang 5 VIP Ring 1).</p>', '29218be97a15abd18459038905187599.jpg', 'Draft', '2026-05-25 19:33:12', NULL),
+(3, 'Rindu Private', 'rindu-private', 'Private', 'Dirancang khusus untuk Anda', 'Custom', 75000000, '<p>Perjalanan umroh privat yang sepenuhnya disesuaikan dengan kebutuhan dan keinginan Anda. Jadwal fleksibel, layanan concierge personal, dan pengalaman tak tertandingi.</p>', '<p>Menyesuaikan dengan preferensi keluarga (Pilihan Hotel Bintang 5 VIP Ring 1).</p>', '29218be97a15abd18459038905187599.jpg', 'Published', '2026-05-25 19:33:12', '2026-06-02 16:46:42'),
 (4, 'Sacred Journey', 'sacred-journey', 'Sacred', 'Perjalanan haji yang bermakna', 'Hubungi Kami', 250000000, '<p>Program haji kami dirancang untuk memastikan setiap jamaah menjalani ibadah haji dengan khusyuk, nyaman, dan penuh makna spiritual yang mendalam.</p>', '<p><strong>Mekkah:</strong> Raffles Makkah Palace</p><p><strong>Madinah:</strong> Dar Al Taqwa Hotel</p>', 'c34f2d245b2c48cffd08adabd2f2eeec.jpg', 'Published', '2026-05-25 19:33:12', NULL),
 (5, 'Rindu Classic', 'rindu-classic', 'Classic', 'Perjalanan penuh ketenangan', 'Hubungi Kami', 35000000, '<p>Paket umroh reguler yang dirancang dengan penuh perhatian untuk memberikan ketenangan dan kenyamanan dalam setiap langkah perjalanan Anda menuju Baitullah.</p><p>Hari 1: Keberangkatan dari Jakarta menuju Jeddah.<br>Hari 2-4: Memperbanyak ibadah di Masjid Nabawi, Madinah. Ziarah Raudhah.<br>Hari 5-8: Perjalanan ke Mekkah. Melaksanakan Umroh Wajib dan ibadah di Masjidil Haram.<br>Hari 9: Kepulangan kembali ke Tanah Air.</p>', '<p>Mekkah: Swissôtel Makkah (Bintang 5) - Jarak 100m ke pelataran Masjidil Haram.<br>Madinah: Anwar Al Madinah Mövenpick (Bintang 5) - Berada tepat di depan pintu masuk Masjid Nabawi.</p>', 'ca64b7d2840df5fcf9b9c9133cb9210e.jpg', 'Published', '2026-05-25 15:31:29', NULL);
 
@@ -453,13 +470,13 @@ ALTER TABLE `company_profile`
 -- AUTO_INCREMENT untuk tabel `fashion_items`
 --
 ALTER TABLE `fashion_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `gallery_media`
 --
 ALTER TABLE `gallery_media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `hero_slides`
@@ -477,13 +494,13 @@ ALTER TABLE `homepage_settings`
 -- AUTO_INCREMENT untuk tabel `journals`
 --
 ALTER TABLE `journals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `journal_comments`
 --
 ALTER TABLE `journal_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `leads_consultation`
