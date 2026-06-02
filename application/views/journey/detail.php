@@ -1,9 +1,4 @@
-<!-- ══════════════════════════════════════════════════════
-     JOURNEY — detail.php
-     ══════════════════════════════════════════════════════ -->
-
 <div class="journey-detail">
-    <!-- ── DETAIL HERO ─────────────────────────────────── -->
     <div class="detail-hero" style="margin-top:var(--nav-h);">
         <?php if ($package->main_image): ?>
             <img class="detail-hero-img" src="<?= base_url($package->main_image) ?>" alt="<?= htmlspecialchars($package->name) ?>">
@@ -20,9 +15,7 @@
         </div>
     </div>
 
-    <!-- ── DETAIL BODY ─────────────────────────────────── -->
     <div class="detail-body">
-        <!-- Main content -->
         <div class="detail-main">
             <?php if ($package->tagline): ?>
             <p style="font-family:var(--font-display); font-size:1.3rem; font-style:italic; color:var(--muted); margin-bottom:32px; line-height:1.5;">
@@ -30,16 +23,20 @@
             </p>
             <?php endif; ?>
 
-            <?php if ($package->description): ?>
-            <h3>Tentang Perjalanan Ini</h3>
             <?php
-            // Render description as paragraphs
-            $paragraphs = explode("\n", trim($package->description));
-            foreach ($paragraphs as $para):
-                $para = trim($para);
-                if ($para): ?>
-                <p><?= nl2br(htmlspecialchars($para)) ?></p>
-            <?php endif; endforeach; ?>
+            $collection_desc = [
+                'Classic'   => 'Paket umroh reguler yang dirancang dengan penuh perhatian — memberikan ketenangan dan kenyamanan dalam setiap langkah perjalanan Anda menuju Baitullah.',
+                'Signature' => 'Pengalaman umroh premium dengan akomodasi bintang 5 pilihan, pembimbingan personal, dan dokumentasi sinematik eksklusif yang tak terlupakan.',
+                'Private'   => 'Perjalanan umroh privat yang sepenuhnya disesuaikan dengan kebutuhan Anda. Jadwal fleksibel, layanan concierge personal, dan pengalaman tak tertandingi.',
+                'Sacred'    => 'Program haji kami dirancang untuk memastikan setiap jamaah menjalani ibadah haji dengan khusyuk, nyaman, dan penuh makna spiritual yang mendalam.',
+            ];
+            $desc = isset($collection_desc[$package->collection_type]) ? $collection_desc[$package->collection_type] : '';
+            ?>
+            <?php if ($desc): ?>
+            <div style="background:linear-gradient(135deg, rgba(196,163,90,0.08) 0%, rgba(196,163,90,0.03) 100%); border-left:3px solid var(--gold); border-radius:0 8px 8px 0; padding:20px 24px; margin-bottom:36px;">
+                <h3 style="margin-top:0; margin-bottom:10px;">Tentang Perjalanan Ini</h3>
+                <p style="margin:0; color:var(--muted); line-height:1.8; font-size:0.92rem;"><?= htmlspecialchars($desc) ?></p>
+            </div>
             <?php endif; ?>
 
             <?php if ($package->itinerary): ?>
@@ -50,7 +47,7 @@
                 foreach ($lines as $line):
                     $line = trim($line);
                     if ($line): ?>
-                    <p><?= htmlspecialchars($line) ?></p>
+                    <p><?= strip_tags($line) ?></p>
                 <?php endif; endforeach; ?>
             </div>
             <?php endif; ?>
@@ -62,11 +59,10 @@
             foreach ($lines as $line):
                 $line = trim($line);
                 if ($line): ?>
-                <p><?= htmlspecialchars($line) ?></p>
+                <p><?= strip_tags($line) ?></p>
             <?php endif; endforeach; ?>
             <?php endif; ?>
 
-            <!-- What's included -->
             <h3>Yang Kami Siapkan</h3>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px 40px; margin-bottom:12px;">
                 <?php
@@ -88,17 +84,13 @@
                 <?php endforeach; ?>
             </div>
 
-            <!-- Back link -->
             <div style="margin-top:56px; padding-top:40px; border-top:1px solid rgba(196,163,90,0.15);">
-                <a href="<?= base_url('journey') ?>" class="arrow-link" style="transform:rotate(180deg) translateX(-4px); display:inline-flex;">
-                </a>
-                <a href="<?= base_url('journey') ?>" style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted);">
+                <a href="<?= base_url('journey') ?>" style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); text-decoration:none;">
                     ← Kembali ke Journey
                 </a>
             </div>
         </div>
 
-        <!-- Sidebar -->
         <div class="detail-sidebar">
             <div class="sidebar-card">
                 <div class="sidebar-card-title">Mulai Perjalanan Anda</div>
@@ -106,11 +98,12 @@
                 <div class="sidebar-price"><?= htmlspecialchars($package->price_display) ?></div>
                 <p class="sidebar-price-note">Harga per jamaah · belum termasuk visa</p>
                 <?php endif; ?>
+                
                 <a href="<?= base_url('contact') ?>?package=<?= urlencode($package->name) ?>" class="sidebar-cta">
                     Konsultasi Sekarang
                 </a>
                 <?php
-                $wa_num = '628xxxxxxxxxx';
+                $wa_num = '628xxxxxxxxxx'; // Silakan ganti dengan nomor WhatsApp aktif Anda
                 $wa_msg = urlencode('Assalamu\'alaikum, saya ingin mengetahui lebih lanjut tentang ' . $package->name . ' dari Nuansa Rindu.');
                 ?>
                 <a href="https://wa.me/<?= $wa_num ?>?text=<?= $wa_msg ?>" class="sidebar-cta outline" target="_blank" rel="noopener">
