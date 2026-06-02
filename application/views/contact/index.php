@@ -104,7 +104,7 @@
                         <div>
                             <p class="channel-label">WhatsApp</p>
                             <!-- [INTEGRASI CMS] Menarik data $company->whatsapp. Menggunakan Null Coalescing (??) agar ada nomor default jika CMS kosong -->
-                            <p class="channel-value"><?= htmlspecialchars($company->whatsapp ?? '+62 8xx-xxxx-xxxx') ?></p>
+                            <p class="channel-value"><?= htmlspecialchars($company->whatsapp ?? '+62 811-8888-9326') ?></p>
                             <p class="channel-note">Senin – Sabtu, 08.00 – 20.00 WIB</p>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
             <?php
             // [LOGIKA INTEGRASI WHATSAPP] 
             // 1. Membersihkan input nomor dari CMS. Jika admin mengetik +62 812-345, diubah menjadi 62812345 (format standar API WA)
-            $wa_num = !empty($company->whatsapp) ? preg_replace('/[^0-9]/', '', $company->whatsapp) : '6280000000000';
+            $wa_num = !empty($company->whatsapp) ? preg_replace('/[^0-9]/', '', $company->whatsapp) : '6281188889326';
 
             // 2. Menyiapkan kalimat default jaga-jaga jika admin belum mengetik 'Pesan Awalan' di CMS
             $default_msg = "Assalamu'alaikum Nuansa Rindu, saya ingin berkonsultasi mengenai perjalanan umrah.";
