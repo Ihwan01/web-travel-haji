@@ -7,7 +7,6 @@ class Journey extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->require_permission('journeys');
         // [BARU] Blokir akses publik jika fitur disembunyikan
         if (empty($this->data['show_journey'])) {
             show_404();
