@@ -38,17 +38,25 @@
         }
     }
 
+    // Deskripsi statis per koleksi (pengganti field description yang tidak ada)
+    $collection_desc = [
+        'Classic'   => 'Paket umroh reguler yang dirancang dengan penuh perhatian untuk memberikan ketenangan dan kenyamanan dalam setiap langkah perjalanan menuju Baitullah.',
+        'Signature' => 'Pengalaman umroh premium dengan akomodasi bintang 5 pilihan, pembimbingan personal, dan dokumentasi sinematik eksklusif yang tak terlupakan.',
+        'Private'   => 'Perjalanan umroh privat yang sepenuhnya disesuaikan dengan kebutuhan Anda. Jadwal fleksibel, layanan concierge personal, dan pengalaman tak tertandingi.',
+        'Sacred'    => 'Program haji kami dirancang untuk memastikan setiap jamaah menjalani ibadah dengan khusyuk, nyaman, dan penuh makna spiritual yang mendalam.',
+    ];
+
     // Placeholder data jika DB kosong
     if (empty($packages)) {
         $placeholders = [
             (object)['id'=>1,'name'=>'Rindu Classic','slug'=>'rindu-classic','collection_type'=>'Classic',
-                'tagline'=>'Perjalanan penuh ketenangan','description'=>'Paket umroh reguler yang dirancang dengan penuh perhatian untuk memberikan ketenangan dan kenyamanan dalam setiap langkah perjalanan Anda menuju Baitullah.','price_display'=>'Hubungi Kami','main_image'=>null],
+                'tagline'=>'Perjalanan penuh ketenangan','price_display'=>'Hubungi Kami','main_image'=>null],
             (object)['id'=>2,'name'=>'Rindu Signature','slug'=>'rindu-signature','collection_type'=>'Signature',
-                'tagline'=>'Pengalaman premium tak terlupakan','description'=>'Paket umroh premium dengan akomodasi bintang 5 pilihan, pembimbingan personal, dan dokumentasi sinematik eksklusif untuk setiap jamaah.','price_display'=>'Hubungi Kami','main_image'=>null],
+                'tagline'=>'Pengalaman premium tak terlupakan','price_display'=>'Hubungi Kami','main_image'=>null],
             (object)['id'=>3,'name'=>'Rindu Private','slug'=>'rindu-private','collection_type'=>'Private',
-                'tagline'=>'Dirancang khusus untuk Anda','description'=>'Perjalanan umroh privat yang sepenuhnya disesuaikan dengan kebutuhan dan keinginan Anda. Jadwal fleksibel, layanan concierge personal, dan pengalaman tak tertandingi.','price_display'=>'Custom','main_image'=>null],
+                'tagline'=>'Dirancang khusus untuk Anda','price_display'=>'Custom','main_image'=>null],
             (object)['id'=>4,'name'=>'Sacred Journey','slug'=>'sacred-journey','collection_type'=>'Sacred',
-                'tagline'=>'Perjalanan haji yang bermakna','description'=>'Program haji kami dirancang untuk memastikan setiap jamaah menjalani ibadah haji dengan khusyuk, nyaman, dan penuh makna spiritual yang mendalam.','price_display'=>'Hubungi Kami','main_image'=>null],
+                'tagline'=>'Perjalanan haji yang bermakna','price_display'=>'Hubungi Kami','main_image'=>null],
         ];
         foreach ($placeholders as $ph) {
             $collections[$ph->collection_type][] = $ph;
@@ -78,7 +86,7 @@
             <!-- Visual -->
             <div class="pkg-card-visual">
                 <?php if ($pkg->main_image): ?>
-                    <img class="pkg-card-img" src="<?= base_url($pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
+                    <img class="pkg-card-img" src="<?= base_url('assets/uploads/packages/' . $pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
                 <?php else: ?>
                     <div class="pkg-card-img <?= $bg_map[$type] ?>"></div>
                 <?php endif; ?>
@@ -91,9 +99,8 @@
                 <?php if ($pkg->tagline): ?>
                 <p class="pkg-card-tagline"><?= htmlspecialchars($pkg->tagline) ?></p>
                 <?php endif; ?>
-                <?php if ($pkg->description): ?>
-                <p class="pkg-card-desc"><?= htmlspecialchars(substr($pkg->description, 0, 220)) ?>...</p>
-                <?php endif; ?>
+                <!-- Deskripsi statis per koleksi, tidak bergantung field DB -->
+                <p class="pkg-card-desc"><?= $collection_desc[$type] ?></p>
                 <?php if ($pkg->price_display): ?>
                 <div class="pkg-card-price">
                     <?= htmlspecialchars($pkg->price_display) ?>
