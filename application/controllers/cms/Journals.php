@@ -262,4 +262,46 @@ class Journals extends Admin_Controller
             return ['status' => false, 'error' => $this->upload->display_errors('', '')];
         }
     }
+
+    // ===============================================
+    // MANAJEMEN KATEGORI
+    // ===============================================
+
+    public function categories()
+    {
+        $data['title'] = 'Manajemen Kategori | CMS';
+        $data['categories'] = $this->Journal_model->get_categories();
+        $this->render('cms/journals/categories', $data);
+    }
+
+    public function add_category()
+    {
+        $name = $this->input->post('name', TRUE);
+        $slug = url_title($name, 'dash', TRUE);
+
+        if (!empty($name)) {
+            $this->db->insert('journal_categories', ['name' => $name, 'slug' => $slug]);
+            $insert_id = $this->db->insert_id();
+
+            // Jika request berasal dari AJAX (Fitur tambah sekalian di form artikel)
+            if ($this->input->is_ajax_request()) {
+                echo json_encode(['status' => 'success', 'id' => $insert_id, 'name' => $name]);
+                return;
+            }
+
+            $this->session->set_flashdata('success_message', 'Kategori baru berhasil ditambahkan.');
+        }
+        redirect('journals/categories');
+    }
+
+    public function delete_category($id)
+    {
+        // 1. Kosongkan category_id pada artikel yang menggunakan kategori ini (mencegah error relasi)
+        $this->db->where('category_id', $id)->update('journals', ['category_id' => NULL]);
+
+        // 2. Hapus kategori
+        $this->db->where('id', $id)->delete('journal_categories');
+        $this->session->set_flashdata('success_message', 'Kategori berhasil dihapus.');
+        redirect('journals/categories');
+    }
 }

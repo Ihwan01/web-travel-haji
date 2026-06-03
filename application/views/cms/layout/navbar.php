@@ -40,6 +40,11 @@
                             <i class="fas fa-fw fa-comments me-2"></i> Semua Komentar
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('journals/categories') ?>" class="nav-link <?= ($this->uri->segment(2) == 'categories') ? 'active' : '' ?>" style="padding-left: 2.8rem; font-size: 0.85rem;">
+                            <i class="fas fa-fw fa-tags me-2"></i> Kategori Jurnal
+                        </a>
+                    </li>
                 <?php endif; ?>
 
         <?php endif;

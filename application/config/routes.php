@@ -63,6 +63,11 @@ $route['journals/edit/(:any)']   = 'cms/journals/edit/$1';
 $route['journals/delete/(:any)'] = 'cms/journals/delete/$1';
 $route['journals/all_comments'] = 'cms/journals/all_comments';
 
+// --- RUTE MANAJEMEN KATEGORI JURNAL ---
+$route['journals/categories']             = 'cms/journals/categories';
+$route['journals/add_category']           = 'cms/journals/add_category';
+$route['journals/delete_category/(:num)'] = 'cms/journals/delete_category/$1';
+
 // [TAMBAHAN BARU: Rute Fitur Komentar Jurnal]
 $route['journals/comments/(:any)']                       = 'cms/journals/comments/$1';
 $route['journals/approve_comment/(:any)/(:any)/(:any)'] = 'cms/journals/approve_comment/$1/$2/$3';
