@@ -24,7 +24,7 @@
 	transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .navbar.scrolled {
-	background: rgba(245, 240, 232, 0.98);
+	background: var(--mahogany);
 	box-shadow: 0 2px 24px rgba(59, 42, 26, 0.08);
 }
 .navbar.dark-mode {
@@ -36,7 +36,7 @@
 	color: rgba(245, 240, 232, 0.85);
 }
 .navbar.dark-mode .nav-cta {
-	color: var(--gold);
+	color: var(--white);
 	border-color: var(--gold);
 }
 
@@ -47,7 +47,7 @@
 	font-family: var(--font-display);
 	font-size: 1rem;
 	letter-spacing: 0.14em;
-	color: var(--brown);
+	color: var(--white);
 	font-weight: 500;
 	white-space: nowrap;
 }
@@ -61,7 +61,7 @@
 	font-size: 0.68rem;
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
-	color: var(--brown);
+	color: var(--white);
 	font-weight: 400;
 	position: relative;
 	padding-bottom: 4px;
@@ -90,7 +90,7 @@
 	padding: 9px 22px;
 	border: 1.5px solid var(--brown);
 	background: transparent;
-	color: var(--brown);
+	color: var(--white);
 	font-family: var(--font-body);
 	font-size: 0.64rem;
 	letter-spacing: 0.18em;
