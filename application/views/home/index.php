@@ -143,6 +143,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 
 <?php if ($show_journey): ?>
     <section class="journey-section" id="journey">
+        
         <div class="journey-header">
             <div class="reveal">
                 <p class="section-label">Signature Journey</p>
@@ -150,51 +151,121 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     Pilih perjalanan yang<br>sesuai dengan hati Anda.
                 </h2>
             </div>
-            <a href="<?= base_url('journey') ?>" class="arrow-link reveal">View All Journey</a>
+            
+            <div class="journey-nav-wrapper reveal">
+                <a href="<?= base_url('journey') ?>" class="arrow-link">View All Journey</a>
+            </div>
         </div>
 
-        <div class="journey-cards reveal">
-            <?php if (!empty($packages)): ?>
-                <?php foreach ($packages as $pkg): ?>
-                    <a href="<?= base_url('journey/' . $pkg->slug) ?>" class="j-card">
-                        <?php if ($pkg->main_image): ?>
-                            <img class="j-card-img" src="<?= base_url('assets/uploads/packages/' . $pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
-                        <?php else: ?>
-                            <div class="j-card-img j-card-bg-<?= strtolower($pkg->collection_type) ?>"></div>
-                        <?php endif; ?>
-                        <div class="j-card-overlay">
-                            <span class="j-card-collection">Rindu <?= htmlspecialchars($pkg->collection_type) ?></span>
-                            <h3 class="j-card-name"><?= htmlspecialchars($pkg->name) ?></h3>
-                            <?php if ($pkg->tagline): ?>
-                                <p class="j-card-tagline"><?= htmlspecialchars($pkg->tagline) ?></p>
+        <div class="journey-slider-wrapper reveal">
+            
+            <button class="slider-btn prev-btn" id="journeyPrev" aria-label="Geser Kiri">
+                <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            </button>
+
+            <div class="journey-cards" id="journeySlider">
+                <?php if (!empty($packages)): ?>
+                    <?php foreach ($packages as $pkg): ?>
+                        <a href="<?= base_url('journey/' . $pkg->slug) ?>" class="j-card">
+                            <?php if ($pkg->main_image): ?>
+                                <img class="j-card-img" src="<?= base_url('assets/uploads/packages/' . $pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
+                            <?php else: ?>
+                                <div class="j-card-img j-card-bg-<?= strtolower($pkg->collection_type) ?>"></div>
                             <?php endif; ?>
-                            <span class="j-card-arrow"></span>
-                        </div>
-                    </a>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <?php
-                $placeholders = [
-                    ['Classic',   'Rindu Classic',   'Umrah Regular — Perjalanan penuh ketenangan'],
-                    ['Signature', 'Rindu Signature', 'Umrah Premium — Pengalaman yang tak terlupakan'],
-                    ['Private',   'Rindu Private',   'Umrah Private — Dirancang khusus untuk Anda'],
-                    ['Sacred',    'Sacred Journey',  'Perjalanan Haji yang Bermakna'],
-                ];
-                foreach ($placeholders as $p): ?>
-                    <div class="j-card">
-                        <div class="j-card-img j-card-bg-<?= strtolower($p[0]) ?>"></div>
-                        <div class="j-card-overlay">
-                            <span class="j-card-collection">Rindu <?= $p[0] ?></span>
-                            <h3 class="j-card-name"><?= $p[1] ?></h3>
-                            <p class="j-card-tagline"><?= $p[2] ?></p>
-                            <span class="j-card-arrow"></span>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                            <div class="j-card-overlay">
+                                <span class="j-card-collection">Rindu <?= htmlspecialchars($pkg->collection_type) ?></span>
+                                <h3 class="j-card-name"><?= htmlspecialchars($pkg->name) ?></h3>
+                                <?php if ($pkg->tagline): ?>
+                                    <p class="j-card-tagline"><?= htmlspecialchars($pkg->tagline) ?></p>
+                                <?php endif; ?>
+                                <span class="j-card-arrow"></span>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <?php endif; ?>
+            </div>
+
+            <button class="slider-btn next-btn" id="journeyNext" aria-label="Geser Kanan">
+                <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            </button>
+
         </div>
     </section>
 <?php endif; ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.getElementById('journeySlider');
+        const prevBtn = document.getElementById('journeyPrev');
+        const nextBtn = document.getElementById('journeyNext');
+
+        if (slider && prevBtn && nextBtn) {
+            
+            // Matikan fungsi bawaan browser yang mengoreksi scroll otomatis
+            slider.style.overflowAnchor = 'none';
+            
+            // Mengunci animasi agar tidak bentrok jika user klik terlalu cepat
+            let isAnimating = false;
+
+            // ── LOGIKA TOMBOL KANAN (GESER KANAN TERUS) ──
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Jika sedang animasi atau jumlah kartu pas di layar (tidak perlu slide), batalkan.
+                if (isAnimating || slider.scrollWidth <= slider.clientWidth + 10) return;
+                isAnimating = true;
+
+                const firstCard = slider.firstElementChild;
+                const cardWidth = firstCard.offsetWidth + 3; // +3 adalah ukuran gap di CSS
+                
+                // 1. Geser mulus ke arah kanan
+                slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                
+                // 2. Tunggu animasi geser selesai (sekitar 450ms)
+                setTimeout(() => {
+                    // Pindahkan elemen kartu pertama ke urutan paling akhir
+                    slider.appendChild(firstCard);
+                    
+                    // Tarik posisi scroll ke kiri secara instan agar tidak terasa melompat
+                    slider.scrollLeft -= cardWidth;
+                    
+                    isAnimating = false;
+                }, 450);
+            });
+
+            // ── LOGIKA TOMBOL KIRI (GESER KIRI TERUS) ──
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                if (isAnimating || slider.scrollWidth <= slider.clientWidth + 10) return;
+                isAnimating = true;
+
+                const lastCard = slider.lastElementChild;
+                const firstCard = slider.firstElementChild;
+                const cardWidth = firstCard.offsetWidth + 3;
+                
+                // 1. Pindahkan elemen kartu terakhir ke urutan paling depan secara instan
+                slider.prepend(lastCard);
+                
+                // 2. Majukan posisi scroll ke kanan secara instan agar tampilan layar tidak berubah
+                slider.scrollLeft += cardWidth;
+                
+                // 3. Paksa browser merender susunan yang baru
+                slider.getBoundingClientRect();
+                
+                // 4. Baru jalankan animasi geser mundur (smooth ke kiri)
+                slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                
+                // Lepas kunci animasi setelah selesai
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 450);
+            });
+            
+        }
+    });
+</script>
 
 <section class="visual-story" id="experience">
     <p class="section-label reveal">Visual Story</p>
