@@ -55,6 +55,12 @@ class Journal_comment_model extends CI_Model
 
     public function insert($data)
     {
+        // Memaksa sistem untuk selalu menggunakan waktu PHP saat ini
+        // agar seragam antara komentar klien dan balasan admin
+        if (!isset($data['created_at'])) {
+            $data['created_at'] = date('Y-m-d H:i:s');
+        }
+
         $this->db->insert($this->table, $data);
     }
 
