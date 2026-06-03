@@ -118,12 +118,30 @@
 	background: rgba(196, 163, 90, 0.12);
 }
 
-/* ── WRAPPER GRID UTAMA UNTUK KARTU (Tambahan Baru) ───── */
+/* ── WRAPPER GRID SLIDER (Semua Paket) ─────────────── */
+.journey-slider-wrapper {
+	position: relative;
+	width: 100%;
+}
+
 .pkg-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+	grid-auto-flow: column;
+	/* 2 kartu per layar, gap 32px */
+	grid-auto-columns: calc(50% - 16px);
 	gap: 32px;
 	width: 100%;
+
+	overflow-x: auto;
+	overflow-y: hidden;
+	scroll-snap-type: x mandatory;
+	-webkit-overflow-scrolling: touch;
+
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+.pkg-grid::-webkit-scrollbar {
+	display: none;
 }
 
 /* ── KARTU EDITORIAL (KIRI-KANAN) ────────────────────── */
@@ -141,12 +159,57 @@
 	max-height: 520px;
 }
 
-/* Selang-seling Kiri dan Kanan */
-.pkg-card:nth-child(even) {
-	direction: rtl; /* Membalik arah grid (gambar jadi di kanan) */
+/* ── STYLE TOMBOL PANAH MENGAPIT KARTU ─────────────── */
+.slider-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+
+	width: 52px;
+	height: 52px;
+	background: #1a1008;
+	border: 1px solid var(--gold);
+	color: var(--gold);
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	outline: none;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
-.pkg-card:nth-child(even) > * {
-	direction: ltr; /* Mengembalikan arah baca teks menjadi normal */
+
+.slider-btn.prev-btn {
+	left: -26px;
+}
+.slider-btn.next-btn {
+	right: -26px;
+}
+
+.slider-btn:hover {
+	background: var(--gold);
+	color: var(--cream);
+	transform: translateY(-50%) scale(1.05);
+	box-shadow: 0 6px 20px rgba(196, 163, 90, 0.3);
+}
+
+.slider-btn svg {
+	width: 24px;
+	height: 24px;
+}
+
+@media (max-width: 992px) {
+	/* Paksa 1 kartu per layar di HP */
+	.pkg-grid {
+		grid-auto-columns: 100%;
+	}
+	/* Sembunyikan tombol panah di HP agar bisa di-swipe saja */
+	.slider-btn {
+		display: none;
+	}
 }
 
 /* ── VISUAL GAMBAR (Terkunci Proporsional) ───────────── */
