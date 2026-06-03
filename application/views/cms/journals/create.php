@@ -18,6 +18,8 @@
     </div>
 <?php endif; ?>
 
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
 <div class="card shadow mb-4 border-left-primary">
     <div class="card-body">
         <form action="<?= base_url('journals/create') ?>" method="POST" enctype="multipart/form-data">
@@ -27,10 +29,24 @@
                         <label class="form-label font-weight-bold">Judul Artikel <span class="text-danger">*</span></label>
                         <input type="text" class="form-control form-control-lg" name="title" value="<?= set_value('title') ?>" required placeholder="Masukkan judul yang menarik...">
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label font-weight-bold">Tags / Label</label>
-                        <input type="text" class="form-control" name="tags" value="<?= set_value('tags') ?>" placeholder="Contoh: Umroh, Inspirasi, Kajian (pisahkan dengan koma)">
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold">Kategori <span class="text-danger">*</span></label>
+                            <select class="form-select form-control" name="category_id" required>
+                                <option value="">-- Pilih Kategori --</option>
+                                <?php foreach ($categories as $cat): ?>
+                                    <option value="<?= $cat->id ?>" <?= set_select('category_id', $cat->id) ?>><?= htmlspecialchars($cat->name) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold">Tags / Label</label>
+                            <input type="text" class="form-control" name="tags" value="<?= set_value('tags') ?>" placeholder="Ketik tag lalu tekan enter/koma...">
+                            <small class="text-muted d-block mt-1">Tekan Enter atau Koma untuk memisahkan Tag.</small>
+                        </div>
                     </div>
+
                     <div class="mb-4">
                         <label class="form-label font-weight-bold">Isi Artikel (Konten) <span class="text-danger">*</span></label>
                         <textarea class="form-control" name="content" id="content" rows="15"><?= set_value('content') ?></textarea>
@@ -60,3 +76,12 @@
         </form>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script>
+    // Inisialisasi Tagify agar data tetap dikonversi jadi Comma-Separated String
+    var inputTags = document.querySelector('input[name=tags]');
+    new Tagify(inputTags, {
+        originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+    });
+</script>

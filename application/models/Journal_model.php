@@ -5,29 +5,43 @@ class Journal_model extends CI_Model
 {
     protected $table = 'journals';
 
+    // [BARU] Fungsi memanggil kategori untuk dropdown Form
+    public function get_categories()
+    {
+        return $this->db->get('journal_categories')->result();
+    }
+
     public function get_all()
     {
-        return $this->db->order_by('created_at', 'DESC')->get($this->table)->result();
+        // [PEMBARUAN] Sub-query jumlah komentar dan JOIN nama kategori
+        $this->db->select('journals.*, journal_categories.name as category_name, (SELECT COUNT(id) FROM journal_comments WHERE journal_id = journals.id) as comment_count');
+        $this->db->join('journal_categories', 'journal_categories.id = journals.category_id', 'left');
+        return $this->db->order_by('journals.created_at', 'DESC')->get($this->table)->result();
     }
 
     public function get_published($limit = NULL)
     {
-        $this->db->where('status', 'Published')->order_by('created_at', 'DESC');
+        $this->db->select('journals.*, journal_categories.name as category_name');
+        $this->db->join('journal_categories', 'journal_categories.id = journals.category_id', 'left');
+        $this->db->where('journals.status', 'Published')->order_by('journals.created_at', 'DESC');
         if ($limit) $this->db->limit($limit);
         return $this->db->get($this->table)->result();
     }
 
-    // [BARU] Mengambil data artikel khusus milik author (kontributor) tertentu
     public function get_by_author($author_id)
     {
-        return $this->db->where('author_id', $author_id)
-            ->order_by('created_at', 'DESC')
-            ->get($this->table)->result();
+        // [PEMBARUAN] Sub-query jumlah komentar untuk Kontributor
+        $this->db->select('journals.*, journal_categories.name as category_name, (SELECT COUNT(id) FROM journal_comments WHERE journal_id = journals.id) as comment_count');
+        $this->db->join('journal_categories', 'journal_categories.id = journals.category_id', 'left');
+        $this->db->where('journals.author_id', $author_id);
+        return $this->db->order_by('journals.created_at', 'DESC')->get($this->table)->result();
     }
 
     public function get_by_slug($slug)
     {
-        return $this->db->where('slug', $slug)->where('status', 'Published')->get($this->table)->row();
+        $this->db->select('journals.*, journal_categories.name as category_name');
+        $this->db->join('journal_categories', 'journal_categories.id = journals.category_id', 'left');
+        return $this->db->where('journals.slug', $slug)->where('journals.status', 'Published')->get($this->table)->row();
     }
 
     public function get_by_id($id)

@@ -61,6 +61,7 @@ $route['journals/index']         = 'cms/journals/index'; // [TAMBAHAN] Untuk Pag
 $route['journals/create']        = 'cms/journals/create';
 $route['journals/edit/(:any)']   = 'cms/journals/edit/$1';
 $route['journals/delete/(:any)'] = 'cms/journals/delete/$1';
+$route['journals/all_comments'] = 'cms/journals/all_comments';
 
 // [TAMBAHAN BARU: Rute Fitur Komentar Jurnal]
 $route['journals/comments/(:any)']                       = 'cms/journals/comments/$1';
@@ -112,51 +113,51 @@ $route['fashion']               = 'Fashion/index';
 $route['contact']               = 'Contact/index';
 $route['contact/send']          = 'Contact/send';
 
-/*
-|--------------------------------------------------------------------------
-| 3. RUTE ADMIN LAMA (IHWAN)
-|--------------------------------------------------------------------------
-| Dibiarkan untuk kompatibilitas jika masih digunakan
-*/
-$route['admin']                         = 'Admin/dashboard';
-$route['admin/login']                   = 'Admin/login';
-$route['admin/logout']                  = 'Admin/logout';
-$route['admin/dashboard']               = 'Admin/dashboard';
+// /*
+// |--------------------------------------------------------------------------
+// | 3. RUTE ADMIN LAMA (IHWAN)
+// |--------------------------------------------------------------------------
+// | Dibiarkan untuk kompatibilitas jika masih digunakan
+// */
+// $route['admin']                         = 'Admin/dashboard';
+// $route['admin/login']                   = 'Admin/login';
+// $route['admin/logout']                  = 'Admin/logout';
+// $route['admin/dashboard']               = 'Admin/dashboard';
 
-// Journey CMS (Lama)
-$route['admin/journey']                 = 'Admin_Journey/index';
-$route['admin/journey/create']          = 'Admin_Journey/create';
-$route['admin/journey/store']           = 'Admin_Journey/store';
-$route['admin/journey/edit/(:num)']     = 'Admin_Journey/edit/$1';
-$route['admin/journey/update/(:num)']   = 'Admin_Journey/update/$1';
-$route['admin/journey/delete/(:num)']   = 'Admin_Journey/delete/$1';
+// // Journey CMS (Lama)
+// $route['admin/journey']                 = 'Admin_Journey/index';
+// $route['admin/journey/create']          = 'Admin_Journey/create';
+// $route['admin/journey/store']           = 'Admin_Journey/store';
+// $route['admin/journey/edit/(:num)']     = 'Admin_Journey/edit/$1';
+// $route['admin/journey/update/(:num)']   = 'Admin_Journey/update/$1';
+// $route['admin/journey/delete/(:num)']   = 'Admin_Journey/delete/$1';
 
-// Journal CMS
-$route['admin/journal']                 = 'Admin_Journal/index';
-$route['admin/journal/create']          = 'Admin_Journal/create';
-$route['admin/journal/store']           = 'Admin_Journal/store';
-$route['admin/journal/edit/(:num)']     = 'Admin_Journal/edit/$1';
-$route['admin/journal/update/(:num)']   = 'Admin_Journal/update/$1';
-$route['admin/journal/delete/(:num)']   = 'Admin_Journal/delete/$1';
+// // Journal CMS
+// $route['admin/journal']                 = 'Admin_Journal/index';
+// $route['admin/journal/create']          = 'Admin_Journal/create';
+// $route['admin/journal/store']           = 'Admin_Journal/store';
+// $route['admin/journal/edit/(:num)']     = 'Admin_Journal/edit/$1';
+// $route['admin/journal/update/(:num)']   = 'Admin_Journal/update/$1';
+// $route['admin/journal/delete/(:num)']   = 'Admin_Journal/delete/$1';
 
-// Fashion CMS
-$route['admin/fashion']                 = 'Admin_Fashion/index';
-$route['admin/fashion/create']          = 'Admin_Fashion/create';
-$route['admin/fashion/store']           = 'Admin_Fashion/store';
-$route['admin/fashion/edit/(:num)']     = 'Admin_Fashion/edit/$1';
-$route['admin/fashion/update/(:num)']   = 'Admin_Fashion/update/$1';
-$route['admin/fashion/delete/(:num)']   = 'Admin_Fashion/delete/$1';
+// // Fashion CMS
+// $route['admin/fashion']                 = 'Admin_Fashion/index';
+// $route['admin/fashion/create']          = 'Admin_Fashion/create';
+// $route['admin/fashion/store']           = 'Admin_Fashion/store';
+// $route['admin/fashion/edit/(:num)']     = 'Admin_Fashion/edit/$1';
+// $route['admin/fashion/update/(:num)']   = 'Admin_Fashion/update/$1';
+// $route['admin/fashion/delete/(:num)']   = 'Admin_Fashion/delete/$1';
 
-// Gallery CMS
-$route['admin/gallery']                 = 'Admin_Gallery/index';
-$route['admin/gallery/create']          = 'Admin_Gallery/create';
-$route['admin/gallery/store']           = 'Admin_Gallery/store';
-$route['admin/gallery/delete/(:num)']   = 'Admin_Gallery/delete/$1';
+// // Gallery CMS
+// $route['admin/gallery']                 = 'Admin_Gallery/index';
+// $route['admin/gallery/create']          = 'Admin_Gallery/create';
+// $route['admin/gallery/store']           = 'Admin_Gallery/store';
+// $route['admin/gallery/delete/(:num)']   = 'Admin_Gallery/delete/$1';
 
-// Leads
-$route['admin/leads']                   = 'Admin_Leads/index';
-$route['admin/leads/delete/(:num)']     = 'Admin_Leads/delete/$1';
+// // Leads
+// $route['admin/leads']                   = 'Admin_Leads/index';
+// $route['admin/leads/delete/(:num)']     = 'Admin_Leads/delete/$1';
 
-// SEO
-$route['admin/seo']                     = 'Admin_Seo/index';
-$route['admin/seo/update']              = 'Admin_Seo/update';
+// // SEO
+// $route['admin/seo']                     = 'Admin_Seo/index';
+// $route['admin/seo/update']              = 'Admin_Seo/update';

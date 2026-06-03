@@ -30,10 +30,10 @@
                     <tr>
                         <th width="5%" class="text-center">No</th>
                         <th width="15%" class="text-center">Sampul</th>
-                        <th>Judul Artikel</th>
+                        <th>Judul & Meta</th>
                         <th width="15%" class="text-center">Tanggal Dibuat</th>
                         <th width="10%" class="text-center">Status</th>
-                        <th width="15%" class="text-center">Aksi</th>
+                        <th width="18%" class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                                 </td>
                                 <td>
                                     <strong><?= htmlspecialchars($j->title) ?></strong><br>
-                                    <small class="text-muted">Slug: <?= htmlspecialchars($j->slug) ?></small><br>
+                                    <small class="text-muted">Kategori: <strong><?= htmlspecialchars($j->category_name ?? 'Tanpa Kategori') ?></strong></small><br>
                                     <?php if (!empty($j->tags)): ?>
                                         <small class="text-info"><i class="fas fa-tags mr-1"></i> <?= htmlspecialchars($j->tags) ?></small>
                                     <?php endif; ?>
@@ -67,7 +67,15 @@
                                     <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <a href="<?= base_url('journals/comments/' . $j->id) ?>" class="btn btn-sm btn-secondary mb-1" title="Kelola Komentar"><i class="fas fa-comments"></i></a>
+                                    <a href="<?= base_url('journals/comments/' . $j->id) ?>" class="btn btn-sm btn-secondary mb-1 position-relative" title="Kelola Komentar">
+                                        <i class="fas fa-comments"></i>
+                                        <?php if (isset($j->comment_count) && $j->comment_count > 0): ?>
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
+                                                <?= $j->comment_count ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </a>
+
                                     <a href="<?= base_url('journals/edit/' . $j->id) ?>" class="btn btn-sm btn-info text-white mb-1" title="Edit"><i class="fas fa-edit"></i></a>
                                     <a href="<?= base_url('journals/delete/' . $j->id) ?>" class="btn btn-sm btn-danger mb-1" title="Hapus" onclick="return confirm('Yakin ingin menghapus artikel ini secara permanen?');"><i class="fas fa-trash"></i></a>
                                 </td>

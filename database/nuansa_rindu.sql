@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Jun 2026 pada 17.22
+-- Waktu pembuatan: 03 Jun 2026 pada 18.57
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -194,6 +194,7 @@ INSERT INTO `homepage_settings` (`id`, `show_journey`, `show_fashion`, `is_slide
 CREATE TABLE `journals` (
   `id` int(11) NOT NULL,
   `author_id` int(11) NOT NULL DEFAULT 1,
+  `category_id` int(11) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `tags` varchar(255) DEFAULT NULL COMMENT 'Pisahkan dengan koma',
@@ -208,14 +209,35 @@ CREATE TABLE `journals` (
 -- Dumping data untuk tabel `journals`
 --
 
-INSERT INTO `journals` (`id`, `author_id`, `title`, `slug`, `tags`, `content`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Persiapan Spiritual Sebelum Berangkat Umroh', 'persiapan-spiritual-sebelum-berangkat-umroh', 'Persiapan, Spiritual, Umroh', '<p>Melakukan ibadah umroh bukan hanya tentang kesiapan fisik dan finansial, tetapi yang paling utama adalah kesiapan hati dan spiritual.</p><p>Berikut adalah beberapa hal yang perlu dipersiapkan...</p>', 'fea44d70ee14490b2c8958fb7ec3f205.jpg', 'Published', '2026-05-25 21:22:30', '2026-06-02 17:51:02'),
-(2, 1, 'Cara Menjaga Kesehatan Selama di Mekkah', 'cara-menjaga-kesehatan-selama-di-mekkah', 'Kesehatan, Cuaca, Tips Mekkah', '<p>Menjaga hidrasi adalah kunci utama. Pastikan Anda selalu membawa botol minum sendiri dan meminum air zam-zam secara teratur. Cuaca yang panas di Mekkah bisa menyebabkan dehidrasi dengan cepat jika kita tidak waspada. Jangan lupa gunakan pelembap bibir dan <i>sunblock</i>.</p>', '70396676c20915fc9ab5f92c99deaebb.jpg', 'Published', '2026-05-26 09:15:00', '2026-06-02 17:49:43'),
-(3, 2, 'Mengapa Madinah Selalu Dirindukan?', 'mengapa-madinah-selalu-dirindukan', 'Madinah, Inspirasi, Rindu', '<p>Kota Madinah Al-Munawwarah selalu memiliki tempat khusus di hati para jamaah. Ketenangan yang merasuk ke dalam jiwa saat menginjakkan kaki di pelataran Masjid Nabawi tidak bisa diungkapkan dengan kata-kata.</p><p>Banyak ulama mengatakan bahwa Madinah adalah kota di mana hati merasa pulang. Di sinilah letak makam manusia paling mulia, Rasulullah SAW.</p>', '889d609a568c2585b2bdf762578fa4f3.jpg', 'Published', '2026-05-27 10:00:00', '2026-06-02 18:05:44'),
-(4, 1, 'Mengenal Sejarah Hajar Aswad', 'mengenal-sejarah-hajar-aswad', 'Sejarah, Mekkah, Hajar Aswad', '<p>Hajar Aswad adalah batu hitam yang terletak di sudut timur Ka\'bah. Mencium atau menyentuh Hajar Aswad adalah sunnah bagi jamaah yang sedang melakukan Thawaf.</p><p>Sejarah mencatat bahwa Hajar Aswad diturunkan langsung dari surga dan awalnya berwarna sangat putih, namun menghitam karena dosa-dosa manusia.</p>', 'bb0d6d2a41d5be4e6e96d7aeff0efad0.jpg', 'Published', '2026-05-28 14:30:00', '2026-06-02 18:05:03'),
-(5, 4, 'Tips Memilih Paket Umroh yang Tepat untuk Keluarga', 'tips-memilih-paket-umroh-yang-tepat-untuk-keluarga', 'Tips, Paket Umroh, Keluarga', '<p>Membawa keluarga, terutama anak-anak atau orang tua yang sudah lanjut usia untuk beribadah umroh membutuhkan pertimbangan khusus.</p><p>Pertama, pastikan jarak hotel ke masjid tidak terlalu jauh. Kedua, perhatikan jadwal maskapai penerbangan agar jamaah lansia bisa beristirahat dengan baik selama perjalanan.</p>', 'a49766e5db341f49063a4ff2a10dc195.jpg', 'Published', '2026-05-29 09:15:00', '2026-06-02 18:03:56'),
-(6, 1, 'Keutamaan Shalat di Hijir Ismail', 'keutamaan-shalat-di-hijir-ismail', 'Mekkah, Fiqih, Ka\'bah', '<p>Hijir Ismail adalah area setengah lingkaran yang berada di sebelah utara Ka\'bah. Tahukah Anda bahwa shalat di dalam Hijir Ismail hukumnya sama dengan shalat di dalam Ka\'bah?</p><p>Oleh karena itu, area ini selalu dipenuhi oleh jamaah yang ingin memanjatkan doa-doa khusus mereka.</p>', '21c76722c8507b073194e2350f495268.jpg', 'Published', '2026-05-30 11:00:00', '2026-06-02 18:02:29'),
-(7, 2, 'Pengalaman Umroh di Bulan Ramadhan', 'pengalaman-umroh-di-bulan-ramadhan', 'Ramadhan, Umroh, Inspirasi', '<p>Nabi Muhammad SAW bersabda, \"Umroh di bulan Ramadhan pahalanya sama dengan menunaikan haji bersamaku.\"</p><p>Suasana berbuka puasa bersama jutaan umat muslim dari seluruh dunia di pelataran Masjidil Haram adalah pengalaman spiritual puncak yang akan terus membekas seumur hidup.</p>', '941996bbdf39a18f1f7f194d216b1059.jpg', 'Published', '2026-06-01 16:45:00', '2026-06-02 18:00:48');
+INSERT INTO `journals` (`id`, `author_id`, `category_id`, `title`, `slug`, `tags`, `content`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 'Persiapan Spiritual Sebelum Berangkat Umroh', 'persiapan-spiritual-sebelum-berangkat-umroh', 'Persiapan, Spiritual, Umroh', '<p>Melakukan ibadah umroh bukan hanya tentang kesiapan fisik dan finansial, tetapi yang paling utama adalah kesiapan hati dan spiritual.</p><p>Berikut adalah beberapa hal yang perlu dipersiapkan...</p>', 'fea44d70ee14490b2c8958fb7ec3f205.jpg', 'Published', '2026-05-25 21:22:30', '2026-06-02 17:51:02'),
+(2, 1, 2, 'Cara Menjaga Kesehatan Selama di Mekkah', 'cara-menjaga-kesehatan-selama-di-mekkah', 'Kesehatan, Cuaca, Tips Mekkah', '<p>Menjaga hidrasi adalah kunci utama. Pastikan Anda selalu membawa botol minum sendiri dan meminum air zam-zam secara teratur. Cuaca yang panas di Mekkah bisa menyebabkan dehidrasi dengan cepat jika kita tidak waspada. Jangan lupa gunakan pelembap bibir dan <i>sunblock</i>.</p>', '70396676c20915fc9ab5f92c99deaebb.jpg', 'Published', '2026-05-26 09:15:00', '2026-06-02 17:49:43'),
+(3, 2, 1, 'Mengapa Madinah Selalu Dirindukan?', 'mengapa-madinah-selalu-dirindukan', 'Madinah, Inspirasi, Rindu', '<p>Kota Madinah Al-Munawwarah selalu memiliki tempat khusus di hati para jamaah. Ketenangan yang merasuk ke dalam jiwa saat menginjakkan kaki di pelataran Masjid Nabawi tidak bisa diungkapkan dengan kata-kata.</p><p>Banyak ulama mengatakan bahwa Madinah adalah kota di mana hati merasa pulang. Di sinilah letak makam manusia paling mulia, Rasulullah SAW.</p>', '889d609a568c2585b2bdf762578fa4f3.jpg', 'Published', '2026-05-27 10:00:00', '2026-06-02 18:05:44'),
+(4, 1, 3, 'Mengenal Sejarah Hajar Aswad', 'mengenal-sejarah-hajar-aswad', 'Sejarah, Mekkah, Hajar Aswad', '<p>Hajar Aswad adalah batu hitam yang terletak di sudut timur Ka\'bah. Mencium atau menyentuh Hajar Aswad adalah sunnah bagi jamaah yang sedang melakukan Thawaf.</p><p>Sejarah mencatat bahwa Hajar Aswad diturunkan langsung dari surga dan awalnya berwarna sangat putih, namun menghitam karena dosa-dosa manusia.</p>', 'bb0d6d2a41d5be4e6e96d7aeff0efad0.jpg', 'Published', '2026-05-28 14:30:00', '2026-06-02 18:05:03'),
+(5, 4, 2, 'Tips Memilih Paket Umroh yang Tepat untuk Keluarga', 'tips-memilih-paket-umroh-yang-tepat-untuk-keluarga', 'Tips, Paket Umroh, Keluarga', '<p>Membawa keluarga, terutama anak-anak atau orang tua yang sudah lanjut usia untuk beribadah umroh membutuhkan pertimbangan khusus.</p><p>Pertama, pastikan jarak hotel ke masjid tidak terlalu jauh. Kedua, perhatikan jadwal maskapai penerbangan agar jamaah lansia bisa beristirahat dengan baik selama perjalanan.</p>', 'a49766e5db341f49063a4ff2a10dc195.jpg', 'Published', '2026-05-29 09:15:00', '2026-06-02 18:03:56'),
+(6, 1, 3, 'Keutamaan Shalat di Hijir Ismail', 'keutamaan-shalat-di-hijir-ismail', 'Mekkah, Fiqih, Ka\'bah', '<p>Hijir Ismail adalah area setengah lingkaran yang berada di sebelah utara Ka\'bah. Tahukah Anda bahwa shalat di dalam Hijir Ismail hukumnya sama dengan shalat di dalam Ka\'bah?</p><p>Oleh karena itu, area ini selalu dipenuhi oleh jamaah yang ingin memanjatkan doa-doa khusus mereka.</p>', '21c76722c8507b073194e2350f495268.jpg', 'Published', '2026-05-30 11:00:00', '2026-06-02 18:02:29'),
+(7, 2, 1, 'Pengalaman Umroh di Bulan Ramadhan', 'pengalaman-umroh-di-bulan-ramadhan', 'Ramadhan, Umroh, Inspirasi', '<p>Nabi Muhammad SAW bersabda, \"Umroh di bulan Ramadhan pahalanya sama dengan menunaikan haji bersamaku.\"</p><p>Suasana berbuka puasa bersama jutaan umat muslim dari seluruh dunia di pelataran Masjidil Haram adalah pengalaman spiritual puncak yang akan terus membekas seumur hidup.</p>', '941996bbdf39a18f1f7f194d216b1059.jpg', 'Published', '2026-06-01 16:45:00', '2026-06-02 18:00:48');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `journal_categories`
+--
+
+CREATE TABLE `journal_categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `journal_categories`
+--
+
+INSERT INTO `journal_categories` (`id`, `name`, `slug`) VALUES
+(1, 'Inspirasi & Hikmah', 'inspirasi-hikmah'),
+(2, 'Tips & Panduan Umroh', 'tips-panduan-umroh'),
+(3, 'Sejarah & Kajian Islam', 'sejarah-kajian-islam');
 
 -- --------------------------------------------------------
 
@@ -242,13 +264,16 @@ CREATE TABLE `journal_comments` (
 INSERT INTO `journal_comments` (`id`, `journal_id`, `parent_id`, `name`, `email`, `comment`, `is_admin_reply`, `status`, `created_at`) VALUES
 (1, 1, NULL, 'Bapak Santoso', 'santoso.b@email.com', 'Artikel yang sangat bermanfaat. Apakah ada sesi manasik khusus untuk mematangkan persiapan ini?', 0, 'Approved', '2026-05-28 08:30:00'),
 (2, 1, 1, 'Admin Nuansa Rindu', 'admin@nuansarindu.id', 'Terima kasih Bapak Santoso. Betul, kami menyediakan sesi manasik eksklusif sebanyak 3 kali sebelum keberangkatan.', 1, 'Approved', '2026-05-28 09:00:00'),
-(3, 2, NULL, 'Ibu Aminah', 'aminah.siti@email.com', 'Tipsnya sangat membantu, kebetulan saya punya riwayat asma, apakah obat bawaan boleh masuk ke kabin?', 0, 'Pending', '2026-05-29 07:15:00'),
-(4, 3, NULL, 'Fatimah Az-Zahra', 'fatimah.azz@email.com', 'MasyaAllah, membaca artikel ini membuat kerinduan ke Madinah semakin membuncah. Semoga tahun depan bisa kembali bersama Nuansa Rindu.', 0, 'Approved', '2026-05-28 07:10:00'),
-(5, 3, 4, 'Admin Nuansa Rindu', 'administrator@nuansarindu.id', 'Aamiin Yaa Rabbal \'Alamin. Kami senantiasa mendoakan dan menantikan kehadiran Ibu Fatimah kembali di baitullah.', 1, 'Approved', '2026-05-28 08:05:00'),
-(6, 4, NULL, 'Rizky Fadillah', 'rizky.fadillah@email.com', 'Apakah sangat sulit untuk mencium Hajar Aswad saat musim umroh biasa?', 0, 'Approved', '2026-05-29 10:20:00'),
-(7, 4, 6, 'Admin Nuansa Rindu', 'superadmin@nuansarindu.id', 'Halo Bapak Rizky. Kondisinya fluktuatif, namun pembimbing kami (Muthawwif) akan selalu membantu mencarikan celah waktu terbaik bagi jamaah yang memiliki fisik mumpuni untuk mencoba.', 1, 'Approved', '2026-05-29 11:15:00'),
-(8, 5, NULL, 'Keluarga Hermanto', 'hermanto.fam@email.com', 'Kebetulan kami berencana umroh membawa ibu yang menggunakan kursi roda. Apakah paket Classic sudah cukup ramah lansia?', 0, 'Pending', '2026-05-30 09:00:00'),
-(9, 7, NULL, 'Anisa Nabilah', 'anisa.nab@email.com', 'Saya pernah merasakan umroh Ramadhan, dan memang suasananya sangat magis. Artikel yang bagus!', 0, 'Rejected', '2026-06-02 08:30:00');
+(3, 1, 2, 'Bapak Santoso', 'santoso.b@email.com', 'Alhamdulillah, lokasinya di mana ya min untuk manasiknya? Dan apakah boleh membawa keluarga yang tidak ikut berangkat?', 0, 'Approved', '2026-05-28 10:15:00'),
+(4, 1, 3, 'Admin Nuansa Rindu', 'admin@nuansarindu.id', 'Lokasi manasik biasanya diadakan di aula kantor pusat kami atau di hotel rekanan terdekat, Pak. Untuk keluarga diperbolehkan ikut mendampingi.', 1, 'Approved', '2026-05-28 10:45:00'),
+(5, 1, 4, 'Bapak Santoso', 'santoso.b@email.com', 'Baik, terima kasih banyak informasinya. Sangat membantu.', 0, 'Pending', '2026-05-28 11:00:00'),
+(6, 2, NULL, 'Ibu Aminah', 'aminah.siti@email.com', 'Tipsnya sangat membantu, kebetulan saya punya riwayat asma, apakah obat bawaan boleh masuk ke kabin pesawat?', 0, 'Pending', '2026-05-29 07:15:00'),
+(7, 2, NULL, 'Promo Umroh Murah', 'spam@email.com', 'Jual obat herbal kuat stamina umroh murah meriah klik link ini...', 0, 'Rejected', '2026-05-29 08:00:00'),
+(8, 3, NULL, 'Fatimah Az-Zahra', 'fatimah.azz@email.com', 'MasyaAllah, membaca artikel ini membuat kerinduan ke Madinah semakin membuncah. Semoga tahun depan bisa kembali bersama Nuansa Rindu.', 0, 'Approved', '2026-05-28 07:10:00'),
+(9, 3, 8, 'Kontributor (Admin)', 'kontributor@nuansarindu.id', 'Aamiin Yaa Rabbal \'Alamin. Kami senantiasa mendoakan dan menantikan kehadiran Ibu Fatimah kembali di baitullah.', 1, 'Approved', '2026-05-28 08:05:00'),
+(10, 4, NULL, 'Rizky Fadillah', 'rizky.fadillah@email.com', 'Apakah sangat sulit untuk mencium Hajar Aswad saat musim umroh biasa?', 0, 'Approved', '2026-05-29 10:20:00'),
+(11, 4, 10, 'Admin Nuansa Rindu', 'superadmin@nuansarindu.id', 'Halo Bapak Rizky. Kondisinya fluktuatif, namun pembimbing kami (Muthawwif) akan selalu membantu mencarikan celah waktu terbaik.', 1, 'Approved', '2026-05-29 11:15:00'),
+(12, 4, NULL, 'Hamba Allah', 'hamba@email.com', 'Bismillah, semoga Allah mudahkan saya dan keluarga tahun depan bisa mendaftar paket Sacred Journey.', 0, 'Pending', '2026-05-30 09:00:00');
 
 -- --------------------------------------------------------
 
@@ -304,7 +329,9 @@ INSERT INTO `leads_consultation` (`id`, `client_name`, `whatsapp_number`, `packa
 (32, 'Aura Mutiara', '081311223344', 'Rindu Signature', NULL, '2026-05-27 18:25:46'),
 (33, 'Anang Hidayat', '082133445566', NULL, NULL, '2026-05-27 18:25:46'),
 (34, 'Shanti Permata', '089633445566', 'Rindu Private', NULL, '2026-05-27 18:25:46'),
-(35, 'Ivan Setiadi', '081155667788', 'Rindu Classic', NULL, '2026-05-27 18:25:46');
+(35, 'Ivan Setiadi', '081155667788', 'Rindu Classic', NULL, '2026-05-27 18:25:46'),
+(36, 'Rusman', '62812345678910', '', '', '2026-06-03 15:31:18'),
+(37, 'Rusman', '62812345678910', '', 'tes pesan', '2026-06-03 15:31:46');
 
 -- --------------------------------------------------------
 
@@ -422,6 +449,12 @@ ALTER TABLE `journals`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `journal_categories`
+--
+ALTER TABLE `journal_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `journal_comments`
 --
 ALTER TABLE `journal_comments`
@@ -498,16 +531,22 @@ ALTER TABLE `journals`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT untuk tabel `journal_categories`
+--
+ALTER TABLE `journal_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT untuk tabel `journal_comments`
 --
 ALTER TABLE `journal_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `leads_consultation`
 --
 ALTER TABLE `leads_consultation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `packages`

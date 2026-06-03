@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Komentar: <?= htmlspecialchars($journal->title) ?></h1>
+    <h1 class="h3 mb-0 text-gray-800">Thread Komentar: <?= htmlspecialchars($journal->title) ?></h1>
     <a href="<?= base_url('journals') ?>" class="btn btn-sm btn-secondary shadow-sm">&larr; Kembali</a>
 </div>
 
@@ -11,66 +11,91 @@
 <?php endif; ?>
 
 <div class="card shadow mb-4">
-    <div class="card-body">
-        <?php if (!empty($comments)): foreach ($comments as $c): ?>
+    <div class="card-body bg-light">
+        <?php
+        // ==============================================================
+        // FUNGSI REKURSIF UNTUK MENAMPILKAN PERCAKAPAN MENGALIR (THREAD)
+        // ==============================================================
+        if (!function_exists('render_comment_tree')) {
+            function render_comment_tree($comments, $journal_id, $parent_id = NULL, $level = 0)
+            {
+                // Konfigurasi indentasi margin kiri (max menjorok 5 level agar tidak terlalu sempit)
+                $margin_left = $level > 0 ? min($level * 3, 15) . 'rem' : '0';
 
-                <?php if ($c->is_admin_reply == 0): ?>
-                    <div class="border rounded p-3 mb-3 bg-light">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div>
-                                <strong class="text-primary"><?= htmlspecialchars($c->name) ?></strong>
-                                <small class="text-muted ml-2"><?= date('d M Y H:i', strtotime($c->created_at)) ?></small>
+                $has_children = false;
+
+                foreach ($comments as $c):
+                    if ($c->parent_id == $parent_id):
+                        $has_children = true;
+
+                        // Gaya visual (Warna border & latar) untuk membedakan Admin dan Klien
+                        $bg_class = $c->is_admin_reply ? 'bg-white border-info' : 'bg-white border-secondary';
+                        $text_color = $c->is_admin_reply ? 'text-info' : 'text-primary';
+                        $icon = $c->is_admin_reply ? '<i class="fas fa-user-shield me-1"></i> ' : '';
+        ?>
+
+                        <div class="border rounded p-3 mb-3 shadow-sm <?= $bg_class ?>" style="margin-left: <?= $margin_left ?>; border-left-width: 4px !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <strong class="<?= $text_color ?>"><?= $icon . htmlspecialchars($c->name) ?></strong>
+                                    <small class="text-muted ml-2"><i class="far fa-clock"></i> <?= date('d M Y H:i', strtotime($c->created_at)) ?></small>
+                                </div>
+                                <div>
+                                    <?php if ($c->status == 'Pending'): ?>
+                                        <span class="badge bg-warning text-dark">Menunggu Persetujuan</span>
+                                    <?php elseif ($c->status == 'Approved'): ?>
+                                        <span class="badge bg-success">Tayang</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-danger">Ditolak</span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <div>
-                                <?php if ($c->status == 'Pending'): ?>
-                                    <span class="badge bg-warning text-dark">Menunggu Persetujuan</span>
-                                <?php elseif ($c->status == 'Approved'): ?>
-                                    <span class="badge bg-success">Tayang</span>
-                                <?php else: ?>
-                                    <span class="badge bg-danger">Ditolak</span>
+
+                            <p class="mb-2 text-dark" style="font-size: 0.95rem;"><?= nl2br(htmlspecialchars($c->comment)) ?></p>
+
+                            <div class="mt-3">
+                                <?php if ($c->status == 'Pending' || $c->status == 'Rejected'): ?>
+                                    <a href="<?= base_url('journals/approve_comment/' . $c->id . '/' . $journal_id . '/Approved') ?>" class="btn btn-sm btn-success">Setujui & Tayangkan</a>
                                 <?php endif; ?>
+                                <?php if ($c->status == 'Pending' || $c->status == 'Approved'): ?>
+                                    <a href="<?= base_url('journals/approve_comment/' . $c->id . '/' . $journal_id . '/Rejected') ?>" class="btn btn-sm btn-warning">Sembunyikan (Tolak)</a>
+                                <?php endif; ?>
+
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#replyBox<?= $c->id ?>">Balas</button>
+                                <a href="<?= base_url('journals/delete_comment/' . $c->id . '/' . $journal_id) ?>" class="btn btn-sm btn-outline-danger float-end" onclick="return confirm('Hapus permanen komentar ini dan seluruh balasan di bawahnya?');">Hapus</a>
+                            </div>
+
+                            <div class="collapse mt-3" id="replyBox<?= $c->id ?>">
+                                <form action="<?= base_url('journals/reply_comment/' . $journal_id) ?>" method="POST">
+                                    <input type="hidden" name="parent_id" value="<?= $c->id ?>">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="reply_message" placeholder="Ketik balasan Anda..." required>
+                                        <button class="btn btn-primary" type="submit"><i class="fas fa-paper-plane"></i> Kirim</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <p class="mb-2"><?= nl2br(htmlspecialchars($c->comment)) ?></p>
 
-                        <div class="mt-3">
-                            <?php if ($c->status == 'Pending' || $c->status == 'Rejected'): ?>
-                                <a href="<?= base_url('journals/approve_comment/' . $c->id . '/' . $journal->id . '/Approved') ?>" class="btn btn-sm btn-success">Setujui & Tayangkan</a>
-                            <?php endif; ?>
-                            <?php if ($c->status == 'Pending' || $c->status == 'Approved'): ?>
-                                <a href="<?= base_url('journals/approve_comment/' . $c->id . '/' . $journal->id . '/Rejected') ?>" class="btn btn-sm btn-warning">Sembunyikan (Tolak)</a>
-                            <?php endif; ?>
-                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#replyBox<?= $c->id ?>">Balas Komentar</button>
-                            <a href="<?= base_url('journals/delete_comment/' . $c->id . '/' . $journal->id) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus permanen komentar ini?');">Hapus</a>
-                        </div>
+        <?php
+                        // !!! [INTI REKURSIF] Panggil kembali fungsi ini untuk mencari anak dari komentar ini !!!
+                        render_comment_tree($comments, $journal_id, $c->id, $level + 1);
 
-                        <div class="collapse mt-3" id="replyBox<?= $c->id ?>">
-                            <form action="<?= base_url('journals/reply_comment/' . $journal->id) ?>" method="POST">
-                                <input type="hidden" name="parent_id" value="<?= $c->id ?>">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="reply_message" placeholder="Ketik balasan Anda..." required>
-                                    <button class="btn btn-primary" type="submit">Kirim Balasan</button>
-                                </div>
-                            </form>
-                        </div>
+                    endif;
+                endforeach;
 
-                        <?php foreach ($comments as $reply): ?>
-                            <?php if ($reply->parent_id == $c->id): ?>
-                                <div class="mt-3 ml-4 p-2 pl-3 border-left border-primary" style="background: #fff;">
-                                    <strong class="text-success"><i class="fas fa-reply mr-1"></i> <?= htmlspecialchars($reply->name) ?></strong>
-                                    <small class="text-muted ml-2"><?= date('d M Y H:i', strtotime($reply->created_at)) ?></small>
-                                    <p class="mb-1 mt-1"><?= nl2br(htmlspecialchars($reply->comment)) ?></p>
-                                    <a href="<?= base_url('journals/delete_comment/' . $reply->id . '/' . $journal->id) ?>" class="text-danger small" onclick="return confirm('Hapus balasan ini?');">Hapus Balasan</a>
-                                </div>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
+                return $has_children;
+            }
+        }
 
-                    </div>
-                <?php endif; ?>
-
-            <?php endforeach;
-        else: ?>
-            <div class="text-center py-4 text-muted">Belum ada komentar pada artikel ini.</div>
-        <?php endif; ?>
+        // ==============================================================
+        // MULAI EKSEKUSI PEMANGGILAN DARI ROOT (parent_id = NULL)
+        // ==============================================================
+        if (!empty($comments)) {
+            render_comment_tree($comments, $journal->id, NULL, 0);
+        } else {
+            echo '<div class="text-center py-5 text-muted"><i class="fas fa-comment-slash fa-3x mb-3 text-gray-300"></i><br>Belum ada komentar pada artikel ini.</div>';
+        }
+        ?>
     </div>
 </div>

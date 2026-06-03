@@ -26,10 +26,22 @@
             if (isset($allowed_modules) && in_array($mod_key, $allowed_modules)):
         ?>
                 <li class="nav-item">
-                    <a href="<?= base_url($mod_key) ?>" class="nav-link <?= ($this->uri->segment(1) == $mod_key) ? 'active' : '' ?>">
+                    <a href="<?= base_url($mod_key) ?>" class="nav-link <?= ($this->uri->segment(1) == $mod_key && $this->uri->segment(2) != 'all_comments') ? 'active' : '' ?>">
                         <i class="fas fa-fw <?= $mod_data['icon'] ?> me-3"></i> <?= $mod_data['label'] ?>
                     </a>
                 </li>
+
+                <?php
+                // [BARU] Menambahkan Sub-Menu Khusus untuk Jurnal (Semua Komentar)
+                if ($mod_key === 'journals'):
+                ?>
+                    <li class="nav-item">
+                        <a href="<?= base_url('journals/all_comments') ?>" class="nav-link <?= ($this->uri->segment(2) == 'all_comments') ? 'active' : '' ?>" style="padding-left: 2.8rem; font-size: 0.85rem;">
+                            <i class="fas fa-fw fa-comments me-2"></i> Semua Komentar
+                        </a>
+                    </li>
+                <?php endif; ?>
+
         <?php endif;
         endforeach; ?>
 

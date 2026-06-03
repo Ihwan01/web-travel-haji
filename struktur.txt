@@ -16,15 +16,19 @@ D:.
 |   |   index.html
 |   |   
 |   +---cache
+|   |       ci_session03nlsdhocus2tko6r91k056nmc834oh6
 |   |       ci_session0ndfe6pmt9thqrgf412hgjhm54nalnls
 |   |       ci_session0qd8kds0huco6v9jta0okpb50bbkcnnd
+|   |       ci_session0rapqodn49cqucanismrmsvf618qqeqe
 |   |       ci_session0rok1kj48benresqkgjinru5ploubetn
+|   |       ci_session10s34fdbvplusiech42gdc1g35b5qhbg
 |   |       ci_session12gm7s1qj2pn3f93gf3aa061vb6fs7pi
 |   |       ci_session1958os7rkm7ifgbd2o3du9q13cjmsdg0
 |   |       ci_session2t1j5ihnruj7vl7g9m9k69do22kn4ap5
 |   |       ci_session347p319unirekbrptgmlqah5h5vivi73
 |   |       ci_session3fpsjsofsvj21113qf90rjq7uje9r8hi
 |   |       ci_session3ovf1n0kacvtbib93001s85q5u6u3pq0
+|   |       ci_session5i2nni5uk0r6nom3j5lev76894dc798b
 |   |       ci_session5kj140cbq6rcq26ii5rsrd90g7254tv6
 |   |       ci_session615o706bnhjuq2i7edcnip4osn3m2mum
 |   |       ci_session6315s76e5up9c319lgrrffud722f1da0
@@ -32,18 +36,25 @@ D:.
 |   |       ci_session6hlpkkbqt7jfanfmivv9vqpt98g8k12m
 |   |       ci_session6q86517er203bdr1bp6mglqsn6ki4obj
 |   |       ci_session6tcck64bfq6nfsfutarfnhh7m7i7gltq
+|   |       ci_session72ne4bil32iu0mlt4brqe8b25p1jl5hu
 |   |       ci_session76c2vd22dofal7p9gmkjldb545gh5ie6
 |   |       ci_session7kcv8mumgra5jar44sg9rkr46v40mrdj
 |   |       ci_session7obnqk2af1l7ei338hp70r6ki5heo1u2
+|   |       ci_session87570h7q3os41nts9umja1mgtvvk6r8s
 |   |       ci_session8c06o3vnp5q2ch940dg4v14pbefl4cig
 |   |       ci_session8fuke8ev2mi953buli4vfmucks0hmiia
 |   |       ci_session8m1u04au1bf081l7uo3lckksjnf4j6i0
 |   |       ci_session8td65qjpj4fsm9vo3eop5fb0t549o0na
+|   |       ci_session94efk88amus0qngo81rqs5siot30n2u3
 |   |       ci_session97kf266cg7q8e4m1c0q0ii8hke02hne3
 |   |       ci_session9a9vlg9pc5llhv94osuip42slloq7qa4
+|   |       ci_session9c1lufsf6c8mjj2omf2a692fcj9gb3pk
 |   |       ci_session9dr6ooi3ru6bmbfphbe5bjhf0tcsh22t
 |   |       ci_session9fsk6s4c68j4dhfl2bjg4u3jjh35833o
 |   |       ci_session9m8pmbipf7nbusnnsj3e9la87t7klrsd
+|   |       ci_session9ob73775rdg1rg1ccicuosor6kth2bsg
+|   |       ci_sessionaam7d78uahai18gv93218oqo3t75hbd9
+|   |       ci_sessionamuh8blk3ho6jsr77um5741lhunp9u62
 |   |       ci_sessionbd6e1o10600b1as9mnkbm0h644dm6020
 |   |       ci_sessionc4ueler4pc8mh0jtk4orhost0u9v3jd4
 |   |       ci_sessionc8acu0k13r7io32cl08kj94p9i8bgkmu
@@ -56,26 +67,38 @@ D:.
 |   |       ci_sessionel18ebeam05ls4l7ifr6jmquk88dcvpg
 |   |       ci_sessionels5670rf9nlq4224udheflapvvir88m
 |   |       ci_sessioner297pjsjkgka2bl0pddtnkebgemd31o
+|   |       ci_sessionf2u07705tfnqc47hvc41iee0q6ccfhre
 |   |       ci_sessionf4bev7sk49fpoof374vl4e96aah0evld
+|   |       ci_sessionf58t11imnnc5jhgtaueg1ubt204qe3hn
 |   |       ci_sessiong4b4dsnrckfpp7canrm4e7cb0uorghmt
 |   |       ci_sessiongei9eqkb0famukvnbskq27ojkl931ufu
+|   |       ci_sessionh5k38e091qgdj4k2fhdk2fi79of2ofcq
 |   |       ci_sessionhldg01rh9e7smui7dql63pb8f0opraa0
+|   |       ci_sessionhq523ip0jp3h01pf0l946ldk6ccmql3v
+|   |       ci_sessionhrl56vu2fkpi5psd8k3u2adlj77rsnbb
 |   |       ci_sessioni8a6p2625auq0ul2vh0epah77rjb6gpp
 |   |       ci_sessionig6g90p10rrh7tcknrhd80t2jrvrnafq
 |   |       ci_sessionitp7b29ir94dtvfcrd2vcmrm5ddb1bgn
+|   |       ci_sessionj6tnk1712rtj29ej5g65rroktinilq5a
 |   |       ci_sessionjca7vnuk2jrds6jpilaaf6pl2vtljco0
 |   |       ci_sessionjftb184pgh5knl6u3jano377r2se20b7
 |   |       ci_sessionjh2ne8m5o8vt2duo4rg7c6n0o3o8uql4
+|   |       ci_sessionjog7apset2o3no3nfb5lhdvjduc0jgqe
 |   |       ci_sessionjs5r3t5rsu76hdef4dmqh0u4s39mcuag
+|   |       ci_sessionk6iivg1pldqnfsrikhfld7qehrmlml6c
 |   |       ci_sessionkdachgvmh0nspqe1bq7vf3m037q6mlt9
 |   |       ci_sessionkjgbproinc2pdthf9fv6elsd54b19vfg
+|   |       ci_sessionkk0fi125r1g4tq0tskl2pqb1jg77o8hh
 |   |       ci_sessionkk5c4d66dquhsq240cvtotmpkdam66h8
 |   |       ci_sessionlhp48udbtqk2n1qq8najq6cnalkfeptn
+|   |       ci_sessionm17qdqb5siuo4vcpatoli2p38nogrkbl
 |   |       ci_sessionm1q0pjq85t63122cn9re8351ja9hgmoo
 |   |       ci_sessionmg38mlraij2mame8thn09k7m6hettiqi
+|   |       ci_sessionmgqfdtfft5nff0t0gps7srlo82qf1dkr
 |   |       ci_sessionmtm9gffjut29e464sgt87ps7d9o6ifj6
 |   |       ci_sessionn2pfufh90vcn5pfpk6j4pm8q5d3irqnn
 |   |       ci_sessionnp8a3fhimdr5uonn520vjp8gmg2fsm20
+|   |       ci_sessiono067l852oa2j9h92v6i2ei1cr16tl39n
 |   |       ci_sessiono3d8ninla0ero0nonvi1covc599bshhu
 |   |       ci_sessionoic4e3ekcpjv913fbbuboioureea7m1o
 |   |       ci_sessionordm27tjrqlkrro3sacfadperfk5t4t2
@@ -83,14 +106,22 @@ D:.
 |   |       ci_sessionp9baclcbeenh7p64puacb0g4223dah83
 |   |       ci_sessionpiicnvno7pho7fov234nsr3cos009d43
 |   |       ci_sessionpjhnaa0lvablbg5c3rkr83n89jq2cr7g
+|   |       ci_sessionpnrk8efm1ioisktuda7o4ueb5jnffb3s
+|   |       ci_sessionqgt6ganhajpr4486bfd7mnpesn7rth11
+|   |       ci_sessionqn7h3qlbbrh9vu29h8072a8d73ialnmt
+|   |       ci_sessionqsr9t22cb600btmud94jg2qldktpp33g
+|   |       ci_sessionrmrqb30mimlbfu6fmlg1f5mlgkbl0ie1
 |   |       ci_sessionrs0j37i908kv71bv70qqutmu30ueqohg
 |   |       ci_sessions438guofllbqk7mmuq3733cu10gumj6f
+|   |       ci_sessions4v9lfgjs8m1iminjg741vplju3ndijb
 |   |       ci_sessionsp6ago23akb9moogb5cgmo63n0214mo0
 |   |       ci_sessionsrsjrj3k5um7a3spsuar53jedp7ummu2
 |   |       ci_sessiont0e7eavshtq4b04k1p8e6ufokq19llgn
+|   |       ci_sessiont51s6rol37t9akt7usilvef2g8l8e6un
 |   |       ci_sessiont645ll2m7qc2ntvtblf5i0h2jsufvbr9
 |   |       ci_sessiont905danoh18t5vsj6qdc06q6ot8se4o7
 |   |       ci_sessionta5q12j7udjpk5huhlvc5kqe41q2hn7q
+|   |       ci_sessiontb2cp342p2e4ki80mrob54p2rsh4hr3b
 |   |       ci_sessiontgt0tmlpu163nrstkqc05nefc0pk48lt
 |   |       ci_sessionu5h2sah82kvckutf8lekr1imjd72u9nr
 |   |       ci_sessionunlirbb74dh543g98gb1n4ntrg19mloa
@@ -118,7 +149,6 @@ D:.
 |   |       
 |   +---controllers
 |   |   |   About.php
-|   |   |   Admin.php
 |   |   |   Contact.php
 |   |   |   Fashion.php
 |   |   |   Gallery.php
@@ -186,21 +216,6 @@ D:.
 |       +---about
 |       |       index.php
 |       |       
-|       +---admin
-|       |   |   dashboard.php
-|       |   |   login.php
-|       |   |   
-|       |   +---journal
-|       |   |       form.php
-|       |   |       index.php
-|       |   |       
-|       |   +---journey
-|       |   |       form.php
-|       |   |       index.php
-|       |   |       
-|       |   \---leads
-|       |           index.php
-|       |           
 |       +---cms
 |       |   +---auth
 |       |   |       forgot_password.php
@@ -296,11 +311,7 @@ D:.
 |       |       detail.php
 |       |       index.php
 |       |       
-|       +---layout
-|       |       header.php
-|       |       
 |       +---layouts
-|       |       admin.php
 |       |       main.php
 |       |       
 |       \---partials
@@ -323,6 +334,7 @@ D:.
 |   |       style.css
 |   |       
 |   +---images
+|   |       70396676c20915fc9ab5f92c99deaebb.jpg
 |   |       Logo-tulisan.png
 |   |       Logo.png
 |   |       
@@ -330,13 +342,33 @@ D:.
 |   |       main.js
 |   |       
 |   \---uploads
+|       +---fashions
+|       |       6a1f020eeee22_1780417038_0.jpg
+|       |       6a1f023601522_1780417078_0.jpg
+|       |       6a1f0266698cf_1780417126_0.jpg
+|       |       6a1f02e6b3b16_1780417254_0.jpg
+|       |       6a1f03afb3be9_1780417455_0.jpg
+|       |       6a1f03afc0f53_1780417455_1.jpg
+|       |       
 |       +---gallery
 |       |   \---photos
 |       |           6a1eed6c68e14_1780411756.jpg
+|       |           6a1eff81a382e_1780416385.jpg
+|       |           6a1f0134a3915_1780416820.jpg
+|       |           6a1f01487edd2_1780416840.jpg
+|       |           6a1f0173890a9_1780416883.jpg
+|       |           6a1f019a326f5_1780416922.jpg
 |       |           
 |       +---journals
+|       |       21c76722c8507b073194e2350f495268.jpg
+|       |       70396676c20915fc9ab5f92c99deaebb.jpg
+|       |       889d609a568c2585b2bdf762578fa4f3.jpg
+|       |       941996bbdf39a18f1f7f194d216b1059.jpg
+|       |       a49766e5db341f49063a4ff2a10dc195.jpg
+|       |       bb0d6d2a41d5be4e6e96d7aeff0efad0.jpg
 |       |       d25c0e8a4536faafb5727dadda52a254.jpg
 |       |       d4158661cac2e423bc719d10e1740044.jpg
+|       |       fea44d70ee14490b2c8958fb7ec3f205.jpg
 |       |       
 |       +---packages
 |       |       29218be97a15abd18459038905187599.jpg

@@ -16,11 +16,9 @@ class Journals extends Admin_Controller
     {
         $data['title'] = 'Manajemen Artikel | CMS';
 
-        // Kontributor hanya melihat artikel miliknya di tabel
+        // Kontributor hanya melihat artikel miliknya di tabel (menggunakan fungsi model yang sudah diupdate)
         if ($this->data['role_id'] == 3) {
-            $data['journals'] = $this->db->where('author_id', $this->data['admin_id'])
-                ->order_by('created_at', 'DESC')
-                ->get('journals')->result();
+            $data['journals'] = $this->Journal_model->get_by_author($this->data['admin_id']);
         } else {
             $data['journals'] = $this->Journal_model->get_all();
         }
@@ -32,8 +30,10 @@ class Journals extends Admin_Controller
     {
         $this->restrict_action('journals', 'create');
         $data['title'] = 'Tulis Artikel Baru | CMS';
+        $data['categories'] = $this->Journal_model->get_categories(); // Ambil Data Kategori
 
         $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
+        $this->form_validation->set_rules('category_id', 'Kategori', 'required|numeric');
         $this->form_validation->set_rules('tags', 'Tags', 'trim');
         $this->form_validation->set_rules('content', 'Konten Artikel', 'required');
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[Draft,Published]');
@@ -42,13 +42,14 @@ class Journals extends Admin_Controller
             $this->render('cms/journals/create', $data);
         } else {
             $save_data = [
-                'author_id'  => $this->data['admin_id'],
-                'title'      => $this->input->post('title', TRUE),
-                'tags'       => $this->input->post('tags', TRUE),
-                'slug'       => url_title($this->input->post('title', TRUE), 'dash', TRUE),
-                'content'    => $this->input->post('content'),
-                'status'     => $this->input->post('status', TRUE),
-                'created_at' => date('Y-m-d H:i:s')
+                'author_id'   => $this->data['admin_id'],
+                'category_id' => $this->input->post('category_id', TRUE),
+                'title'       => $this->input->post('title', TRUE),
+                'tags'        => $this->input->post('tags', TRUE),
+                'slug'        => url_title($this->input->post('title', TRUE), 'dash', TRUE),
+                'content'     => $this->input->post('content'),
+                'status'      => $this->input->post('status', TRUE),
+                'created_at'  => date('Y-m-d H:i:s')
             ];
 
             if (!empty($_FILES['image']['name'])) {
@@ -76,12 +77,13 @@ class Journals extends Admin_Controller
             redirect('journals');
         }
 
-        // [GEMBOK AKTIF] Cek apakah Kontributor mengedit miliknya sendiri
         $this->restrict_action('journals', 'edit', $data['journal']->author_id);
 
         $data['title'] = 'Edit Artikel: ' . $data['journal']->title;
+        $data['categories'] = $this->Journal_model->get_categories();
 
         $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
+        $this->form_validation->set_rules('category_id', 'Kategori', 'required|numeric');
         $this->form_validation->set_rules('tags', 'Tags', 'trim');
         $this->form_validation->set_rules('content', 'Konten Artikel', 'required');
 
@@ -89,12 +91,13 @@ class Journals extends Admin_Controller
             $this->render('cms/journals/edit', $data);
         } else {
             $update_data = [
-                'title'      => $this->input->post('title', TRUE),
-                'tags'       => $this->input->post('tags', TRUE),
-                'slug'       => url_title($this->input->post('title', TRUE), 'dash', TRUE),
-                'content'    => $this->input->post('content'),
-                'status'     => $this->input->post('status', TRUE),
-                'updated_at' => date('Y-m-d H:i:s')
+                'category_id' => $this->input->post('category_id', TRUE),
+                'title'       => $this->input->post('title', TRUE),
+                'tags'        => $this->input->post('tags', TRUE),
+                'slug'        => url_title($this->input->post('title', TRUE), 'dash', TRUE),
+                'content'     => $this->input->post('content'),
+                'status'      => $this->input->post('status', TRUE),
+                'updated_at'  => date('Y-m-d H:i:s')
             ];
 
             if (!empty($_FILES['image']['name'])) {
@@ -121,7 +124,6 @@ class Journals extends Admin_Controller
     {
         $journal = $this->Journal_model->get_by_id($id);
         if ($journal) {
-            // [GEMBOK AKTIF] Cek apakah Kontributor menghapus miliknya sendiri
             $this->restrict_action('journals', 'delete', $journal->author_id);
 
             if ($journal->image && file_exists(FCPATH . 'assets/uploads/journals/' . $journal->image)) {
@@ -133,11 +135,13 @@ class Journals extends Admin_Controller
         redirect('journals');
     }
 
+    // ===============================================
+    // MANAJEMEN KOMENTAR (PER ARTIKEL & GLOBAL)
+    // ===============================================
+
     public function comments($journal_id)
     {
         $data['journal'] = $this->Journal_model->get_by_id($journal_id);
-
-        // [GEMBOK AKTIF] Anggap manajemen komentar sama dengan izin edit jurnal
         $this->restrict_action('journals', 'edit', $data['journal']->author_id);
 
         $data['title']    = 'Kelola Komentar: ' . $data['journal']->title;
@@ -146,11 +150,68 @@ class Journals extends Admin_Controller
         $this->render('cms/journals/comments', $data);
     }
 
+    public function all_comments()
+    {
+        $data['title'] = 'Semua Komentar (Global) | CMS';
+
+        // Menangkap parameter dari URL (GET)
+        $status = $this->input->get('status') ?: 'all';
+        $limit  = $this->input->get('limit') ?: 10;
+        $page   = $this->input->get('page') ?: 0;
+
+        $author_id = ($this->data['role_id'] == 3) ? $this->data['admin_id'] : null;
+
+        // Menyimpan status untuk dipertahankan di Form Dropdown
+        $data['current_status'] = $status;
+        $data['current_limit']  = $limit;
+
+        // Konfigurasi Paginasi
+        $this->load->library('pagination');
+        $config['base_url']             = base_url('journals/all_comments');
+        $config['total_rows']           = $this->Journal_comment_model->count_all_paginated($status, $author_id);
+        $config['per_page']             = $limit;
+        $config['page_query_string']    = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['reuse_query_string']   = TRUE; // Pertahankan filter saat ganti halaman
+
+        // Styling Paginasi (Bootstrap 5)
+        $config['full_tag_open']   = '<ul class="pagination justify-content-center m-0">';
+        $config['full_tag_close']  = '</ul>';
+        $config['first_link']      = 'Pertama';
+        $config['last_link']       = 'Terakhir';
+        $config['first_tag_open']  = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['prev_link']       = '&laquo;';
+        $config['prev_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close']  = '</span></li>';
+        $config['next_link']       = '&raquo;';
+        $config['next_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close']  = '</span></li>';
+        $config['last_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close']  = '</span></li>';
+        $config['cur_tag_open']    = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']   = '</span></li>';
+        $config['num_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']   = '</span></li>';
+
+        $this->pagination->initialize($config);
+
+        $data['comments']   = $this->Journal_comment_model->get_paginated_comments($limit, $page, $status, $author_id);
+        $data['pagination'] = $this->pagination->create_links();
+        $data['total_rows'] = $config['total_rows'];
+
+        $this->render('cms/journals/all_comments', $data);
+    }
+
     public function approve_comment($comment_id, $journal_id, $status)
     {
-        // Gembok otomatis diamankan melalui fungsi comments() karena UI tidak akan tampil
         $this->Journal_comment_model->update_status($comment_id, $status);
         $this->session->set_flashdata('success_message', 'Status komentar berhasil diubah.');
+
+        // Pengecekan Referrer
+        if ($this->input->get('ref') == 'all') {
+            redirect('journals/all_comments');
+        }
         redirect('journals/comments/' . $journal_id);
     }
 
@@ -167,6 +228,10 @@ class Journals extends Admin_Controller
 
         $this->Journal_comment_model->insert($reply_data);
         $this->session->set_flashdata('success_message', 'Balasan berhasil dikirim dan ditayangkan.');
+
+        if ($this->input->post('ref') == 'all') {
+            redirect('journals/all_comments');
+        }
         redirect('journals/comments/' . $journal_id);
     }
 
@@ -174,6 +239,10 @@ class Journals extends Admin_Controller
     {
         $this->Journal_comment_model->delete($comment_id);
         $this->session->set_flashdata('success_message', 'Komentar berhasil dihapus.');
+
+        if ($this->input->get('ref') == 'all') {
+            redirect('journals/all_comments');
+        }
         redirect('journals/comments/' . $journal_id);
     }
 
