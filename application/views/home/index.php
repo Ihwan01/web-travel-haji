@@ -75,69 +75,57 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     </section>
 <?php endif; ?>
 
-<section class="why-section" id="about">
-    <p class="section-label reveal">Mengapa Memilih Nuansa Rindu</p>
-
-    <div class="why-grid">
-        <div class="reveal">
-            <h2 class="why-intro-heading">
-                <?= $set->about_title ?? "Lebih dari perjalanan,<br>ini tentang<br><em style=\"font-style:italic; color:var(--gold);\">pulang.</em>" ?>
+<section class="about-section" id="about">
+    <div class="about-grid">
+        
+        <div class="about-text-side reveal">
+            <div class="about-subtitle">
+                TENTANG NUANSA RINDU <span class="subtitle-line"></span>
+            </div>
+            
+            <h2 class="about-title">
+                <?= $set->about_title ?? "Lebih dari perjalanan,<br>ini tentang pulang." ?>
             </h2>
-            <p class="why-intro-text mb-4">
-                <?= htmlspecialchars($set->about_desc ?? 'Setiap detail kami rancang bukan untuk memenuhi itinerary, tetapi untuk merawat hati Anda sepanjang perjalanan.') ?>
-            </p>
+            
+            <div class="about-desc">
+                <p>Kami percaya setiap langkah menuju Baitullah adalah rindu yang menemukan jalan pulang.</p>
+                <p>Nuansa Rindu bukan sekadar perjalanan, tapi pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.</p>
+            </div>
+            
+            <a href="<?= base_url('about') ?>" class="about-link">
+                ABOUT US 
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1" fill="none">
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <polyline points="14 6 20 12 14 18"></polyline>
+                </svg>
+            </a>
+        </div>
 
-            <?php if (!empty($set->about_media)):
-                $is_about_link = (strpos($set->about_media, 'http') === 0);
+        <div class="about-visual-side reveal delay-1">
+            <?php 
+                // Menampung link video dari CMS (jika sudah ada nanti)
+                $video_link = !empty($set->about_media) ? $set->about_media : '#';
+                
+                // Menampung gambar thumbnail (gunakan dummy bg-classic jika CMS kosong)
+                $thumbnail = !empty($set->about_video_thumbnail) ? base_url($set->about_video_thumbnail) : ''; 
             ?>
-                <?php if ($set->about_media_type == 'Video'): ?>
-                    <div class="about-media-wrapper mt-4 position-relative" style="cursor: pointer;" data-lightbox data-type="Video" data-src="<?= $set->about_media ?>">
-                        <?php if (!empty($set->about_video_thumbnail)): ?>
-                            <img src="<?= base_url($set->about_video_thumbnail) ?>" alt="Video Cover" class="img-fluid rounded shadow" style="width:100%; height:auto; object-fit: cover;">
-                        <?php else: ?>
-                            <div class="bg-dark text-white rounded d-flex align-items-center justify-content-center" style="height:250px;"><i class="fas fa-play-circle fa-3x"></i></div>
-                        <?php endif; ?>
-                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
-                            <svg width="60" height="60" viewBox="0 0 24 24" fill="white" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">
-                                <polygon points="5,3 19,12 5,21" />
-                            </svg>
-                        </div>
-                    </div>
+            
+            <div class="about-video-wrap" data-lightbox data-type="Video" data-src="<?= $video_link ?>">
+                <?php if ($thumbnail): ?>
+                    <img src="<?= $thumbnail ?>" alt="Tentang Nuansa Rindu" class="about-video-img">
                 <?php else: ?>
-                    <div class="about-media-wrapper mt-4">
-                        <img src="<?= $is_about_link ? $set->about_media : base_url($set->about_media) ?>" alt="Tentang Nuansa Rindu" class="img-fluid rounded shadow" style="width:100%; height:auto;">
-                    </div>
+                    <div class="about-video-img fallback-bg"></div>
                 <?php endif; ?>
-            <?php endif; ?>
+
+                <div class="play-btn-overlay">
+                    <div class="play-btn-circle">
+                        <svg viewBox="0 0 24 24"><polygon points="9,6 18,12 9,18" /></svg>
+                    </div>
+                    <span class="play-btn-text">PLAY OUR STORY</span>
+                </div>
+            </div>
         </div>
 
-        <div class="why-items">
-            <div class="why-item reveal delay-1">
-                <div class="why-item-number">01</div>
-                <h3 class="why-item-title">Kenyamanan Perjalanan</h3>
-                <p class="why-item-desc">Akomodasi eksklusif, transportasi nyaman, dan layanan concierge yang merawat setiap kebutuhan Anda.</p>
-            </div>
-            <div class="why-item reveal delay-2">
-                <div class="why-item-number">02</div>
-                <h3 class="why-item-title">Emotional Experience</h3>
-                <p class="why-item-desc">Setiap momen dirancang untuk menyentuh hati — bukan sekadar mengunjungi, tapi merasakan dan menghayati.</p>
-            </div>
-            <div class="why-item reveal delay-3">
-                <div class="why-item-number">03</div>
-                <h3 class="why-item-title">Cinematic Documentation</h3>
-                <p class="why-item-desc">Perjalanan Anda diabadikan dengan pendekatan sinematik — sebuah kenangan yang layak untuk dirasakan ulang.</p>
-            </div>
-            <div class="why-item reveal delay-4">
-                <div class="why-item-number">04</div>
-                <h3 class="why-item-title">Fashion Identity</h3>
-                <p class="why-item-desc">Seragam jamaah yang kami rancang bukan hanya soal penampilan, tapi tentang identitas dan keanggunan spiritual.</p>
-            </div>
-            <div class="why-item reveal delay-1">
-                <div class="why-item-number">05</div>
-                <h3 class="why-item-title">Ketenangan Ibadah</h3>
-                <p class="why-item-desc">Pembimbing profesional dan jadwal yang terstruktur memberi Anda ruang untuk fokus sepenuhnya pada ibadah.</p>
-            </div>
-        </div>
     </div>
 </section>
 
