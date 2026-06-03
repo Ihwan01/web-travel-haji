@@ -118,51 +118,61 @@
 	background: rgba(196, 163, 90, 0.12);
 }
 
-/* Package card editorial */
-.pkg-card-visual {
-	position: relative;
+/* ── WRAPPER GRID UTAMA UNTUK KARTU (Tambahan Baru) ───── */
+.pkg-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+	gap: 32px;
 	width: 100%;
-
-	/* PILIHAN A: Menggunakan Aspect Ratio Kotak Sinematik (Direkomendasikan) */
-	aspect-ratio: 16 / 10;
-
-	/* PILIHAN B: Jika ingin tinggi tetap, matikan aspect-ratio di atas dan aktifkan ini: */
-	/* height: 280px; */
-
-	overflow: hidden;
-	background-color: #1a1008; /* Background dasar jika gambar lambat dimuat */
 }
+
+/* ── KARTU EDITORIAL (KIRI-KANAN) ────────────────────── */
 .pkg-card {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 0;
-	margin-bottom: 3px;
+	grid-template-columns: 1fr 1fr; /* Membagi layar tepat 50:50 */
+	background: var(--warm);
+	margin-bottom: 4px;
 	overflow: hidden;
-	min-height: 460px;
 	cursor: pointer;
 	text-decoration: none;
 	color: inherit;
-}
-.pkg-card:nth-child(even) {
-	direction: rtl;
-}
-.pkg-card:nth-child(even) > * {
-	direction: ltr;
+	/* Memberikan batasan tinggi agar kartu tidak melar ke bawah */
+	min-height: 420px;
+	max-height: 520px;
 }
 
+/* Selang-seling Kiri dan Kanan */
+.pkg-card:nth-child(even) {
+	direction: rtl; /* Membalik arah grid (gambar jadi di kanan) */
+}
+.pkg-card:nth-child(even) > * {
+	direction: ltr; /* Mengembalikan arah baca teks menjadi normal */
+}
+
+/* ── VISUAL GAMBAR (Terkunci Proporsional) ───────────── */
 .pkg-card-visual {
 	position: relative;
+	width: 100%;
+	height: 100%;
 	overflow: hidden;
+	background-color: #1a1008;
 }
+
 .pkg-card-img {
+	position: absolute; /* Kunci absolut agar gambar tidak memengaruhi tinggi card */
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.7s ease;
+	object-position: center;
+	transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
+
 .pkg-card:hover .pkg-card-img {
-	transform: scale(1.04);
+	transform: scale(1.05);
 }
+
 .pkg-card-visual-overlay {
 	position: absolute;
 	inset: 0;
@@ -173,69 +183,101 @@
 	background: rgba(26, 5, 0, 0.05);
 }
 
-/* bg fallbacks */
-.pkg-bg-classic {
-	background: linear-gradient(160deg, #a8c4b8, #4a7b6a, #2a4a3a);
-}
-.pkg-bg-signature {
-	background: linear-gradient(160deg, #3b2a1a, #6b4c32, #2a1a0a);
-}
-.pkg-bg-private {
-	background: linear-gradient(160deg, #b8a882, #8a6848, #3a2818);
-}
-.pkg-bg-sacred {
-	background: linear-gradient(160deg, #9a8060, #c4a35a, #3b2a1a);
-}
-
+/* ── AREA TEKS (Fluid Padding & Typography) ──────────── */
 .pkg-card-info {
-	background: var(--warm);
-	padding: 56px 52px;
+	/* KUNCI UTAMA: Padding mengecil otomatis saat layar laptop menyusut */
+	padding: clamp(32px, 5vw, 64px) clamp(32px, 6vw, 72px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
+
 .pkg-card-collection {
 	font-size: 0.6rem;
 	letter-spacing: 0.24em;
 	text-transform: uppercase;
 	color: var(--gold);
-	margin-bottom: 18px;
+	margin-bottom: 12px;
 }
+
 .pkg-card-name {
 	font-family: var(--font-display);
-	font-size: clamp(1.8rem, 3vw, 2.6rem);
+	/* Ukuran font otomatis mengecil dari 2.6rem ke 1.8rem mengikuti layar */
+	font-size: clamp(1.8rem, 3.5vw, 2.6rem);
 	font-weight: 300;
 	color: var(--brown);
 	line-height: 1.15;
-	margin-bottom: 20px;
+	margin-bottom: 8px;
 }
+
 .pkg-card-tagline {
 	font-family: var(--font-display);
-	font-size: 1.05rem;
+	font-size: clamp(0.9rem, 1.5vw, 1.05rem);
 	font-style: italic;
 	color: var(--muted);
-	margin-bottom: 24px;
-	line-height: 1.5;
+	margin-bottom: 20px;
 }
+
 .pkg-card-desc {
 	font-size: 0.82rem;
 	color: var(--muted);
 	line-height: 1.85;
-	margin-bottom: 36px;
-	max-width: 380px;
+	margin-bottom: 28px;
+
+	/* Mencegah teks terlalu panjang merusak layout di layar 10" */
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 }
+
 .pkg-card-price {
 	font-family: var(--font-display);
 	font-size: 1.4rem;
 	color: var(--brown);
-	margin-bottom: 32px;
+	margin-bottom: 24px;
 }
-.pkg-card-price small {
-	font-family: var(--font-body);
-	font-size: 0.65rem;
-	color: var(--muted);
-	letter-spacing: 0.1em;
-	margin-left: 6px;
+
+.detail-link {
+	font-size: 0.7rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--gold);
+	margin-top: auto; /* Mengunci link selalu di bawah jika ruang tersisa */
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.detail-link::after {
+	content: "→";
+	transition: transform 0.3s ease;
+}
+.pkg-card:hover .detail-link::after {
+	transform: translateX(4px);
+}
+
+/* ── RESPONSIVE UNTUK TABLET & HP ────────────────────── */
+/* Saat layar menyentuh 992px (Tablet / Laptop sangat kecil) 
+   Desain Kiri-Kanan dimatikan dan diubah menjadi Atas-Bawah */
+@media (max-width: 992px) {
+	.pkg-card {
+		grid-template-columns: 1fr; /* 1 Kolom (Gambar atas, teks bawah) */
+		max-height: none; /* Lepas batas tinggi */
+	}
+
+	/* Matikan efek bolak-balik (RTL) */
+	.pkg-card:nth-child(even),
+	.pkg-card:nth-child(even) > * {
+		direction: ltr;
+	}
+
+	.pkg-card-visual {
+		aspect-ratio: 16 / 9; /* Tinggi gambar terkunci cantik seperti video */
+	}
+
+	.pkg-card-info {
+		padding: 40px 32px; /* Kembalikan padding ke statis untuk mobile */
+	}
 }
 
 /* ── JOURNEY DETAIL ───────────────────────────────────── */
