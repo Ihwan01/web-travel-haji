@@ -12,12 +12,13 @@ $query_builder = TRUE;
 
 if (ENVIRONMENT === 'development') {
     // 1. KONFIGURASI UNTUK LOKAL (XAMPP / KOMPUTER ANDA)
+    // Konfigurasi LOKAL -> REMOTE MYSQL HOSTINGER
     $db['default'] = array(
         'dsn'      => '',
-        'hostname' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'database' => 'nuansa_rindu',
+        'hostname' => 'srv1866.hstgr.io',
+        'username' => 'u930669699_nuansarindu',
+        'password' => 'Q7m!4vP2#zL8sT9@kR6xN1$h',
+        'database' => 'u930669699_nuansarindu',
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,
