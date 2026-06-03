@@ -51,7 +51,7 @@
         </a>
         <ul class="footer-nav">
             <li><a href="<?= base_url('journey') ?>">Journey</a></li>
-            <li><a href="<?= base_url('gallery') ?>">Film & Gallery</a></li>
+            <li><a href="<?= base_url('gallery') ?>">Experience</a></li>
             <li><a href="<?= base_url('fashion') ?>">Fashion</a></li>
             <li><a href="<?= base_url('about') ?>">About</a></li>
             <li><a href="<?= base_url('journal') ?>">Journal</a></li>

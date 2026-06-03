@@ -6,7 +6,7 @@
 
     <!-- ── HERO ───────────────────────────────────────── -->
     <div class="gallery-hero">
-        <p class="section-label">Film & Gallery</p>
+        <p class="section-label">Experience</p>
         <div class="gallery-hero-inner">
             <h1 class="gallery-hero-title">
                 Momen yang terasa,<br>bukan sekadar terlihat.

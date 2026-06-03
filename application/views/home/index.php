@@ -219,7 +219,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     </div>
 
     <div style="margin-top:48px; text-align:center;">
-        <a href="<?= base_url('gallery') ?>" class="arrow-link light" style="margin:0 auto;">Lihat Semua Film & Gallery</a>
+        <a href="<?= base_url('gallery') ?>" class="arrow-link light" style="margin:0 auto;">Lihat Semua Experience</a>
     </div>
 </section>
 
