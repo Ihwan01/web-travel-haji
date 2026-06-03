@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Jun 2026 pada 18.57
+-- Waktu pembuatan: 03 Jun 2026 pada 20.08
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -273,7 +273,10 @@ INSERT INTO `journal_comments` (`id`, `journal_id`, `parent_id`, `name`, `email`
 (9, 3, 8, 'Kontributor (Admin)', 'kontributor@nuansarindu.id', 'Aamiin Yaa Rabbal \'Alamin. Kami senantiasa mendoakan dan menantikan kehadiran Ibu Fatimah kembali di baitullah.', 1, 'Approved', '2026-05-28 08:05:00'),
 (10, 4, NULL, 'Rizky Fadillah', 'rizky.fadillah@email.com', 'Apakah sangat sulit untuk mencium Hajar Aswad saat musim umroh biasa?', 0, 'Approved', '2026-05-29 10:20:00'),
 (11, 4, 10, 'Admin Nuansa Rindu', 'superadmin@nuansarindu.id', 'Halo Bapak Rizky. Kondisinya fluktuatif, namun pembimbing kami (Muthawwif) akan selalu membantu mencarikan celah waktu terbaik.', 1, 'Approved', '2026-05-29 11:15:00'),
-(12, 4, NULL, 'Hamba Allah', 'hamba@email.com', 'Bismillah, semoga Allah mudahkan saya dan keluarga tahun depan bisa mendaftar paket Sacred Journey.', 0, 'Pending', '2026-05-30 09:00:00');
+(12, 4, NULL, 'Hamba Allah', 'hamba@email.com', 'Bismillah, semoga Allah mudahkan saya dan keluarga tahun depan bisa mendaftar paket Sacred Journey.', 0, 'Pending', '2026-05-30 09:00:00'),
+(13, 5, NULL, 'Rusman', 'emaildummy@gmail.com', 'tes komentar hehe', 0, 'Approved', '2026-06-03 19:52:58'),
+(14, 5, 13, 'superadmin (Admin)', NULL, 'Terima kasih komentarnya', 1, 'Approved', '2026-06-04 00:53:23'),
+(15, 5, 14, 'Rusman', 'hehe@gmail.ad', 'Dikit lagi beres', 0, 'Approved', '2026-06-03 19:54:30');
 
 -- --------------------------------------------------------
 
@@ -540,7 +543,7 @@ ALTER TABLE `journal_categories`
 -- AUTO_INCREMENT untuk tabel `journal_comments`
 --
 ALTER TABLE `journal_comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `leads_consultation`
