@@ -112,6 +112,7 @@ $route['journey']               = 'Journey/index';
 $route['journey/(:any)']        = 'Journey/detail/$1';
 $route['about']                 = 'About/index';
 $route['journal']               = 'Journal/index';
+$route['journal/submit_comment'] = 'Journal/submit_comment'; // [TAMBAHAN BARU]
 $route['journal/(:any)']        = 'Journal/detail/$1';
 $route['gallery']               = 'Gallery/index';
 $route['fashion']               = 'Fashion/index';
