@@ -7,7 +7,7 @@
 
     <ul class="nav-links">
         <li><a href="<?= base_url('journey') ?>"  class="<?= (isset($page) && $page==='journey')  ? 'active':'' ?>">Journey</a></li>
-        <li><a href="<?= base_url('gallery') ?>"  class="<?= (isset($page) && $page==='gallery')  ? 'active':'' ?>">Film & Gallery</a></li>
+        <li><a href="<?= base_url('gallery') ?>"  class="<?= (isset($page) && $page==='gallery')  ? 'active':'' ?>">Experience</a></li>
         <li><a href="<?= base_url('fashion') ?>"  class="<?= (isset($page) && $page==='fashion')  ? 'active':'' ?>">Fashion</a></li>
         <li><a href="<?= base_url('about') ?>"    class="<?= (isset($page) && $page==='about')    ? 'active':'' ?>">About</a></li>
         <li><a href="<?= base_url('journal') ?>"  class="<?= (isset($page) && $page==='journal')  ? 'active':'' ?>">Journal</a></li>

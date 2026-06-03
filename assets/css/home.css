@@ -199,11 +199,31 @@
 	margin-bottom: 56px;
 }
 .journey-cards {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 3px;
+	display: grid !important;
+	grid-auto-flow: column !important; /* Memaksa kartu berjejer ke kanan */
+	grid-template-columns: none !important; /* Mematikan aturan lama */
+	grid-auto-columns: calc(25% - 2.25px) !important; /* 4 kartu per layar */
+	gap: 3px !important;
+
+	overflow-x: auto !important;
+	overflow-y: hidden !important;
+	scroll-snap-type: x mandatory !important;
+	scroll-behavior: smooth !important;
+	-webkit-overflow-scrolling: touch;
+
+	/* Sembunyikan scrollbar bawaan browser */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
+
+.journey-cards::-webkit-scrollbar {
+	display: none;
+}
+
 .j-card {
+	scroll-snap-align: start !important; /* Kunci geseran kartu */
+
+	/* Bawaan asli Anda */
 	position: relative;
 	overflow: hidden;
 	cursor: pointer;
@@ -568,6 +588,61 @@
 	color: var(--gold);
 }
 
+/* ── NAVIGASI SLIDER (PANAH) ─────────────────────────── */
+.journey-nav-wrapper {
+	display: flex;
+	justify-content: flex-end; /* Memastikan 'View All' merapat ke kanan */
+}
+
+.journey-slider-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+.slider-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+
+	width: 48px;
+	height: 48px;
+	background: #1a1008; /* Warna latar gelap agar kontras */
+	border: 1px solid var(--gold);
+	color: var(--gold);
+	border-radius: 50%;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	outline: none;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.slider-btn svg {
+	width: 20px;
+	height: 20px;
+}
+
+/* Mengatur Posisi Tombol Menggantung di Kiri dan Kanan */
+.slider-btn.prev-btn {
+	left: -24px; /* Digeser agak keluar dari kartu */
+}
+
+.slider-btn.next-btn {
+	right: -24px; /* Digeser agak keluar dari kartu */
+}
+
+.slider-btn:hover {
+	background: var(--gold);
+	color: var(--cream);
+	/* Sedikit membesar saat disorot mouse */
+	transform: translateY(-50%) scale(1.1);
+	box-shadow: 0 6px 20px rgba(196, 163, 90, 0.3);
+}
+
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 1024px) {
 	.hero,
@@ -584,7 +659,7 @@
 		gap: 48px;
 	}
 	.journey-cards {
-		grid-template-columns: repeat(2, 1fr);
+		grid-auto-columns: calc(50% - 1.5px) !important; /* 2 kartu di Tablet */
 	}
 	.fashion-strip {
 		grid-template-columns: repeat(3, 1fr);
@@ -598,14 +673,17 @@
 	.footer-nav {
 		display: none;
 	}
+	.j-card {
+		grid-auto-columns: calc(50% - 1.5px);
+	}
 }
 @media (max-width: 768px) {
 	.hero {
 		padding: 0 20px calc(var(--nav-h) + 24px);
 	}
 	.journey-cards {
-		grid-template-columns: 1fr;
-		gap: 3px;
+		grid-auto-columns: 85% !important; /* 1 kartu (agak terpotong) di HP agar terlihat bisa digeser */
+		gap: 8px !important;
 	}
 	.vs-grid {
 		grid-template-columns: 1fr;
@@ -638,5 +716,11 @@
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 20px;
+	}
+	.j-card {
+		flex: 0 0 100%;
+	}
+	.slider-btn {
+		display: none;
 	}
 }
