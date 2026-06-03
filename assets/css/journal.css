@@ -5,12 +5,14 @@
 /* ── JOURNAL INDEX ────────────────────────────────────── */
 .journal-page {
 	background: var(--cream);
-	padding-top: var(--nav-h);
+	/* KUNCI: Hapus padding-top: var(--nav-h); agar layout menyentuh ujung atas layar */
+	padding-top: 0;
 }
 
 /* Hero minimal */
 .journal-page-hero {
-	padding: 80px 60px 64px;
+	/* KUNCI: Tambahkan tinggi navbar ke padding atas agar teks judul tidak tertutup oleh navbar */
+	padding: calc(var(--nav-h, 80px) + 40px) 60px 64px;
 	background: var(--dark);
 	position: relative;
 	overflow: hidden;
@@ -212,7 +214,8 @@
 /* ── JOURNAL DETAIL ───────────────────────────────────── */
 .journal-detail-page {
 	background: var(--cream);
-	padding-top: var(--nav-h);
+	/* KUNCI: Hapus padding-top: var(--nav-h); agar gambar hero naik ke atas */
+	padding-top: 0;
 }
 .jd-hero {
 	position: relative;
