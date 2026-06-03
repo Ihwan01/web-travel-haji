@@ -3,9 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Lead_model extends CI_Model
 {
-    public function insert($data) {
-        return $this->db->insert('nama_tabel_leads_anda', $data);
+    public function insert($data)
+    {
+        // [PERBAIKAN] Mengubah nama tabel placeholder menjadi tabel yang benar
+        return $this->db->insert('leads_consultation', $data);
     }
+
     // Menghitung total data untuk keperluan paginasi
     public function count_all_leads($search = null)
     {
@@ -14,6 +17,7 @@ class Lead_model extends CI_Model
             $this->db->like('client_name', $search);
             $this->db->or_like('whatsapp_number', $search);
             $this->db->or_like('package_interest', $search);
+            $this->db->or_like('message', $search); // [BARU] Pencarian kini mencakup isi pesan
             $this->db->group_end();
         }
         return $this->db->count_all_results('leads_consultation');
@@ -27,6 +31,7 @@ class Lead_model extends CI_Model
             $this->db->like('client_name', $search);
             $this->db->or_like('whatsapp_number', $search);
             $this->db->or_like('package_interest', $search);
+            $this->db->or_like('message', $search); // [BARU] Pencarian kini mencakup isi pesan
             $this->db->group_end();
         }
 
