@@ -1,99 +1,160 @@
 <?php
-// Persiapan Variabel Dinamis dari tabel homepage_settings
+/* ================================================================================
+KODE LAMA (DYNAMIC SLIDESHOW DARI DATABASE) DISEMBUNYIKAN SEBAGAI COMMENT
+================================================================================
 $set = $site_settings;
 $is_slideshow = $set->is_slideshow ?? 0;
-
-// Logika kondisional utama: Aktif jika pengaturan slideshow = 1 DAN data lebih dari 1
 $use_slider = ($is_slideshow == 1 && count($hero_slides) > 1);
-
-// Tentukan data yang dirender: Semua slide jika carousel, ATAU hanya slide pertama [0] jika statis
 $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_slides[0]] : []);
+... (looping slide dari db) ...
+================================================================================
+*/
 ?>
 
-<?php if (!empty($display_slides)): ?>
-    <section class="hero <?= $use_slider ? 'hero-carousel' : 'hero-static' ?>" <?= $use_slider ? 'data-autoplay="' . ($set->slideshow_autoplay ?? 1) . '"' : '' ?>>
+<!-- ===========================================================================
+     HERO SECTION (KUSTOM CROSSFADE SLIDER - BEBAS BENTROK)
+================================================================================ -->
+<section class="hero-custom-slider" id="homeHero">
 
-        <?php if ($use_slider): ?>
-            <div class="swiper-wrapper">
-            <?php endif; ?>
-
-            <?php foreach ($display_slides as $slide):
-                $is_link = (strpos($slide->media_url, 'http') === 0);
-            ?>
-                <?php if ($use_slider): ?>
-                    <div class="swiper-slide hero-slide-item" style="position: relative; width: 100%; height: 100vh;">
-                    <?php endif; ?>
-
-                    <div class="hero-video-wrap" <?= !$use_slider ? 'id="heroWrap"' : '' ?>>
-                        <?php if ($slide->media_type == 'Video'): ?>
-                            <video <?= !$use_slider ? 'id="heroVideo"' : '' ?> autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover;">
-                                <source src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" type="video/mp4">
-                            </video>
-                        <?php else: ?>
-                            <img src="<?= $is_link ? $slide->media_url : base_url($slide->media_url) ?>" <?= $use_slider ? 'class="hero-img-bg"' : '' ?> alt="Hero Banner" style="width: 100%; height: 100%; object-fit: cover;">
-                        <?php endif; ?>
-                    </div>
-
-                    <div class="hero-content">
-                        <?php if (!empty($slide->tagline)): ?>
-                            <p class="hero-tag"><?= htmlspecialchars($slide->tagline) ?></p>
-                        <?php endif; ?>
-
-                        <h1 class="hero-title"><?= $slide->title ?></h1>
-
-                        <?php if (!empty($slide->desc_text)): ?>
-                            <p class="hero-desc"><?= htmlspecialchars($slide->desc_text) ?></p>
-                        <?php endif; ?>
-
-                        <div class="hero-actions">
-                            <?php if (!empty($slide->btn1_text)): ?>
-                                <a href="<?= base_url($slide->btn1_url) ?>" class="arrow-link light"><?= htmlspecialchars($slide->btn1_text) ?></a>
-                            <?php endif; ?>
-                            <?php if (!empty($slide->btn2_text)): ?>
-                                <a href="<?= base_url($slide->btn2_url) ?>" class="btn-outline light"><?= htmlspecialchars($slide->btn2_text) ?></a>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                    <?php if ($use_slider): ?>
-                    </div>
-                <?php endif; ?>
-
-            <?php endforeach; ?>
-
-            <?php if ($use_slider): ?>
+    <!-- SLIDE 1: The Core Philosophy -->
+    <div class="custom-slide active">
+        <div class="hero-video-wrap">
+            <img src="<?= base_url('assets/images/slide1_Hero_Homepage.png') ?>" alt="Perjalanan hati, pulang membawa makna." style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Perjalanan hati,<br>pulang membawa <em>makna.</em></h1>
+            <p class="hero-desc">Nuansa Rindu hadir untuk menemani perjalanan spiritual Anda dengan ketenangan, kenyamanan, dan makna yang mendalam.</p>
+            <div class="hero-actions">
+                <a href="<?= base_url('journey') ?>" class="arrow-link light">EXPLORE JOURNEY</a>
             </div>
+        </div>
+    </div>
 
-            <div class="hero-slider-nav">
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+    <!-- SLIDE 2: The Emotional Attachment -->
+    <div class="custom-slide">
+        <div class="hero-video-wrap">
+            <img src="<?= base_url('assets/images/slide2_Hero_Homepage.png') ?>" alt="Lebih dari perjalanan, ini tentang pulang." style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Lebih dari perjalanan,<br>ini tentang <em>pulang.</em></h1>
+            <p class="hero-desc">Kami percaya setiap langkah menuju Baitullah adalah rindu yang menemukan jalan pulang. Sebuah pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.</p>
+            <div class="hero-actions">
+                <a href="<?= base_url('about') ?>" class="arrow-link light">ABOUT US</a>
             </div>
-            <div class="hero-dots-wrap swiper-pagination"></div>
-        <?php endif; ?>
+        </div>
+    </div>
 
-        <div class="hero-scroll">Scroll</div>
-    </section>
-<?php endif; ?>
+    <!-- SLIDE 3: The Quiet Luxury Experience -->
+    <div class="custom-slide">
+        <div class="hero-video-wrap">
+            <img src="<?= base_url('assets/images/slide3_Hero_Homepage.png') ?>" alt="Menyentuh tanah suci, merengkuh ketenangan." style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Menyentuh tanah suci,<br>merengkuh <em>ketenangan.</em></h1>
+            <p class="hero-desc">Setiap detail perjalanan Anda dikurasi secara personal. Memadukan keanggunan gaya hidup spiritual dengan pelayanan eksklusif, membiarkan Anda luruh sepenuhnya dalam khusyuk ibadah.</p>
+            <div class="hero-actions">
+                <?php $wa_msg = urlencode("Halo Nuansa Rindu, saya tertarik untuk memulai perjalanan spiritual (Begin The Journey) dan ingin berkonsultasi lebih lanjut."); ?>
+                <a href="https://wa.me/6281188889326?text=<?= $wa_msg ?>" target="_blank" rel="noopener" class="arrow-link light">BEGIN THE JOURNEY</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paginasi Ala Editorial (01 —— 03) -->
+    <div class="hero-fraction-pagination">
+        <span id="currSlide">01</span>
+        <span class="pagination-line"></span>
+        <span id="totalSlide">03</span>
+    </div>
+
+</section>
+
+<!-- JS VANILLA KHUSUS HERO SLIDER -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.custom-slide');
+        const currSlideText = document.getElementById('currSlide');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            // Matikan semua slide
+            slides.forEach(s => s.classList.remove('active'));
+            // Aktifkan slide yang dipilih
+            slides[index].classList.add('active');
+            currentSlide = index;
+
+            // Update teks paginasi (tambahkan angka 0 di depan jika di bawah 10)
+            currSlideText.innerText = '0' + (index + 1);
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }
+
+        function startSlideShow() {
+            // Diperlambat dari 6000 (6 detik) menjadi 8000 (8 detik)
+            slideInterval = setInterval(nextSlide, 8000);
+        }
+
+        // Mulai Slideshow
+        startSlideShow();
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.custom-slide');
+        const dots = document.querySelectorAll('.custom-dot');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(nextSlide, 6000);
+        }
+
+        window.goToSlide = function(index) {
+            clearInterval(slideInterval);
+            showSlide(index);
+            startSlideShow();
+        };
+
+        startSlideShow();
+    });
+</script>
 
 <section class="about-section" id="about">
     <div class="about-grid">
-        
+
         <div class="about-text-side reveal">
             <div class="about-subtitle">
                 TENTANG NUANSA RINDU <span class="subtitle-line"></span>
             </div>
-            
+
             <h2 class="about-title">
-                <?= $set->about_title ?? "Lebih dari perjalanan,<br>ini tentang pulang." ?>
+                <?= $site_settings->about_title ?? "Lebih dari perjalanan,<br>ini tentang pulang." ?>
             </h2>
-            
+
             <div class="about-desc">
                 <p>Kami percaya setiap langkah menuju Baitullah adalah rindu yang menemukan jalan pulang.</p>
                 <p>Nuansa Rindu bukan sekadar perjalanan, tapi pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.</p>
             </div>
-            
+
             <a href="<?= base_url('about') ?>" class="about-link">
-                ABOUT US 
+                ABOUT US
                 <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1" fill="none">
                     <line x1="4" y1="12" x2="20" y2="12"></line>
                     <polyline points="14 6 20 12 14 18"></polyline>
@@ -102,14 +163,14 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         </div>
 
         <div class="about-visual-side reveal delay-1">
-            <?php 
-                // Menampung link video dari CMS (jika sudah ada nanti)
-                $video_link = !empty($set->about_media) ? $set->about_media : '#';
-                
-                // Menampung gambar thumbnail (gunakan dummy bg-classic jika CMS kosong)
-                $thumbnail = !empty($set->about_video_thumbnail) ? base_url($set->about_video_thumbnail) : ''; 
+            <?php
+            // Menampung link video dari CMS (jika sudah ada nanti)
+            $video_link = !empty($site_settings->about_media) ? $site_settings->about_media : '#';
+
+            // Menampung gambar thumbnail (gunakan dummy bg-classic jika CMS kosong)
+            $thumbnail = !empty($site_settings->about_video_thumbnail) ? base_url($site_settings->about_video_thumbnail) : '';
             ?>
-            
+
             <div class="about-video-wrap" data-lightbox data-type="Video" data-src="<?= $video_link ?>">
                 <?php if ($thumbnail): ?>
                     <img src="<?= $thumbnail ?>" alt="Tentang Nuansa Rindu" class="about-video-img">
@@ -119,7 +180,9 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 
                 <div class="play-btn-overlay">
                     <div class="play-btn-circle">
-                        <svg viewBox="0 0 24 24"><polygon points="9,6 18,12 9,18" /></svg>
+                        <svg viewBox="0 0 24 24">
+                            <polygon points="9,6 18,12 9,18" />
+                        </svg>
                     </div>
                     <span class="play-btn-text">PLAY OUR STORY</span>
                 </div>
@@ -129,9 +192,9 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     </div>
 </section>
 
-<?php if ($show_journey): ?>
+<?php if (isset($show_journey) && $show_journey): ?>
     <section class="journey-section" id="journey">
-        
+
         <div class="journey-header">
             <div class="reveal">
                 <p class="section-label">Signature Journey</p>
@@ -139,16 +202,18 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     Pilih perjalanan yang<br>sesuai dengan hati Anda.
                 </h2>
             </div>
-            
+
             <div class="journey-nav-wrapper reveal">
                 <a href="<?= base_url('journey') ?>" class="arrow-link">View All Journey</a>
             </div>
         </div>
 
         <div class="journey-slider-wrapper reveal">
-            
+
             <button class="slider-btn prev-btn" id="journeyPrev" aria-label="Geser Kiri">
-                <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" fill="none" />
+                </svg>
             </button>
 
             <div class="journey-cards" id="journeySlider">
@@ -170,12 +235,13 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                             </div>
                         </a>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <?php endif; ?>
+                <?php endif; ?>
             </div>
 
             <button class="slider-btn next-btn" id="journeyNext" aria-label="Geser Kanan">
-                <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" fill="none" />
+                </svg>
             </button>
 
         </div>
@@ -189,35 +255,38 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         const nextBtn = document.getElementById('journeyNext');
 
         if (slider && prevBtn && nextBtn) {
-            
+
             // Matikan fungsi bawaan browser yang mengoreksi scroll otomatis
             slider.style.overflowAnchor = 'none';
-            
+
             // Mengunci animasi agar tidak bentrok jika user klik terlalu cepat
             let isAnimating = false;
 
             // ── LOGIKA TOMBOL KANAN (GESER KANAN TERUS) ──
             nextBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                
+
                 // Jika sedang animasi atau jumlah kartu pas di layar (tidak perlu slide), batalkan.
                 if (isAnimating || slider.scrollWidth <= slider.clientWidth + 10) return;
                 isAnimating = true;
 
                 const firstCard = slider.firstElementChild;
                 const cardWidth = firstCard.offsetWidth + 3; // +3 adalah ukuran gap di CSS
-                
+
                 // 1. Geser mulus ke arah kanan
-                slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
-                
+                slider.scrollBy({
+                    left: cardWidth,
+                    behavior: 'smooth'
+                });
+
                 // 2. Tunggu animasi geser selesai (sekitar 450ms)
                 setTimeout(() => {
                     // Pindahkan elemen kartu pertama ke urutan paling akhir
                     slider.appendChild(firstCard);
-                    
+
                     // Tarik posisi scroll ke kiri secara instan agar tidak terasa melompat
                     slider.scrollLeft -= cardWidth;
-                    
+
                     isAnimating = false;
                 }, 450);
             });
@@ -225,32 +294,35 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
             // ── LOGIKA TOMBOL KIRI (GESER KIRI TERUS) ──
             prevBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                
+
                 if (isAnimating || slider.scrollWidth <= slider.clientWidth + 10) return;
                 isAnimating = true;
 
                 const lastCard = slider.lastElementChild;
                 const firstCard = slider.firstElementChild;
                 const cardWidth = firstCard.offsetWidth + 3;
-                
+
                 // 1. Pindahkan elemen kartu terakhir ke urutan paling depan secara instan
                 slider.prepend(lastCard);
-                
+
                 // 2. Majukan posisi scroll ke kanan secara instan agar tampilan layar tidak berubah
                 slider.scrollLeft += cardWidth;
-                
+
                 // 3. Paksa browser merender susunan yang baru
                 slider.getBoundingClientRect();
-                
+
                 // 4. Baru jalankan animasi geser mundur (smooth ke kiri)
-                slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-                
+                slider.scrollBy({
+                    left: -cardWidth,
+                    behavior: 'smooth'
+                });
+
                 // Lepas kunci animasi setelah selesai
                 setTimeout(() => {
                     isAnimating = false;
                 }, 450);
             });
-            
+
         }
     });
 </script>
@@ -260,19 +332,19 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     <h2 class="vs-heading reveal">Momen yang terasa,<br>bukan sekadar terlihat.</h2>
 
     <div class="vs-grid reveal">
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= $assets_url ?>images/gallery/vs-1.jpg">
+        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-1.jpg') ?>">
             <div class="vs-img vs-bg-1"></div>
         </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= $assets_url ?>images/gallery/vs-2.jpg">
+        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-2.jpg') ?>">
             <div class="vs-img vs-bg-2"></div>
         </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= $assets_url ?>images/gallery/vs-3.jpg">
+        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-3.jpg') ?>">
             <div class="vs-img vs-bg-3"></div>
         </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= $assets_url ?>images/gallery/vs-4.jpg">
+        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-4.jpg') ?>">
             <div class="vs-img vs-bg-4"></div>
         </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= $assets_url ?>images/gallery/vs-5.jpg">
+        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-5.jpg') ?>">
             <div class="vs-img vs-bg-5"></div>
         </div>
     </div>
@@ -282,7 +354,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     </div>
 </section>
 
-<?php if ($show_fashion): ?>
+<?php if (isset($show_fashion) && $show_fashion): ?>
     <section class="fashion-section">
         <div class="fashion-header">
             <div class="reveal">
