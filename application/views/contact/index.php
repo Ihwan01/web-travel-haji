@@ -33,7 +33,7 @@
                     <p class="channel-label">WhatsApp</p>
                     <p class="channel-value"><?= htmlspecialchars($company->whatsapp ?? '+62 811-8888-9326') ?></p>
                     <p class="channel-note">Senin – Sabtu, 08.00 – 20.00 WIB</p>
-
+                    
                     <?php
                     $wa_num = !empty($company->whatsapp) ? preg_replace('/[^0-9]/', '', $company->whatsapp) : '6281188889326';
                     $default_msg = "Assalamu'alaikum Nuansa Rindu, saya ingin berkonsultasi mengenai perjalanan umrah.";
@@ -56,22 +56,22 @@
                     <p class="channel-note">Respon dalam 24 jam kerja</p>
                 </div>
 
-                <?php if (!empty($company->instagram_url)):
+                <?php if (!empty($company->instagram_url)): 
                     $ig_handle = parse_url($company->instagram_url, PHP_URL_PATH);
                     $ig_handle = rtrim($ig_handle, '/');
                 ?>
-                    <div class="contact-channel-card">
-                        <div class="channel-icon">
-                            <svg viewBox="0 0 24 24">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                                <circle cx="12" cy="12" r="4" />
-                                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-                            </svg>
-                        </div>
-                        <p class="channel-label">Instagram</p>
-                        <p class="channel-value">@<?= htmlspecialchars(str_replace('/', '', $ig_handle)) ?></p>
-                        <p class="channel-note">DM untuk pertanyaan</p>
+                <div class="contact-channel-card">
+                    <div class="channel-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+                        </svg>
                     </div>
+                    <p class="channel-label">Instagram</p>
+                    <p class="channel-value">@<?= htmlspecialchars(str_replace('/', '', $ig_handle)) ?></p>
+                    <p class="channel-note">DM untuk pertanyaan</p>
+                </div>
                 <?php endif; ?>
             </div>
         </div>
