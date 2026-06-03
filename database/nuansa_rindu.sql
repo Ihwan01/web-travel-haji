@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Jun 2026 pada 18.28
+-- Waktu pembuatan: 03 Jun 2026 pada 17.22
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -248,7 +248,7 @@ INSERT INTO `journal_comments` (`id`, `journal_id`, `parent_id`, `name`, `email`
 (6, 4, NULL, 'Rizky Fadillah', 'rizky.fadillah@email.com', 'Apakah sangat sulit untuk mencium Hajar Aswad saat musim umroh biasa?', 0, 'Approved', '2026-05-29 10:20:00'),
 (7, 4, 6, 'Admin Nuansa Rindu', 'superadmin@nuansarindu.id', 'Halo Bapak Rizky. Kondisinya fluktuatif, namun pembimbing kami (Muthawwif) akan selalu membantu mencarikan celah waktu terbaik bagi jamaah yang memiliki fisik mumpuni untuk mencoba.', 1, 'Approved', '2026-05-29 11:15:00'),
 (8, 5, NULL, 'Keluarga Hermanto', 'hermanto.fam@email.com', 'Kebetulan kami berencana umroh membawa ibu yang menggunakan kursi roda. Apakah paket Classic sudah cukup ramah lansia?', 0, 'Pending', '2026-05-30 09:00:00'),
-(9, 7, NULL, 'Anisa Nabilah', 'anisa.nab@email.com', 'Saya pernah merasakan umroh Ramadhan, dan memang suasananya sangat magis. Artikel yang bagus!', 0, 'Approved', '2026-06-02 08:30:00');
+(9, 7, NULL, 'Anisa Nabilah', 'anisa.nab@email.com', 'Saya pernah merasakan umroh Ramadhan, dan memang suasananya sangat magis. Artikel yang bagus!', 0, 'Rejected', '2026-06-02 08:30:00');
 
 -- --------------------------------------------------------
 
@@ -261,6 +261,7 @@ CREATE TABLE `leads_consultation` (
   `client_name` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
   `whatsapp_number` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `package_interest` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -268,42 +269,42 @@ CREATE TABLE `leads_consultation` (
 -- Dumping data untuk tabel `leads_consultation`
 --
 
-INSERT INTO `leads_consultation` (`id`, `client_name`, `whatsapp_number`, `package_interest`, `created_at`) VALUES
-(1, 'Ahmad Fauzi', '081234567001', 'Rindu Classic', '2026-05-27 18:00:06'),
-(2, 'Siti Aminah', '085712345002', 'Sacred Journey', '2026-05-27 18:00:06'),
-(3, 'Budi Santoso', '081198765003', 'Rindu Signature', '2026-05-27 18:00:06'),
-(4, 'Keluarga Bapak Ridwan', '082133445004', 'Rindu Private', '2026-05-27 18:00:06'),
-(5, 'Nadia Saphira', '081344556005', 'Rindu Classic', '2026-05-27 18:00:06'),
-(6, 'Andi Wijaya', '087811223006', NULL, '2026-05-27 18:00:06'),
-(7, 'Diana Putri', '089677889007', 'Rindu Signature', '2026-05-27 18:00:06'),
-(8, 'Hendra Gunawan', '085211223008', 'Sacred Journey', '2026-05-27 18:00:06'),
-(9, 'Lestari Ningsih', '081299887009', 'Rindu Classic', '2026-05-27 18:00:06'),
-(10, 'Reza Rahadian', '081122334010', 'Rindu Private', '2026-05-27 18:00:06'),
-(11, 'Tari Puspita', '081355667788', 'Rindu Classic', '2026-05-27 18:25:46'),
-(12, 'Yudi Pratama', '085799887766', 'Rindu Signature', '2026-05-27 18:25:46'),
-(13, 'Maya Wulandari', '081233445566', 'Sacred Journey', '2026-05-27 18:25:46'),
-(14, 'Dimas Anggara', '082111223344', 'Rindu Private', '2026-05-27 18:25:46'),
-(15, 'Rina Safitri', '087855443322', 'Rindu Classic', '2026-05-27 18:25:46'),
-(16, 'Agus Setiawan', '089611223344', NULL, '2026-05-27 18:25:46'),
-(17, 'Ratna Sari', '081122334455', 'Rindu Signature', '2026-05-27 18:25:46'),
-(18, 'Irfan Maulana', '085233445566', 'Sacred Journey', '2026-05-27 18:25:46'),
-(19, 'Siska Amalia', '081344556677', 'Rindu Classic', '2026-05-27 18:25:46'),
-(20, 'Bambang Susanto', '082199887766', 'Rindu Private', '2026-05-27 18:25:46'),
-(21, 'Fitri Handayani', '085711223344', 'Rindu Classic', '2026-05-27 18:25:46'),
-(22, 'Dedi Irawan', '087899887766', 'Sacred Journey', '2026-05-27 18:25:46'),
-(23, 'Cinta Kirana', '081255667788', 'Rindu Signature', '2026-05-27 18:25:46'),
-(24, 'Rizky Ramadhan', '081199887766', NULL, '2026-05-27 18:25:46'),
-(25, 'Lestari Putri', '082155667788', 'Rindu Private', '2026-05-27 18:25:46'),
-(26, 'Ayu Lestari', '089655667788', 'Rindu Classic', '2026-05-27 18:25:46'),
-(27, 'Rafi Budiman', '081399887766', 'Sacred Journey', '2026-05-27 18:25:46'),
-(28, 'Nita Agustina', '085755667788', 'Rindu Signature', '2026-05-27 18:25:46'),
-(29, 'Bayu Segara', '081211223344', 'Rindu Private', '2026-05-27 18:25:46'),
-(30, 'Putri Rahayu', '087811223344', 'Rindu Classic', '2026-05-27 18:25:46'),
-(31, 'Anton Saputra', '085299887766', 'Sacred Journey', '2026-05-27 18:25:46'),
-(32, 'Aura Mutiara', '081311223344', 'Rindu Signature', '2026-05-27 18:25:46'),
-(33, 'Anang Hidayat', '082133445566', NULL, '2026-05-27 18:25:46'),
-(34, 'Shanti Permata', '089633445566', 'Rindu Private', '2026-05-27 18:25:46'),
-(35, 'Ivan Setiadi', '081155667788', 'Rindu Classic', '2026-05-27 18:25:46');
+INSERT INTO `leads_consultation` (`id`, `client_name`, `whatsapp_number`, `package_interest`, `message`, `created_at`) VALUES
+(1, 'Ahmad Fauzi', '081234567001', 'Rindu Classic', NULL, '2026-05-27 18:00:06'),
+(2, 'Siti Aminah', '085712345002', 'Sacred Journey', NULL, '2026-05-27 18:00:06'),
+(3, 'Budi Santoso', '081198765003', 'Rindu Signature', NULL, '2026-05-27 18:00:06'),
+(4, 'Keluarga Bapak Ridwan', '082133445004', 'Rindu Private', NULL, '2026-05-27 18:00:06'),
+(5, 'Nadia Saphira', '081344556005', 'Rindu Classic', NULL, '2026-05-27 18:00:06'),
+(6, 'Andi Wijaya', '087811223006', NULL, NULL, '2026-05-27 18:00:06'),
+(7, 'Diana Putri', '089677889007', 'Rindu Signature', NULL, '2026-05-27 18:00:06'),
+(8, 'Hendra Gunawan', '085211223008', 'Sacred Journey', NULL, '2026-05-27 18:00:06'),
+(9, 'Lestari Ningsih', '081299887009', 'Rindu Classic', NULL, '2026-05-27 18:00:06'),
+(10, 'Reza Rahadian', '081122334010', 'Rindu Private', NULL, '2026-05-27 18:00:06'),
+(11, 'Tari Puspita', '081355667788', 'Rindu Classic', NULL, '2026-05-27 18:25:46'),
+(12, 'Yudi Pratama', '085799887766', 'Rindu Signature', NULL, '2026-05-27 18:25:46'),
+(13, 'Maya Wulandari', '081233445566', 'Sacred Journey', NULL, '2026-05-27 18:25:46'),
+(14, 'Dimas Anggara', '082111223344', 'Rindu Private', NULL, '2026-05-27 18:25:46'),
+(15, 'Rina Safitri', '087855443322', 'Rindu Classic', NULL, '2026-05-27 18:25:46'),
+(16, 'Agus Setiawan', '089611223344', NULL, NULL, '2026-05-27 18:25:46'),
+(17, 'Ratna Sari', '081122334455', 'Rindu Signature', NULL, '2026-05-27 18:25:46'),
+(18, 'Irfan Maulana', '085233445566', 'Sacred Journey', NULL, '2026-05-27 18:25:46'),
+(19, 'Siska Amalia', '081344556677', 'Rindu Classic', NULL, '2026-05-27 18:25:46'),
+(20, 'Bambang Susanto', '082199887766', 'Rindu Private', NULL, '2026-05-27 18:25:46'),
+(21, 'Fitri Handayani', '085711223344', 'Rindu Classic', NULL, '2026-05-27 18:25:46'),
+(22, 'Dedi Irawan', '087899887766', 'Sacred Journey', NULL, '2026-05-27 18:25:46'),
+(23, 'Cinta Kirana', '081255667788', 'Rindu Signature', NULL, '2026-05-27 18:25:46'),
+(24, 'Rizky Ramadhan', '081199887766', NULL, NULL, '2026-05-27 18:25:46'),
+(25, 'Lestari Putri', '082155667788', 'Rindu Private', NULL, '2026-05-27 18:25:46'),
+(26, 'Ayu Lestari', '089655667788', 'Rindu Classic', NULL, '2026-05-27 18:25:46'),
+(27, 'Rafi Budiman', '081399887766', 'Sacred Journey', NULL, '2026-05-27 18:25:46'),
+(28, 'Nita Agustina', '085755667788', 'Rindu Signature', NULL, '2026-05-27 18:25:46'),
+(29, 'Bayu Segara', '081211223344', 'Rindu Private', NULL, '2026-05-27 18:25:46'),
+(30, 'Putri Rahayu', '087811223344', 'Rindu Classic', NULL, '2026-05-27 18:25:46'),
+(31, 'Anton Saputra', '085299887766', 'Sacred Journey', NULL, '2026-05-27 18:25:46'),
+(32, 'Aura Mutiara', '081311223344', 'Rindu Signature', NULL, '2026-05-27 18:25:46'),
+(33, 'Anang Hidayat', '082133445566', NULL, NULL, '2026-05-27 18:25:46'),
+(34, 'Shanti Permata', '089633445566', 'Rindu Private', NULL, '2026-05-27 18:25:46'),
+(35, 'Ivan Setiadi', '081155667788', 'Rindu Classic', NULL, '2026-05-27 18:25:46');
 
 -- --------------------------------------------------------
 

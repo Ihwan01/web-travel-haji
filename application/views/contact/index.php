@@ -93,7 +93,17 @@
                             <label class="form-label" for="client_name">Nama Lengkap</label>
                             <input type="text" id="client_name" name="client_name" class="form-input" placeholder="Masukkan nama Anda" required>
                         </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="client_name">Nama Lengkap</label>
+                            <input type="text" id="client_name" name="client_name" class="form-input" placeholder="Masukkan nama Anda" required>
+                        </div>
 
+                        <div class="form-group">
+                            <label class="form-label" for="whatsapp_number">Nomor WhatsApp</label>
+                            <input type="tel" id="whatsapp_number" name="whatsapp_number" class="form-input" placeholder="Contoh: 081234567890" required>
+                        </div>
+                    </div>
                         <div class="form-group">
                             <label class="form-label" for="whatsapp_number">Nomor WhatsApp</label>
                             <input type="tel" id="whatsapp_number" name="whatsapp_number" class="form-input" placeholder="Contoh: 081234567890" required>
@@ -119,7 +129,29 @@
                             <?php endif; ?>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label" for="package_interest">Perjalanan yang Diminati</label>
+                        <select id="package_interest" name="package_interest" class="form-select">
+                            <option value="">— Pilih Perjalanan —</option>
+                            <?php if (!empty($packages)): ?>
+                                <?php foreach ($packages as $pkg): ?>
+                                    <option value="<?= htmlspecialchars($pkg->name) ?>" <?= ($selected_pkg === $pkg->name) ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($pkg->name) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <option value="Rindu Classic" <?= $selected_pkg === 'Rindu Classic' ? 'selected' : '' ?>>Rindu Classic — Umrah Regular</option>
+                                <option value="Rindu Signature" <?= $selected_pkg === 'Rindu Signature' ? 'selected' : '' ?>>Rindu Signature — Umrah Premium</option>
+                                <option value="Rindu Private" <?= $selected_pkg === 'Rindu Private' ? 'selected' : '' ?>>Rindu Private — Umrah Custom</option>
+                                <option value="Sacred Journey" <?= $selected_pkg === 'Sacred Journey' ? 'selected' : '' ?>>Sacred Journey — Haji</option>
+                                <option value="Belum Tahu">Belum Tahu, Perlu Konsultasi</option>
+                            <?php endif; ?>
+                        </select>
+                    </div>
 
+                    <div class="form-group">
+                        <label class="form-label" for="message">Pesan (Opsional)</label>
+                        <textarea id="message" name="message" class="form-textarea" placeholder="Ceritakan harapan Anda untuk perjalanan ini..."></textarea>
                     <div class="form-group">
                         <label class="form-label" for="message">Pesan (Opsional)</label>
                         <textarea id="message" name="message" class="form-textarea" placeholder="Ceritakan harapan Anda untuk perjalanan ini..."></textarea>
@@ -127,10 +159,14 @@
 
                     <div class="form-submit justify-center">
                         <button type="submit" class="submit-btn">Kirim Pesan</button>
+                    <div class="form-submit justify-center">
+                        <button type="submit" class="submit-btn">Kirim Pesan</button>
                     </div>
+                </form>
                 </form>
             </div>
         </div>
+
 
     </div>
 

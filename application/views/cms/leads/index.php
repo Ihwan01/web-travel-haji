@@ -1,5 +1,4 @@
-<?php $this->load->helper('whatsapp'); // Muat helper untuk view ini 
-?>
+<?php $this->load->helper('whatsapp'); ?>
 <div class="d-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><?= isset($title) ? $title : 'Konsultasi Masuk' ?></h1>
 </div>
@@ -23,7 +22,7 @@
         <h6 class="m-0 font-weight-bold" style="color: var(--mahogany);">Daftar Pesan & Konsultasi</h6>
 
         <form action="<?= base_url('leads') ?>" method="GET" class="d-flex" style="width: 320px;">
-            <input type="text" name="q" class="form-control form-control-sm me-2" placeholder="Cari nama / nomor wa..." value="<?= htmlspecialchars($search ?? '') ?>">
+            <input type="text" name="q" class="form-control form-control-sm me-2" placeholder="Cari nama, WA, atau pesan..." value="<?= htmlspecialchars($search ?? '') ?>">
             <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
             <?php if (!empty($search)): ?>
                 <a href="<?= base_url('leads') ?>" class="btn btn-sm btn-outline-secondary ms-2" title="Reset Pencarian"><i class="fas fa-times"></i></a>
@@ -39,11 +38,11 @@
                         <th width="5%" class="text-center">No</th>
                         <th width="15%">Tanggal Masuk</th>
                         <th width="20%">Nama Calon Jamaah</th>
-                        <th width="20%">WhatsApp</th>
-                        <th>Minat Paket</th>
+                        <th width="15%">WhatsApp</th>
+                        <th>Detail Konsultasi & Pesan</th>
 
                         <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
-                            <th width="10%" class="text-center">Aksi</th>
+                            <th width="8%" class="text-center">Aksi</th>
                         <?php endif; ?>
                     </tr>
                 </thead>
@@ -60,23 +59,29 @@
                                 <td><strong><?= htmlspecialchars($lead->client_name) ?></strong></td>
                                 <td>
                                     <a href="https://wa.me/<?= normalize_whatsapp($lead->whatsapp_number) ?>" target="_blank" class="btn btn-sm btn-success mb-1 w-100 text-start shadow-sm">
-                                        <i class="fab fa-whatsapp me-1"></i> Hubungi Balik
+                                        <i class="fab fa-whatsapp me-1"></i> Balas
                                     </a>
-                                    <div class="small fw-bold text-dark mt-1 text-center font-monospace" style="letter-spacing: 0.5px;">
+                                    <div class="small fw-bold text-dark mt-1 text-center font-monospace" style="letter-spacing: 0.5px; font-size:0.75rem;">
                                         <?= format_whatsapp($lead->whatsapp_number) ?>
                                     </div>
                                 </td>
                                 <td>
                                     <?php if (!empty($lead->package_interest)): ?>
-                                        <span class="badge bg-info text-dark">Minat: <?= htmlspecialchars($lead->package_interest) ?></span>
+                                        <span class="badge bg-info text-dark d-inline-block mb-2"><i class="fas fa-route me-1"></i> Minat: <?= htmlspecialchars($lead->package_interest) ?></span>
                                     <?php else: ?>
-                                        <span class="text-muted small">Konsultasi Umum</span>
+                                        <span class="badge bg-light text-secondary border d-inline-block mb-2">Konsultasi Umum</span>
+                                    <?php endif; ?>
+
+                                    <?php if (!empty($lead->message)): ?>
+                                        <div class="p-2 bg-light border-start border-3 border-secondary text-muted" style="font-size: 0.85rem; font-style: italic;">
+                                            "<?= nl2br(htmlspecialchars($lead->message)) ?>"
+                                        </div>
                                     <?php endif; ?>
                                 </td>
 
                                 <?php if (isset($role_id) && in_array($role_id, [1, 2])): ?>
                                     <td class="text-center">
-                                        <a href="<?= base_url('leads/delete/' . $lead->id) ?>" class="btn btn-sm btn-danger" title="Hapus Pesan" onclick="return confirm('Yakin ingin menghapus pesan ini?');">
+                                        <a href="<?= base_url('leads/delete/' . $lead->id) ?>" class="btn btn-sm btn-outline-danger" title="Hapus Pesan" onclick="return confirm('Yakin ingin menghapus pesan ini?');">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
