@@ -2,286 +2,401 @@
    NUANSA RINDU — journey.css
    ═══════════════════════════════════════════════════════ */
 
-/* ── PAGE HERO ────────────────────────────────────────── */
 .page-hero {
-    position: relative;
-    height: 60vh;
-    min-height: 420px;
-    display: flex;
-    align-items: flex-end;
-    padding: 0 60px 64px;
-    overflow: hidden;
-    margin-top: var(--nav-h);
+	position: relative;
+	width: 100%;
+	/* Ubah tinggi sesuai kebutuhan Anda, contoh: min-height 80% dari tinggi layar browser */
+	min-height: 80vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+
+	/* PENTING: Pastikan tidak ada margin-top atau padding-top bawaan (seperti var(--nav-h)) */
+	margin-top: 0 !important;
+	padding-top: 0 !important;
 }
+
+/* ── BACKGROUND HERO (GAMBAR) ─────────────────────────── */
 .page-hero-bg {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #2C1E10 0%, #4A3020 40%, #6B4C32 70%, #1A0E06 100%);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1; /* Di bawah konten teks */
 }
+
 .page-hero-bg img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    opacity: 0.55;
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* Menjamin gambar memenuhi layar tanpa gepeng */
+	object-position: center;
 }
+
+/* Overlay Gelap (Opsional tapi Direkomendasikan) */
+/* Berguna agar teks putih/cream di atas gambar tetap terbaca jelas */
 .page-hero-bg::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to right, rgba(26,5,0,0.65) 0%, rgba(26,5,0,0.25) 100%);
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		to bottom,
+		rgba(11, 10, 8, 0.6) 0%,
+		rgba(11, 10, 8, 0.3) 100%
+	);
 }
-.page-hero-content { position: relative; z-index: 2; }
+
+/* ── KONTEN TEKS HERO ────────────────────────────────── */
+.page-hero-content {
+	position: relative;
+	z-index: 2; /* Di atas gambar */
+	text-align: center;
+	padding: 0 24px;
+
+	/* Dorong sedikit ke bawah agar teks pas di tengah setelah navbar fixed mengambil ruang atas */
+	margin-top: calc(var(--nav-h) / 2);
+}
 .page-hero-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: var(--gold-lt);
-    margin-bottom: 18px;
-    display: block;
+	font-size: 0.62rem;
+	letter-spacing: 0.26em;
+	text-transform: uppercase;
+	color: var(--gold-lt);
+	margin-bottom: 18px;
+	display: block;
 }
 .page-hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    font-weight: 300;
-    color: #F5F0E8;
-    line-height: 1.1;
+	font-family: var(--font-display);
+	font-size: clamp(2.4rem, 5vw, 4.2rem);
+	font-weight: 300;
+	color: #f5f0e8;
+	line-height: 1.1;
 }
 
 /* ── JOURNEY INDEX ────────────────────────────────────── */
-.journey-index { padding: 80px 60px 100px; background: var(--cream); }
+.journey-index {
+	padding: 80px 60px 100px;
+	background: var(--cream);
+}
 .journey-intro {
-    max-width: 600px;
-    margin-bottom: 72px;
+	max-width: 600px;
+	margin-bottom: 72px;
 }
 .journey-intro p {
-    font-size: 0.88rem;
-    color: var(--muted);
-    line-height: 1.9;
-    margin-top: 20px;
+	font-size: 0.88rem;
+	color: var(--muted);
+	line-height: 1.9;
+	margin-top: 20px;
 }
 
 /* Collection group */
-.collection-group { margin-bottom: 80px; }
-.collection-group:last-child { margin-bottom: 0; }
-.collection-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 36px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(196,163,90,0.2);
-    display: flex;
-    align-items: center;
-    gap: 16px;
+.collection-group {
+	margin-bottom: 80px;
 }
-.collection-label::after { content: ''; flex: 1; height: 1px; background: rgba(196,163,90,0.12); }
+.collection-group:last-child {
+	margin-bottom: 0;
+}
+.collection-label {
+	font-size: 0.6rem;
+	letter-spacing: 0.28em;
+	text-transform: uppercase;
+	color: var(--gold);
+	margin-bottom: 36px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid rgba(196, 163, 90, 0.2);
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+.collection-label::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: rgba(196, 163, 90, 0.12);
+}
 
 /* Package card editorial */
-.pkg-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    margin-bottom: 3px;
-    overflow: hidden;
-    min-height: 460px;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
+.pkg-card-visual {
+	position: relative;
+	width: 100%;
+
+	/* PILIHAN A: Menggunakan Aspect Ratio Kotak Sinematik (Direkomendasikan) */
+	aspect-ratio: 16 / 10;
+
+	/* PILIHAN B: Jika ingin tinggi tetap, matikan aspect-ratio di atas dan aktifkan ini: */
+	/* height: 280px; */
+
+	overflow: hidden;
+	background-color: #1a1008; /* Background dasar jika gambar lambat dimuat */
 }
-.pkg-card:nth-child(even) { direction: rtl; }
-.pkg-card:nth-child(even) > * { direction: ltr; }
+.pkg-card {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	margin-bottom: 3px;
+	overflow: hidden;
+	min-height: 460px;
+	cursor: pointer;
+	text-decoration: none;
+	color: inherit;
+}
+.pkg-card:nth-child(even) {
+	direction: rtl;
+}
+.pkg-card:nth-child(even) > * {
+	direction: ltr;
+}
 
 .pkg-card-visual {
-    position: relative;
-    overflow: hidden;
+	position: relative;
+	overflow: hidden;
 }
 .pkg-card-img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform .7s ease;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.7s ease;
 }
-.pkg-card:hover .pkg-card-img { transform: scale(1.04); }
+.pkg-card:hover .pkg-card-img {
+	transform: scale(1.04);
+}
 .pkg-card-visual-overlay {
-    position: absolute; inset: 0;
-    background: rgba(26,5,0,0.15);
-    transition: background .4s;
+	position: absolute;
+	inset: 0;
+	background: rgba(26, 5, 0, 0.15);
+	transition: background 0.4s;
 }
-.pkg-card:hover .pkg-card-visual-overlay { background: rgba(26,5,0,0.05); }
+.pkg-card:hover .pkg-card-visual-overlay {
+	background: rgba(26, 5, 0, 0.05);
+}
 
 /* bg fallbacks */
-.pkg-bg-classic   { background: linear-gradient(160deg,#A8C4B8,#4A7B6A,#2A4A3A); }
-.pkg-bg-signature { background: linear-gradient(160deg,#3B2A1A,#6B4C32,#2A1A0A); }
-.pkg-bg-private   { background: linear-gradient(160deg,#B8A882,#8A6848,#3A2818); }
-.pkg-bg-sacred    { background: linear-gradient(160deg,#9A8060,#C4A35A,#3B2A1A); }
+.pkg-bg-classic {
+	background: linear-gradient(160deg, #a8c4b8, #4a7b6a, #2a4a3a);
+}
+.pkg-bg-signature {
+	background: linear-gradient(160deg, #3b2a1a, #6b4c32, #2a1a0a);
+}
+.pkg-bg-private {
+	background: linear-gradient(160deg, #b8a882, #8a6848, #3a2818);
+}
+.pkg-bg-sacred {
+	background: linear-gradient(160deg, #9a8060, #c4a35a, #3b2a1a);
+}
 
 .pkg-card-info {
-    background: var(--warm);
-    padding: 56px 52px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+	background: var(--warm);
+	padding: 56px 52px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 .pkg-card-collection {
-    font-size: 0.6rem;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 18px;
+	font-size: 0.6rem;
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	color: var(--gold);
+	margin-bottom: 18px;
 }
 .pkg-card-name {
-    font-family: var(--font-display);
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 300;
-    color: var(--brown);
-    line-height: 1.15;
-    margin-bottom: 20px;
+	font-family: var(--font-display);
+	font-size: clamp(1.8rem, 3vw, 2.6rem);
+	font-weight: 300;
+	color: var(--brown);
+	line-height: 1.15;
+	margin-bottom: 20px;
 }
 .pkg-card-tagline {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-style: italic;
-    color: var(--muted);
-    margin-bottom: 24px;
-    line-height: 1.5;
+	font-family: var(--font-display);
+	font-size: 1.05rem;
+	font-style: italic;
+	color: var(--muted);
+	margin-bottom: 24px;
+	line-height: 1.5;
 }
 .pkg-card-desc {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.85;
-    margin-bottom: 36px;
-    max-width: 380px;
+	font-size: 0.82rem;
+	color: var(--muted);
+	line-height: 1.85;
+	margin-bottom: 36px;
+	max-width: 380px;
 }
 .pkg-card-price {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    color: var(--brown);
-    margin-bottom: 32px;
+	font-family: var(--font-display);
+	font-size: 1.4rem;
+	color: var(--brown);
+	margin-bottom: 32px;
 }
 .pkg-card-price small {
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    margin-left: 6px;
+	font-family: var(--font-body);
+	font-size: 0.65rem;
+	color: var(--muted);
+	letter-spacing: 0.1em;
+	margin-left: 6px;
 }
 
 /* ── JOURNEY DETAIL ───────────────────────────────────── */
-.journey-detail { background: var(--cream); }
+.journey-detail {
+	background: var(--cream);
+}
 .detail-hero {
-    position: relative;
-    height: 70vh;
-    min-height: 480px;
-    overflow: hidden;
+	position: relative;
+	height: 70vh;
+	min-height: 480px;
+	overflow: hidden;
 }
 .detail-hero-img {
-    width: 100%; height: 100%;
-    object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 .detail-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(26,5,0,0.75) 0%, rgba(26,5,0,0.2) 50%, transparent 100%);
-    padding: 56px 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to top,
+		rgba(26, 5, 0, 0.75) 0%,
+		rgba(26, 5, 0, 0.2) 50%,
+		transparent 100%
+	);
+	padding: 56px 60px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 }
 .detail-collection {
-    font-size: 0.62rem;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: var(--gold-lt);
-    margin-bottom: 14px;
+	font-size: 0.62rem;
+	letter-spacing: 0.26em;
+	text-transform: uppercase;
+	color: var(--gold-lt);
+	margin-bottom: 14px;
 }
 .detail-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 300;
-    color: #F5F0E8;
-    line-height: 1.1;
-    max-width: 700px;
+	font-family: var(--font-display);
+	font-size: clamp(2.5rem, 5vw, 4.5rem);
+	font-weight: 300;
+	color: #f5f0e8;
+	line-height: 1.1;
+	max-width: 700px;
 }
 
 .detail-body {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 80px;
-    padding: 80px 60px;
-    align-items: start;
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	gap: 80px;
+	padding: 80px 60px;
+	align-items: start;
 }
 .detail-main h3 {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: var(--brown);
-    margin-bottom: 18px;
-    margin-top: 48px;
+	font-family: var(--font-display);
+	font-size: 1.5rem;
+	font-weight: 400;
+	color: var(--brown);
+	margin-bottom: 18px;
+	margin-top: 48px;
 }
-.detail-main h3:first-child { margin-top: 0; }
+.detail-main h3:first-child {
+	margin-top: 0;
+}
 .detail-main p {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.9;
-    margin-bottom: 16px;
+	font-size: 0.85rem;
+	color: var(--muted);
+	line-height: 1.9;
+	margin-bottom: 16px;
 }
 .detail-sidebar {
-    position: sticky;
-    top: calc(var(--nav-h) + 32px);
+	position: sticky;
+	top: calc(var(--nav-h) + 32px);
 }
 .sidebar-card {
-    background: var(--warm);
-    padding: 40px 36px;
-    margin-bottom: 20px;
+	background: var(--warm);
+	padding: 40px 36px;
+	margin-bottom: 20px;
 }
 .sidebar-card-title {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: var(--brown);
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(196,163,90,0.2);
+	font-family: var(--font-display);
+	font-size: 1.1rem;
+	font-weight: 400;
+	color: var(--brown);
+	margin-bottom: 20px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid rgba(196, 163, 90, 0.2);
 }
 .sidebar-price {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    color: var(--brown);
-    margin-bottom: 6px;
+	font-family: var(--font-display);
+	font-size: 2rem;
+	color: var(--brown);
+	margin-bottom: 6px;
 }
 .sidebar-price-note {
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-bottom: 28px;
+	font-size: 0.72rem;
+	color: var(--muted);
+	margin-bottom: 28px;
 }
 .sidebar-cta {
-    display: block;
-    text-align: center;
-    padding: 14px;
-    background: var(--brown);
-    color: var(--cream);
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    transition: background var(--transition);
-    margin-bottom: 12px;
+	display: block;
+	text-align: center;
+	padding: 14px;
+	background: var(--brown);
+	color: var(--cream);
+	font-size: 0.65rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	transition: background var(--transition);
+	margin-bottom: 12px;
 }
-.sidebar-cta:hover { background: var(--gold); }
+.sidebar-cta:hover {
+	background: var(--gold);
+}
 .sidebar-cta.outline {
-    background: transparent;
-    border: 1.5px solid var(--brown);
-    color: var(--brown);
+	background: transparent;
+	border: 1.5px solid var(--brown);
+	color: var(--brown);
 }
-.sidebar-cta.outline:hover { background: var(--brown); color: var(--cream); }
+.sidebar-cta.outline:hover {
+	background: var(--brown);
+	color: var(--cream);
+}
 
 /* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 1024px) {
-    .page-hero, .journey-index  { padding-left: 32px; padding-right: 32px; }
-    .pkg-card { grid-template-columns: 1fr; min-height: auto; }
-    .pkg-card:nth-child(even)   { direction: ltr; }
-    .pkg-card-visual             { aspect-ratio: 16/9; }
-    .pkg-card-info               { padding: 40px 36px; }
-    .detail-body                 { grid-template-columns: 1fr; padding: 48px 32px; }
-    .detail-sidebar              { position: static; }
-    .detail-hero-overlay         { padding: 32px; }
+	.page-hero,
+	.journey-index {
+		padding-left: 32px;
+		padding-right: 32px;
+	}
+	.pkg-card {
+		grid-template-columns: 1fr;
+		min-height: auto;
+	}
+	.pkg-card:nth-child(even) {
+		direction: ltr;
+	}
+	.pkg-card-visual {
+		aspect-ratio: 16/9;
+	}
+	.pkg-card-info {
+		padding: 40px 36px;
+	}
+	.detail-body {
+		grid-template-columns: 1fr;
+		padding: 48px 32px;
+	}
+	.detail-sidebar {
+		position: static;
+	}
+	.detail-hero-overlay {
+		padding: 32px;
+	}
 }
 @media (max-width: 640px) {
-    .page-hero { padding: 0 20px 48px; }
-    .journey-index { padding: 48px 20px 64px; }
+	.page-hero {
+		padding: 0 20px 48px;
+	}
+	.journey-index {
+		padding: 48px 20px 64px;
+	}
 }

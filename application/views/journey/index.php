@@ -5,7 +5,7 @@
 <!-- ── PAGE HERO ──────────────────────────────────────── -->
 <div class="page-hero">
     <div class="page-hero-bg">
-        <img src="<?= $assets_url ?>images/hero/journey-hero.jpg" alt="Journey Hero">
+        <img src="<?= $assets_url ?>uploads/journals/70396676c20915fc9ab5f92c99deaebb.jpg" alt="Journey Hero">
     </div>
     <div class="page-hero-content">
         <span class="page-hero-label">Signature Journey</span>

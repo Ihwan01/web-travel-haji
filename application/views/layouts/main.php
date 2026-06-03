@@ -36,7 +36,27 @@
     <?php $this->load->view('partials/footer'); ?>
 
     <!-- Global JS -->
-    <script src="<?= $assets_url ?>js/main.js"></script>
+    <script src="<?= $assets_url ?>js/main.js">
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbar = document.getElementById("navbar");
+
+            function checkScroll() {
+                // Jika di-scroll lebih dari 40px, ubah navbar jadi solid cream
+                if (window.scrollY > 40) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            }
+
+            // Jalankan saat pertama kali halaman dimuat (antispasi jika page di-refresh di posisi tengah)
+            checkScroll();
+
+            // Jalankan setiap kali user melakukan scroll
+            window.addEventListener("scroll", checkScroll);
+        });
+    </script>
+    
 
 </body>
 </html>

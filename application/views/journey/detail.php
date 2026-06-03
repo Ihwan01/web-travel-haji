@@ -1,7 +1,7 @@
 <div class="journey-detail">
     <div class="detail-hero" style="margin-top:var(--nav-h);">
         <?php if ($package->main_image): ?>
-            <img class="detail-hero-img" src="<?= base_url($package->main_image) ?>" alt="<?= htmlspecialchars($package->name) ?>">
+            <img class="detail-hero-img" src="<?= base_url('assets/uploads/packages/' . $package->main_image) ?>" alt="<?= htmlspecialchars($package->name) ?>">
         <?php else: ?>
             <?php
             $bg_map = ['Classic'=>'pkg-bg-classic','Signature'=>'pkg-bg-signature','Private'=>'pkg-bg-private','Sacred'=>'pkg-bg-sacred'];
