@@ -16,117 +16,39 @@ D:.
 |   |   index.html
 |   |   
 |   +---cache
-|   |       ci_session03nlsdhocus2tko6r91k056nmc834oh6
-|   |       ci_session0ndfe6pmt9thqrgf412hgjhm54nalnls
-|   |       ci_session0qd8kds0huco6v9jta0okpb50bbkcnnd
-|   |       ci_session0rapqodn49cqucanismrmsvf618qqeqe
-|   |       ci_session0rok1kj48benresqkgjinru5ploubetn
-|   |       ci_session10s34fdbvplusiech42gdc1g35b5qhbg
-|   |       ci_session12gm7s1qj2pn3f93gf3aa061vb6fs7pi
-|   |       ci_session1958os7rkm7ifgbd2o3du9q13cjmsdg0
-|   |       ci_session2t1j5ihnruj7vl7g9m9k69do22kn4ap5
-|   |       ci_session347p319unirekbrptgmlqah5h5vivi73
-|   |       ci_session3fpsjsofsvj21113qf90rjq7uje9r8hi
-|   |       ci_session3ovf1n0kacvtbib93001s85q5u6u3pq0
+|   |       ci_session1ef6snrtnbdakmkpn7gnh4mbunflo18u
+|   |       ci_session2vjo4bvs1u4ai78j51pvce7gblr8oudh
+|   |       ci_session2vt67eqo6c07g294b2i5caru74sch40f
 |   |       ci_session5i2nni5uk0r6nom3j5lev76894dc798b
-|   |       ci_session5kj140cbq6rcq26ii5rsrd90g7254tv6
-|   |       ci_session615o706bnhjuq2i7edcnip4osn3m2mum
-|   |       ci_session6315s76e5up9c319lgrrffud722f1da0
-|   |       ci_session6ci2n41juhmu2p7rmmm0fhropkc1r8dk
-|   |       ci_session6hlpkkbqt7jfanfmivv9vqpt98g8k12m
-|   |       ci_session6q86517er203bdr1bp6mglqsn6ki4obj
-|   |       ci_session6tcck64bfq6nfsfutarfnhh7m7i7gltq
+|   |       ci_session6db7dpjpv9f59uk19csqg44vdbplcc1n
 |   |       ci_session72ne4bil32iu0mlt4brqe8b25p1jl5hu
-|   |       ci_session76c2vd22dofal7p9gmkjldb545gh5ie6
-|   |       ci_session7kcv8mumgra5jar44sg9rkr46v40mrdj
-|   |       ci_session7obnqk2af1l7ei338hp70r6ki5heo1u2
-|   |       ci_session87570h7q3os41nts9umja1mgtvvk6r8s
-|   |       ci_session8c06o3vnp5q2ch940dg4v14pbefl4cig
-|   |       ci_session8fuke8ev2mi953buli4vfmucks0hmiia
-|   |       ci_session8m1u04au1bf081l7uo3lckksjnf4j6i0
-|   |       ci_session8td65qjpj4fsm9vo3eop5fb0t549o0na
-|   |       ci_session94efk88amus0qngo81rqs5siot30n2u3
-|   |       ci_session97kf266cg7q8e4m1c0q0ii8hke02hne3
-|   |       ci_session9a9vlg9pc5llhv94osuip42slloq7qa4
-|   |       ci_session9c1lufsf6c8mjj2omf2a692fcj9gb3pk
-|   |       ci_session9dr6ooi3ru6bmbfphbe5bjhf0tcsh22t
-|   |       ci_session9fsk6s4c68j4dhfl2bjg4u3jjh35833o
-|   |       ci_session9m8pmbipf7nbusnnsj3e9la87t7klrsd
-|   |       ci_session9ob73775rdg1rg1ccicuosor6kth2bsg
+|   |       ci_session8fu3e2rq0gbn049ffkr8thpb0jtgr5oe
 |   |       ci_sessionaam7d78uahai18gv93218oqo3t75hbd9
-|   |       ci_sessionamuh8blk3ho6jsr77um5741lhunp9u62
-|   |       ci_sessionbd6e1o10600b1as9mnkbm0h644dm6020
-|   |       ci_sessionc4ueler4pc8mh0jtk4orhost0u9v3jd4
-|   |       ci_sessionc8acu0k13r7io32cl08kj94p9i8bgkmu
-|   |       ci_sessionch4sckom4m4ca4obtrd2ptfktvigum69
-|   |       ci_sessiond3kb7vr25ljicol9vnhoi1vkp06i3l8u
-|   |       ci_sessionddf5l22vu1j4ffq95keo64ubvhndj2ps
-|   |       ci_sessiondlcq23trfniuen9r6smo73qogic9i85k
-|   |       ci_sessiondqajokbg89qakpoid2pit3vvq7o67sjp
-|   |       ci_sessione2k4clp8qlg2rif0s6mp9jbuf5sqijp3
-|   |       ci_sessionel18ebeam05ls4l7ifr6jmquk88dcvpg
-|   |       ci_sessionels5670rf9nlq4224udheflapvvir88m
-|   |       ci_sessioner297pjsjkgka2bl0pddtnkebgemd31o
-|   |       ci_sessionf2u07705tfnqc47hvc41iee0q6ccfhre
-|   |       ci_sessionf4bev7sk49fpoof374vl4e96aah0evld
-|   |       ci_sessionf58t11imnnc5jhgtaueg1ubt204qe3hn
-|   |       ci_sessiong4b4dsnrckfpp7canrm4e7cb0uorghmt
-|   |       ci_sessiongei9eqkb0famukvnbskq27ojkl931ufu
+|   |       ci_sessionacuqav74gon7l0k4e50atl9bjr23bqeu
+|   |       ci_sessionar4j2ck4v3bmkudkuc2mg7bnlqnonscl
+|   |       ci_sessionar4namuic5rv3rql6f7ta0rgpf13lv8e
+|   |       ci_sessionc9ic3r9hal75saiu2dg0033ahnmhmq8j
+|   |       ci_sessione0rm4brk5sv6k8v30i2es2rm5tm47e2r
+|   |       ci_sessione186e0r0qem1lsta8n5buqnnbsrh9jb3
+|   |       ci_sessione9jkfc7g0k2a1ob62gm8p8o5sku7h8l1
+|   |       ci_sessionevu54stn2jdgbp8q9sb6pbbg1pnk38t8
+|   |       ci_sessionfml5g37ao5d6jc77onduc1mek9q9efln
+|   |       ci_sessiong98rlicda36unfelv927smmvrepbq0kk
 |   |       ci_sessionh5k38e091qgdj4k2fhdk2fi79of2ofcq
-|   |       ci_sessionhldg01rh9e7smui7dql63pb8f0opraa0
-|   |       ci_sessionhq523ip0jp3h01pf0l946ldk6ccmql3v
-|   |       ci_sessionhrl56vu2fkpi5psd8k3u2adlj77rsnbb
-|   |       ci_sessioni8a6p2625auq0ul2vh0epah77rjb6gpp
-|   |       ci_sessionig6g90p10rrh7tcknrhd80t2jrvrnafq
-|   |       ci_sessionitp7b29ir94dtvfcrd2vcmrm5ddb1bgn
-|   |       ci_sessionj6tnk1712rtj29ej5g65rroktinilq5a
-|   |       ci_sessionjca7vnuk2jrds6jpilaaf6pl2vtljco0
-|   |       ci_sessionjftb184pgh5knl6u3jano377r2se20b7
-|   |       ci_sessionjh2ne8m5o8vt2duo4rg7c6n0o3o8uql4
-|   |       ci_sessionjog7apset2o3no3nfb5lhdvjduc0jgqe
-|   |       ci_sessionjs5r3t5rsu76hdef4dmqh0u4s39mcuag
-|   |       ci_sessionk6iivg1pldqnfsrikhfld7qehrmlml6c
-|   |       ci_sessionkdachgvmh0nspqe1bq7vf3m037q6mlt9
-|   |       ci_sessionkjgbproinc2pdthf9fv6elsd54b19vfg
-|   |       ci_sessionkk0fi125r1g4tq0tskl2pqb1jg77o8hh
-|   |       ci_sessionkk5c4d66dquhsq240cvtotmpkdam66h8
-|   |       ci_sessionlhp48udbtqk2n1qq8najq6cnalkfeptn
+|   |       ci_sessioni329t5c087rj4fcusrjtbs7qc3jdce1p
+|   |       ci_sessionjh3jm5l2693usn2902lsj74lk3ce3o1a
+|   |       ci_sessionjibgqrm9ti5k5eg1pm6h823hhf4utc49
+|   |       ci_sessionl4u1vj9kqo542g06c88ovvo4qeu4u44h
+|   |       ci_sessionl78t5suq29ncveo6d525mf10v8hritc0
+|   |       ci_sessionlicvt5c8048rse67s3j33kooqem4iatd
 |   |       ci_sessionm17qdqb5siuo4vcpatoli2p38nogrkbl
-|   |       ci_sessionm1q0pjq85t63122cn9re8351ja9hgmoo
-|   |       ci_sessionmg38mlraij2mame8thn09k7m6hettiqi
-|   |       ci_sessionmgqfdtfft5nff0t0gps7srlo82qf1dkr
-|   |       ci_sessionmtm9gffjut29e464sgt87ps7d9o6ifj6
-|   |       ci_sessionn2pfufh90vcn5pfpk6j4pm8q5d3irqnn
-|   |       ci_sessionnp8a3fhimdr5uonn520vjp8gmg2fsm20
+|   |       ci_sessionm7dr5kikcuvr673mdobc45jipu592rbp
 |   |       ci_sessiono067l852oa2j9h92v6i2ei1cr16tl39n
-|   |       ci_sessiono3d8ninla0ero0nonvi1covc599bshhu
-|   |       ci_sessionoic4e3ekcpjv913fbbuboioureea7m1o
-|   |       ci_sessionordm27tjrqlkrro3sacfadperfk5t4t2
-|   |       ci_sessionp49ilu9dj4q26kpac15pk890eu0bkm4p
-|   |       ci_sessionp9baclcbeenh7p64puacb0g4223dah83
-|   |       ci_sessionpiicnvno7pho7fov234nsr3cos009d43
-|   |       ci_sessionpjhnaa0lvablbg5c3rkr83n89jq2cr7g
-|   |       ci_sessionpnrk8efm1ioisktuda7o4ueb5jnffb3s
-|   |       ci_sessionqgt6ganhajpr4486bfd7mnpesn7rth11
-|   |       ci_sessionqn7h3qlbbrh9vu29h8072a8d73ialnmt
+|   |       ci_sessionoch1gvookjkeh7p79eorbohsralbthc5
+|   |       ci_sessionpjopsvb1iu31id30croboos13je26i72
 |   |       ci_sessionqsr9t22cb600btmud94jg2qldktpp33g
-|   |       ci_sessionrmrqb30mimlbfu6fmlg1f5mlgkbl0ie1
-|   |       ci_sessionrs0j37i908kv71bv70qqutmu30ueqohg
-|   |       ci_sessions438guofllbqk7mmuq3733cu10gumj6f
-|   |       ci_sessions4v9lfgjs8m1iminjg741vplju3ndijb
-|   |       ci_sessionsp6ago23akb9moogb5cgmo63n0214mo0
-|   |       ci_sessionsrsjrj3k5um7a3spsuar53jedp7ummu2
-|   |       ci_sessiont0e7eavshtq4b04k1p8e6ufokq19llgn
+|   |       ci_sessionsdth3pe5f5nonf404l26kshsnecdbi9a
 |   |       ci_sessiont51s6rol37t9akt7usilvef2g8l8e6un
-|   |       ci_sessiont645ll2m7qc2ntvtblf5i0h2jsufvbr9
-|   |       ci_sessiont905danoh18t5vsj6qdc06q6ot8se4o7
-|   |       ci_sessionta5q12j7udjpk5huhlvc5kqe41q2hn7q
-|   |       ci_sessiontb2cp342p2e4ki80mrob54p2rsh4hr3b
-|   |       ci_sessiontgt0tmlpu163nrstkqc05nefc0pk48lt
-|   |       ci_sessionu5h2sah82kvckutf8lekr1imjd72u9nr
-|   |       ci_sessionunlirbb74dh543g98gb1n4ntrg19mloa
-|   |       ci_sessionv59ubqjouufiq89an5lvrlbg4h4dacd7
-|   |       ci_sessionvpuntea7cnl3g18gdbqt8b88qog1h5o8
 |   |       index.html
 |   |       
 |   +---config
@@ -242,6 +164,8 @@ D:.
 |       |   |       index.php
 |       |   |       
 |       |   +---journals
+|       |   |       all_comments.php
+|       |   |       categories.php
 |       |   |       comments.php
 |       |   |       create.php
 |       |   |       edit.php
@@ -337,6 +261,9 @@ D:.
 |   |       70396676c20915fc9ab5f92c99deaebb.jpg
 |   |       Logo-tulisan.png
 |   |       Logo.png
+|   |       slide1_Hero_Homepage.png
+|   |       slide2_Hero_Homepage.png
+|   |       slide3_Hero_Homepage.png
 |   |       
 |   +---js
 |   |       main.js
@@ -372,6 +299,7 @@ D:.
 |       |       
 |       +---packages
 |       |       29218be97a15abd18459038905187599.jpg
+|       |       51b885cbb09b3d2b348aa00cc6454d18.jpg
 |       |       5d26f04a647c2526136b3634f3a8c127.jpg
 |       |       c34f2d245b2c48cffd08adabd2f2eeec.jpg
 |       |       ca64b7d2840df5fcf9b9c9133cb9210e.jpg
