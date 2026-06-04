@@ -5,13 +5,21 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 if (ENVIRONMENT === 'development') {
-    // 1. KONFIGURASI LOKAL (Gunakan XAMPP agar ringan dan super cepat)
+    // 1. KONFIGURASI PROJEK LOKAL
     $db['default'] = array(
         'dsn'      => '',
-        'hostname' => 'localhost',
-        'username' => 'root', // Bawaan XAMPP
-        'password' => '',     // Kosongkan untuk XAMPP
-        'database' => 'nuansa_rindu', // Ganti dengan nama database Anda di phpMyAdmin localhost
+        // // Pakai DB lokal
+        // 'hostname' => 'localhost',
+        // 'username' => 'root',
+        // 'password' => '',
+        // 'database' => 'nuansa_rindu',
+
+        // pakai remote DB Hostinger
+        'hostname' => 'srv1866.hstgr.io', // Hostname tetap srv1866.hstgr.io karena diakses dari luar server Hostinger
+        'username' => 'u930669699_nuansarindu',
+        'password' => 'Q7m!4vP2#zL8sT9@kR6xN1$h',
+        'database' => 'u930669699_nuansarindu',
+
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,
