@@ -141,6 +141,20 @@
 	background: rgba(245, 240, 232, 0.5);
 }
 
+/* ── INTERAKTIVITAS PAGINASI HERO ─────────────────────── */
+.hero-fraction-pagination .nav-trigger {
+	cursor: pointer;
+	transition:
+		color 0.3s ease,
+		transform 0.3s ease;
+	display: inline-block;
+	padding: 4px; /* Area sentuh sedikit diperlebar untuk mobile */
+}
+.hero-fraction-pagination .nav-trigger:hover {
+	color: #c4a35a;
+	transform: scale(1.15);
+}
+
 /* ── ABOUT SECTION (PENGGANTI WHY SECTION) ────────────── */
 .about-section {
 	background: var(--cream);

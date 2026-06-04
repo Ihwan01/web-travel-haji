@@ -11,12 +11,8 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 */
 ?>
 
-<!-- ===========================================================================
-     HERO SECTION (KUSTOM CROSSFADE SLIDER - BEBAS BENTROK)
-================================================================================ -->
 <section class="hero-custom-slider" id="homeHero">
 
-    <!-- SLIDE 1: The Core Philosophy -->
     <div class="custom-slide active">
         <div class="hero-video-wrap">
             <img src="<?= base_url('assets/images/slide1_Hero_Homepage.png') ?>" alt="Perjalanan hati, pulang membawa makna." style="width: 100%; height: 100%; object-fit: cover;">
@@ -30,7 +26,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         </div>
     </div>
 
-    <!-- SLIDE 2: The Emotional Attachment -->
     <div class="custom-slide">
         <div class="hero-video-wrap">
             <img src="<?= base_url('assets/images/slide2_Hero_Homepage.png') ?>" alt="Lebih dari perjalanan, ini tentang pulang." style="width: 100%; height: 100%; object-fit: cover;">
@@ -44,7 +39,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         </div>
     </div>
 
-    <!-- SLIDE 3: The Quiet Luxury Experience -->
     <div class="custom-slide">
         <div class="hero-video-wrap">
             <img src="<?= base_url('assets/images/slide3_Hero_Homepage.png') ?>" alt="Menyentuh tanah suci, merengkuh ketenangan." style="width: 100%; height: 100%; object-fit: cover;">
@@ -59,20 +53,21 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         </div>
     </div>
 
-    <!-- Paginasi Ala Editorial (01 —— 03) -->
     <div class="hero-fraction-pagination">
-        <span id="currSlide">01</span>
+        <span id="currSlide" class="nav-trigger" title="Geser ke Slide Sebelumnya">01</span>
         <span class="pagination-line"></span>
-        <span id="totalSlide">03</span>
+        <span id="totalSlide" class="nav-trigger" title="Geser ke Slide Selanjutnya">03</span>
     </div>
 
 </section>
 
-<!-- JS VANILLA KHUSUS HERO SLIDER -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const sliderContainer = document.getElementById('homeHero');
         const slides = document.querySelectorAll('.custom-slide');
         const currSlideText = document.getElementById('currSlide');
+        const totalSlideText = document.getElementById('totalSlide');
+
         let currentSlide = 0;
         let slideInterval;
 
@@ -83,8 +78,10 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
             slides[index].classList.add('active');
             currentSlide = index;
 
-            // Update teks paginasi (tambahkan angka 0 di depan jika di bawah 10)
-            currSlideText.innerText = '0' + (index + 1);
+            // Update teks paginasi
+            if (currSlideText) {
+                currSlideText.innerText = '0' + (index + 1);
+            }
         }
 
         function nextSlide() {
@@ -92,46 +89,66 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
             showSlide(next);
         }
 
+        function prevSlide() {
+            let prev = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(prev);
+        }
+
         function startSlideShow() {
-            // Diperlambat dari 6000 (6 detik) menjadi 8000 (8 detik)
+            // Animasi otomatis setiap 8 detik
             slideInterval = setInterval(nextSlide, 8000);
         }
 
-        // Mulai Slideshow
-        startSlideShow();
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const slides = document.querySelectorAll('.custom-slide');
-        const dots = document.querySelectorAll('.custom-dot');
-        let currentSlide = 0;
-        let slideInterval;
-
-        function showSlide(index) {
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            slides[index].classList.add('active');
-            dots[index].classList.add('active');
-            currentSlide = index;
-        }
-
-        function nextSlide() {
-            let next = (currentSlide + 1) % slides.length;
-            showSlide(next);
-        }
-
-        function startSlideShow() {
-            slideInterval = setInterval(nextSlide, 6000);
-        }
-
-        window.goToSlide = function(index) {
+        function resetSlideShow() {
             clearInterval(slideInterval);
-            showSlide(index);
             startSlideShow();
-        };
+        }
 
+        // 1. LOGIKA KLIK PAGINASI
+        if (currSlideText && totalSlideText) {
+            currSlideText.addEventListener('click', function() {
+                prevSlide();
+                resetSlideShow();
+            });
+
+            totalSlideText.addEventListener('click', function() {
+                nextSlide();
+                resetSlideShow();
+            });
+        }
+
+        // 2. LOGIKA SWIPE UNTUK MOBILE/TOUCH
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        sliderContainer.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {
+            passive: true
+        });
+
+        sliderContainer.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {
+            passive: true
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimal jarak geser dalam pixel
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Geser ke kiri (Next Slide)
+                nextSlide();
+                resetSlideShow();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Geser ke kanan (Prev Slide)
+                prevSlide();
+                resetSlideShow();
+            }
+        }
+
+        // Mulai Slideshow
         startSlideShow();
     });
 </script>
@@ -164,11 +181,11 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 
         <div class="about-visual-side reveal delay-1">
             <?php
-            // Menampung link video dari CMS (jika sudah ada nanti)
-            $video_link = !empty($site_settings->about_media) ? $site_settings->about_media : '#';
+            // Menampung link video dari CMS (jika sudah ada nanti). Default menggunakan YouTube Unlisted.
+            $video_link = !empty($site_settings->about_media) ? $site_settings->about_media : 'https://youtu.be/D6FRezJF3rU?si=Pb4_jlicHrHTLQOU';
 
-            // Menampung gambar thumbnail (gunakan dummy bg-classic jika CMS kosong)
-            $thumbnail = !empty($site_settings->about_video_thumbnail) ? base_url($site_settings->about_video_thumbnail) : '';
+            // Menampung gambar thumbnail
+            $thumbnail = !empty($site_settings->about_video_thumbnail) ? base_url($site_settings->about_video_thumbnail) : base_url('assets/images/nuansa-rindu-about-thumbnail.webp');
             ?>
 
             <div class="about-video-wrap" data-lightbox data-type="Video" data-src="<?= $video_link ?>">
