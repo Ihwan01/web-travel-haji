@@ -15,10 +15,10 @@ if (ENVIRONMENT === 'development') {
     // Konfigurasi LOKAL -> REMOTE MYSQL HOSTINGER
     $db['default'] = array(
         'dsn'      => '',
-        'hostname' => 'srv1866.hstgr.io',
-        'username' => 'u930669699_nuansarindu',
-        'password' => 'Q7m!4vP2#zL8sT9@kR6xN1$h',
-        'database' => 'u930669699_nuansarindu',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'nuansa_rindu',
         'dbdriver' => 'mysqli',
         'dbprefix' => '',
         'pconnect' => FALSE,
