@@ -4,49 +4,135 @@
    ═══════════════════════════════════════════════════════ */
 
 .site-footer {
-	background: var(--mahogany);
+	background: var(--deep, #0e0c09);
+	color: var(--muted, #8a7d6b);
+	border-top: 1px solid rgba(196, 163, 90, 0.1);
 }
 
 /* ── CTA SECTION ──────────────────────────────────────── */
 .footer-cta-section {
-	padding: 120px 60px;
-	text-align: center;
-	border-bottom: 1px solid rgba(196, 163, 90, 0.12);
+	position: relative;
+	padding: clamp(56px, 8vw, 96px) clamp(32px, 7vw, 96px) clamp(48px, 6vw, 80px);
+	border-bottom: 1px solid rgba(196, 163, 90, 0.1);
 }
+
 .footer-star {
-	font-size: 1.4rem;
-	color: var(--gold);
-	opacity: 0.7;
 	display: block;
+	color: var(--gold, #c4a35a);
+	font-size: 1.2rem;
+	opacity: 0.7;
 	margin-bottom: 32px;
+	letter-spacing: 0.3em;
+	text-align: center;
 }
+
+/* Grid 2 kolom yang presisi */
+.footer-cta-inner {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	align-items: center; /* Menyelaraskan kotak kiri dan kanan secara vertikal */
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+/* Kolom 1: Quote (RATA KANAN) */
 .footer-cta-quote {
-	font-family: var(--font-display);
-	font-size: clamp(2rem, 4vw, 3.5rem);
+	font-family: var(--font-display, serif);
+	font-size: clamp(1.8rem, 3.5vw, 2.8rem);
 	font-weight: 300;
-	color: #f5f0e8;
-	line-height: 1.25;
-	margin-bottom: 48px;
+	color: var(--cream, #f0ebe2);
+	line-height: 1.35;
+	letter-spacing: 0.01em;
+	margin: 0;
+	padding-right: 48px;
+	text-align: right;
 }
+
+/* Kolom 2: Mid (RATA KIRI) */
+.footer-cta-mid {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 0 0 0 48px;
+	border-left: 1px solid rgba(196, 163, 90, 0.15);
+	text-align: left;
+	align-items: flex-start;
+}
+
+.footer-cta-desc {
+	font-size: 0.85rem;
+	color: var(--muted, #8a7d6b);
+	line-height: 1.8;
+	margin: 0;
+	max-width: 320px;
+}
+
+/* Tombol CTA (Garis --- dihapus, styling disesuaikan) */
 .footer-btn {
 	display: inline-flex;
 	align-items: center;
-	gap: 16px;
-	padding: 14px 32px;
-	border: 1.5px solid var(--gold);
-	background: transparent;
-	color: var(--gold);
-	font-family: var(--font-body);
+	gap: 14px;
 	font-size: 0.65rem;
 	letter-spacing: 0.22em;
 	text-transform: uppercase;
-	cursor: pointer;
-	transition: all var(--transition);
+	color: var(--gold, #c4a35a);
+	border: 1.5px solid var(--gold, #c4a35a);
+	padding: 14px 32px;
+	background: transparent;
 	text-decoration: none;
+	transition: all 0.3s ease;
+	font-family: var(--font-body);
+	cursor: pointer;
 }
+
 .footer-btn:hover {
-	background: var(--gold);
-	color: var(--dark);
+	border-color: var(--gold, #c4a35a);
+	background: var(--gold, #c4a35a);
+	color: var(--deep, #0e0c09);
+}
+
+.footer-cta-contacts {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding-top: 16px;
+	border-top: 1px solid rgba(196, 163, 90, 0.1);
+	width: 100%;
+	max-width: 320px;
+}
+
+.footer-cta-contact-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	font-size: 0.7rem;
+	color: rgba(138, 125, 107, 0.65);
+	text-decoration: none;
+	letter-spacing: 0.03em;
+	transition: color 0.2s ease;
+}
+
+.fci-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	border: 1px solid rgba(196, 163, 90, 0.18);
+	color: var(--gold, #c4a35a);
+	flex-shrink: 0;
+	opacity: 0.7;
+	transition: all 0.2s;
+	border-radius: 50%;
+}
+
+.footer-cta-contact-item:hover {
+	color: var(--cream, #f0ebe2);
+}
+.footer-cta-contact-item:hover .fci-icon {
+	opacity: 1;
+	border-color: var(--gold, #c4a35a);
 }
 
 /* ── BOTTOM NAV ───────────────────────────────────────── */
@@ -56,39 +142,50 @@
 	justify-content: space-between;
 	padding: 28px 60px;
 }
+
 .footer-logo {
-	font-family: var(--font-display);
-	font-size: 0.9rem;
-	letter-spacing: 0.14em;
-	color: rgba(245, 240, 232, 0.45);
+	opacity: 0.75;
+	transition: opacity 0.2s;
 	text-decoration: none;
 }
-.footer-logo-star {
-	color: rgba(196, 163, 90, 0.5);
-	margin-right: 6px;
+
+.footer-logo:hover {
+	opacity: 1;
 }
+
 .footer-nav {
 	display: flex;
 	gap: 32px;
 	list-style: none;
+	padding: 0;
+	margin: 0;
 }
+
 .footer-nav a {
 	font-size: 0.62rem;
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
 	color: rgba(245, 240, 232, 0.3);
 	text-decoration: none;
-	transition: color var(--transition);
+	transition: color var(--transition, 0.3s);
 }
+
 .footer-nav a:hover {
-	color: var(--gold-lt);
+	color: var(--gold-lt, #d4bb80);
+}
+
+.footer-right {
+	display: flex;
+	align-items: center;
+	gap: 24px;
 }
 
 /* ── SOCIAL ───────────────────────────────────────────── */
 .footer-social {
 	display: flex;
-	gap: 14px;
+	gap: 12px;
 }
+
 .footer-social a {
 	width: 34px;
 	height: 34px;
@@ -99,24 +196,26 @@
 	justify-content: center;
 	color: rgba(245, 240, 232, 0.35);
 	text-decoration: none;
-	transition: all var(--transition);
+	transition: all var(--transition, 0.3s);
 }
+
 .footer-social a:hover {
-	border-color: var(--gold);
-	color: var(--gold);
+	border-color: var(--gold, #c4a35a);
+	color: var(--gold, #c4a35a);
 }
 
 /* ── COPYRIGHT ────────────────────────────────────────── */
 .footer-copy {
-	padding: 16px 60px;
-	border-top: 1px solid rgba(196, 163, 90, 0.08);
-	text-align: center;
-	font-size: 0.62rem;
+	font-size: 0.6rem;
 	color: rgba(245, 240, 232, 0.2);
 	letter-spacing: 0.1em;
+	margin: 0;
+	white-space: nowrap;
 }
 
-/* ── RESPONSIVE ───────────────────────────────────────── */
+/* ── RESPONSIVE BENTUK IPAD, TABLET & SMARTPHONE ──────── */
+
+/* iPad / Laptop Kecil */
 @media (max-width: 1024px) {
 	.footer-cta-section {
 		padding: 80px 32px;
@@ -126,27 +225,58 @@
 		flex-wrap: wrap;
 		gap: 20px;
 	}
-	.footer-copy {
-		padding: 14px 32px;
-	}
 	.footer-nav {
 		display: none;
 	}
 }
-@media (max-width: 640px) {
-	.footer-cta-section {
-		padding: 64px 20px;
+
+/* Tablet Portrait */
+@media (max-width: 900px) {
+	.footer-cta-quote {
+		font-size: clamp(1.8rem, 4vw, 2.2rem);
+		padding-right: 24px;
 	}
-	.footer-bottom {
-		padding: 20px;
-		flex-direction: column;
-		align-items: center;
+	.footer-cta-mid {
+		padding-left: 24px;
+	}
+}
+
+/* Smartphone / Mobile */
+@media (max-width: 768px) {
+	.footer-cta-inner {
+		grid-template-columns: 1fr;
+		gap: 40px;
 		text-align: center;
 	}
-	.footer-copy {
-		padding: 14px 20px;
-	}
+
+	/* Pada mobile, rata kanan-kiri dibatalkan dan dijadikan rata tengah agar lebih rapi */
 	.footer-cta-quote {
-		font-size: clamp(1.6rem, 6vw, 2.4rem);
+		text-align: center;
+		padding-right: 0;
+		padding-bottom: 40px;
+		border-bottom: 1px solid rgba(196, 163, 90, 0.12);
+	}
+	.footer-cta-mid {
+		text-align: center;
+		align-items: center;
+		border-left: none;
+		padding-left: 0;
+	}
+	.footer-cta-desc {
+		max-width: 100%;
+	}
+	.footer-cta-contacts {
+		align-items: center;
+		max-width: 100%;
+	}
+
+	.footer-bottom {
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+	}
+	.footer-right {
+		flex-direction: column;
+		gap: 16px;
 	}
 }
