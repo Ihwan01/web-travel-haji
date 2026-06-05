@@ -20,19 +20,6 @@
         <button class="filter-tab" data-filter="Photo">Photography</button>
     </div>
 
-    <?php
-    // Dummy Data Fallback (Jika database masih kosong)
-    if (empty($media)) {
-        $media = [
-            (object)['id' => 1, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-1.jpg'],
-            (object)['id' => 2, 'title' => 'Visual Story 1', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-2.jpg', 'thumbnail_url' => null],
-            (object)['id' => 3, 'title' => 'Visual Story 2', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-3.jpg', 'thumbnail_url' => null],
-            (object)['id' => 4, 'title' => 'Perjalanan Hati', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-4.jpg'],
-            (object)['id' => 5, 'title' => 'Visual Story 3', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-5.jpg', 'thumbnail_url' => null],
-        ];
-    }
-    ?>
-
     <div class="luxury-gallery-container reveal">
         <div class="luxury-masonry" id="luxuryMasonry">
 
@@ -99,6 +86,33 @@
             }
         });
 
+        // [BUG FIX] Solusi Definitif untuk Zombie Audio GLightbox
+        lightbox.on('close', () => {
+            setTimeout(() => {
+                const embedContainers = document.querySelectorAll('[id^="embed-"]');
+                embedContainers.forEach(container => {
+                    const vids = container.querySelectorAll('video');
+                    vids.forEach(v => {
+                        v.pause();
+                        v.currentTime = 0;
+                    });
+
+                    const iframes = container.querySelectorAll('iframe');
+                    iframes.forEach(iframe => {
+                        let currentSrc = iframe.src;
+                        if (currentSrc.includes('autoplay=1') || currentSrc.includes('autoplay=true')) {
+                            currentSrc = currentSrc.replace('autoplay=1', 'autoplay=0').replace('autoplay=true', 'autoplay=false');
+                        }
+                        iframe.src = 'about:blank';
+
+                        setTimeout(() => {
+                            iframe.src = currentSrc;
+                        }, 50);
+                    });
+                });
+            }, 400);
+        });
+
         // 2. Logika Filter Grid Masonry
         const filterTabs = document.querySelectorAll('.filter-tab');
         const masonryItems = document.querySelectorAll('.luxury-item');
@@ -114,8 +128,7 @@
                 // Sembunyikan/Tampilkan item berdasarkan data-category
                 masonryItems.forEach(item => {
                     if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                        item.style.display = 'block'; // Susunan Masonry CSS akan otomatis menyesuaikan kekosongan
-                        // Tambahkan efek fade-in kecil
+                        item.style.display = 'block';
                         item.style.animation = 'fadeUp 0.5s ease forwards';
                     } else {
                         item.style.display = 'none';

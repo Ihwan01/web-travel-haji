@@ -128,8 +128,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		function closeLightbox() {
 			overlay.classList.remove("active");
-			lbContent.innerHTML = ""; // Menghapus isi untuk mematikan video/iframe
-			document.body.style.overflow = "";
+
+			// [BUG FIX & LUXURY IMPLEMENTATION]
+			// Tunggu transisi fade-out CSS (0.3s) selesai, baru hancurkan isi DOM.
+			// Ini akan mematikan video/audio secara tuntas tanpa merusak animasi penutupan.
+			setTimeout(function () {
+				lbContent.innerHTML = "";
+				document.body.style.overflow = "";
+			}, 350);
 		}
 	}
 });

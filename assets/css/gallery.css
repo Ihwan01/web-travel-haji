@@ -278,9 +278,101 @@
 	}
 }
 
-/* Modifikasi Tema GLightbox agar menyatu dengan branding */
+/* ═══════════════════════════════════════════════════════
+   GLIGHTBOX LUXURY CUSTOMIZATION (GLOBAL OVERRIDE)
+   ═══════════════════════════════════════════════════════ */
+
+/* Latar belakang gelap & blur mewah */
+.goverlay {
+	background: rgba(10, 5, 2, 0.94) !important;
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+}
+
+/* Menghilangkan kotak putih kasar bawaan & meratakan teks di tengah */
+.glightbox-clean .gslide-description {
+	background: transparent !important;
+	text-align: center;
+	padding: 24px 0 !important;
+}
+
+/* Tipografi Judul Elegan (Menyala tanpa background) */
 .glightbox-clean .gslide-title {
 	color: #f5f0e8 !important;
-	font-family: var(--font-display) !important;
-	font-size: 1.5rem !important;
+	font-family: var(--font-display, serif) !important;
+	font-size: 2rem !important;
+	font-weight: 300 !important;
+	margin: 0 !important;
+	line-height: 1.3 !important;
+	text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Supaya tetap terbaca di gambar terang */
+}
+
+/* Bungkus Media (Foto/Video) dengan Shadow halus & rounded corner */
+.glightbox-clean .gslide-media {
+	box-shadow: 0 12px 50px rgba(0, 0, 0, 0.6);
+	border-radius: 8px;
+	overflow: hidden;
+	background: #000 !important; /* Mencegah kedipan putih saat video loading */
+}
+
+/* Tombol Kontrol (Close, Prev, Next) Dibuat Elegan Bulat */
+.gbtn {
+	background: rgba(255, 255, 255, 0.08) !important;
+	border: 1px solid rgba(255, 255, 255, 0.2) !important;
+	border-radius: 50% !important;
+	transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.gbtn:hover {
+	background: rgba(196, 163, 90, 0.3) !important;
+	border-color: rgba(196, 163, 90, 0.8) !important;
+	transform: scale(1.15) !important;
+}
+
+.gbtn svg {
+	fill: #f5f0e8 !important;
+}
+
+/* Memposisikan tombol Exit dengan rapi di sudut atas */
+.gclose {
+	top: 24px !important;
+	right: 32px !important;
+	width: 44px !important;
+	height: 44px !important;
+	opacity: 0.8 !important;
+}
+
+/* Memposisikan Panah Kiri & Kanan sedikit lebih jauh ke tepi layar */
+.gnext,
+.gprev {
+	width: 54px !important;
+	height: 54px !important;
+	top: 50% !important;
+	opacity: 0.8 !important;
+}
+
+@media (min-width: 769px) {
+	.gnext {
+		right: 40px !important;
+	}
+	.gprev {
+		left: 40px !important;
+	}
+}
+
+@media (max-width: 640px) {
+	.glightbox-clean .gslide-title {
+		font-size: 1.4rem !important;
+	}
+	.gclose {
+		top: 16px !important;
+		right: 16px !important;
+		width: 38px !important;
+		height: 38px !important;
+	}
+}
+
+/* Memastikan wrapper iframe video tidak berlatar belakang putih */
+.gvideo-wrapper {
+	background: transparent !important;
 }

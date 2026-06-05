@@ -317,7 +317,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     <div class="vs-masonry-container reveal">
         <div class="vs-masonry">
             <?php
-            // Data Media: Diambil dari DB (jika sudah ada $latest_media) atau dummy
             $media_list = !empty($latest_media) ? $latest_media : [
                 (object)['id' => 101, 'title' => 'Senja di Nabawi', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-1.jpg', 'thumbnail_url' => null],
                 (object)['id' => 102, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-2.jpg'],
@@ -454,6 +453,38 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 zoomable: true,
                 openEffect: 'zoom',
                 closeEffect: 'fade'
+            });
+
+            // [BUG FIX] Solusi Definitif untuk Zombie Audio GLightbox
+            homeLightbox.on('close', () => {
+                setTimeout(() => {
+                    const embedContainers = document.querySelectorAll('[id^="embed-"]');
+                    embedContainers.forEach(container => {
+                        // 1. Matikan video HTML5
+                        const vids = container.querySelectorAll('video');
+                        vids.forEach(v => {
+                            v.pause();
+                            v.currentTime = 0;
+                        });
+
+                        // 2. Putus aliran iframe YouTube secara agresif namun halus
+                        const iframes = container.querySelectorAll('iframe');
+                        iframes.forEach(iframe => {
+                            let currentSrc = iframe.src;
+                            // Jika ada autoplay=1 di link aslinya, ubah ke 0 agar tidak terputar ulang saat disembunyikan
+                            if (currentSrc.includes('autoplay=1') || currentSrc.includes('autoplay=true')) {
+                                currentSrc = currentSrc.replace('autoplay=1', 'autoplay=0').replace('autoplay=true', 'autoplay=false');
+                            }
+                            // Putuskan video secara tuntas dengan mereset ke halaman kosong
+                            iframe.src = 'about:blank';
+
+                            // Kembalikan source aslinya (yang tanpa autoplay) setelah memastikan DOM ter-refresh
+                            setTimeout(() => {
+                                iframe.src = currentSrc;
+                            }, 50);
+                        });
+                    });
+                }, 400);
             });
         }
     });
