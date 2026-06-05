@@ -25,11 +25,13 @@ if (!function_exists('generate_video_embed')) {
         }
 
         // LOGIKA 4: Deteksi TikTok
+        // Format A: URL panjang (tiktok.com/@user/video/12345...)
         if (preg_match('/tiktok\.com\/@[\w.-]+\/video\/(\d+)/i', $input, $match)) {
             $tiktok_id = $match[1];
             return '<iframe src="https://www.tiktok.com/embed/v2/' . $tiktok_id . '" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; min-height: 600px; max-width: 400px; margin: 0 auto; display: block; border-radius: 4px;"></iframe>';
         }
 
+        // Format B: URL pendek (vt.tiktok.com/XXXXX/)
         if (preg_match('/vt\.tiktok\.com\/([a-zA-Z0-9]+)/i', $input, $match)) {
             $ch = curl_init($input);
             curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -40,13 +42,14 @@ if (!function_exists('generate_video_embed')) {
             $final_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
             curl_close($ch);
 
+            // Ekstrak ID dari URL panjang hasil resolve
             if (preg_match('/video\/(\d+)/i', $final_url, $sub_match)) {
                 $tiktok_id = $sub_match[1];
                 return '<iframe src="https://www.tiktok.com/embed/v2/' . $tiktok_id . '" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; min-height: 600px; max-width: 400px; margin: 0 auto; display: block; border-radius: 4px;"></iframe>';
             }
         }
 
-        // FALLBACK
+        // FALLBACK: MP4/WEBM Local Video
         return '<video src="' . htmlspecialchars($input, ENT_QUOTES, 'UTF-8') . '" controls autoplay style="width:100%; max-height:80vh;"></video>';
     }
 }

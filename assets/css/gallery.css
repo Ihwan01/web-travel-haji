@@ -271,7 +271,6 @@
 		column-count: 1;
 	}
 
-	/* Tampilkan selalu teks judul di HP agar lebih informatif */
 	.luxury-title-overlay {
 		opacity: 1;
 		transform: none;
@@ -312,7 +311,12 @@
 	box-shadow: 0 12px 50px rgba(0, 0, 0, 0.6);
 	border-radius: 8px;
 	overflow: hidden;
-	background: #000 !important; /* Mencegah kedipan putih saat video loading */
+	background: transparent !important;
+}
+
+/* Memastikan wrapper iframe video tidak berlatar belakang putih */
+.gvideo-wrapper {
+	background: transparent !important;
 }
 
 /* Tombol Kontrol (Close, Prev, Next) Dibuat Elegan Bulat */
@@ -370,9 +374,4 @@
 		width: 38px !important;
 		height: 38px !important;
 	}
-}
-
-/* Memastikan wrapper iframe video tidak berlatar belakang putih */
-.gvideo-wrapper {
-	background: transparent !important;
 }

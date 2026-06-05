@@ -177,7 +177,11 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
             $thumbnail = !empty($site_settings->about_video_thumbnail) ? base_url($site_settings->about_video_thumbnail) : base_url('assets/images/nuansa-rindu-about-thumbnail.webp');
             ?>
 
-            <div class="about-video-wrap" data-lightbox data-type="Video" data-src="<?= $video_link ?>">
+            <div id="embed-about-vid" style="display: none;">
+                <?= function_exists('generate_video_embed') ? generate_video_embed($video_link) : '' ?>
+            </div>
+
+            <div class="about-video-wrap glightbox" href="#embed-about-vid" data-glightbox="title: Tentang Nuansa Rindu; type: inline;">
                 <?php if ($thumbnail): ?>
                     <img src="<?= $thumbnail ?>" alt="Tentang Nuansa Rindu" class="about-video-img">
                 <?php else: ?>
@@ -451,40 +455,42 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 loop: true,
                 autoplayVideos: true,
                 zoomable: true,
+                descPosition: 'bottom',
                 openEffect: 'zoom',
-                closeEffect: 'fade'
+                closeEffect: 'fade',
+                cssEfects: {
+                    fade: {
+                        in: 'fadeIn',
+                        out: 'fadeOut'
+                    },
+                    zoom: {
+                        in: 'zoomIn',
+                        out: 'zoomOut'
+                    }
+                }
             });
 
-            // [BUG FIX] Solusi Definitif untuk Zombie Audio GLightbox
+            // [BUG FIX] Menghentikan Zombie Audio saat pop-up ditutup secara aman
             homeLightbox.on('close', () => {
                 setTimeout(() => {
-                    const embedContainers = document.querySelectorAll('[id^="embed-"]');
-                    embedContainers.forEach(container => {
-                        // 1. Matikan video HTML5
-                        const vids = container.querySelectorAll('video');
+                    const activeContent = document.querySelector('.gslide.current .ginner-container');
+                    if (activeContent) {
+                        const vids = activeContent.querySelectorAll('video');
                         vids.forEach(v => {
                             v.pause();
                             v.currentTime = 0;
                         });
 
-                        // 2. Putus aliran iframe YouTube secara agresif namun halus
-                        const iframes = container.querySelectorAll('iframe');
+                        const iframes = activeContent.querySelectorAll('iframe');
                         iframes.forEach(iframe => {
-                            let currentSrc = iframe.src;
-                            // Jika ada autoplay=1 di link aslinya, ubah ke 0 agar tidak terputar ulang saat disembunyikan
-                            if (currentSrc.includes('autoplay=1') || currentSrc.includes('autoplay=true')) {
-                                currentSrc = currentSrc.replace('autoplay=1', 'autoplay=0').replace('autoplay=true', 'autoplay=false');
-                            }
-                            // Putuskan video secara tuntas dengan mereset ke halaman kosong
+                            let src = iframe.src;
                             iframe.src = 'about:blank';
-
-                            // Kembalikan source aslinya (yang tanpa autoplay) setelah memastikan DOM ter-refresh
                             setTimeout(() => {
-                                iframe.src = currentSrc;
+                                iframe.src = src;
                             }, 50);
                         });
-                    });
-                }, 400);
+                    }
+                }, 400); // 400ms delay sinkron dengan transisi fadeOut
             });
         }
     });

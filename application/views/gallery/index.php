@@ -20,6 +20,18 @@
         <button class="filter-tab" data-filter="Photo">Photography</button>
     </div>
 
+    <?php
+    if (empty($media)) {
+        $media = [
+            (object)['id' => 1, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-1.jpg'],
+            (object)['id' => 2, 'title' => 'Visual Story 1', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-2.jpg', 'thumbnail_url' => null],
+            (object)['id' => 3, 'title' => 'Visual Story 2', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-3.jpg', 'thumbnail_url' => null],
+            (object)['id' => 4, 'title' => 'Perjalanan Hati', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-4.jpg'],
+            (object)['id' => 5, 'title' => 'Visual Story 3', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-5.jpg', 'thumbnail_url' => null],
+        ];
+    }
+    ?>
+
     <div class="luxury-gallery-container reveal">
         <div class="luxury-masonry" id="luxuryMasonry">
 
@@ -65,13 +77,13 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
-        // 1. Inisialisasi GLightbox (Mewah, dengan animasi zoom)
-        const lightbox = GLightbox({
+        const luxuryLightbox = GLightbox({
             selector: '.glightbox',
             touchNavigation: true,
             loop: true,
             autoplayVideos: true,
             zoomable: true,
+            descPosition: 'bottom',
             openEffect: 'zoom',
             closeEffect: 'fade',
             cssEfects: {
@@ -86,46 +98,40 @@
             }
         });
 
-        // [BUG FIX] Solusi Definitif untuk Zombie Audio GLightbox
-        lightbox.on('close', () => {
+        // [BUG FIX] Solusi Cerdas & Aman Zombie Audio GLightbox
+        luxuryLightbox.on('close', () => {
             setTimeout(() => {
-                const embedContainers = document.querySelectorAll('[id^="embed-"]');
-                embedContainers.forEach(container => {
-                    const vids = container.querySelectorAll('video');
+                // Hanya target elemen yang sedang aktif di pop-up, bukan data aslinya
+                const activeContent = document.querySelector('.gslide.current .ginner-container');
+                if (activeContent) {
+                    const vids = activeContent.querySelectorAll('video');
                     vids.forEach(v => {
                         v.pause();
                         v.currentTime = 0;
                     });
 
-                    const iframes = container.querySelectorAll('iframe');
+                    const iframes = activeContent.querySelectorAll('iframe');
                     iframes.forEach(iframe => {
-                        let currentSrc = iframe.src;
-                        if (currentSrc.includes('autoplay=1') || currentSrc.includes('autoplay=true')) {
-                            currentSrc = currentSrc.replace('autoplay=1', 'autoplay=0').replace('autoplay=true', 'autoplay=false');
-                        }
+                        let src = iframe.src;
                         iframe.src = 'about:blank';
-
                         setTimeout(() => {
-                            iframe.src = currentSrc;
+                            iframe.src = src; // Kembalikan nilai source-nya untuk memori
                         }, 50);
                     });
-                });
-            }, 400);
+                }
+            }, 400); // Eksekusi setelah transisi CSS fade-out selesai
         });
 
-        // 2. Logika Filter Grid Masonry
         const filterTabs = document.querySelectorAll('.filter-tab');
         const masonryItems = document.querySelectorAll('.luxury-item');
 
         filterTabs.forEach(tab => {
             tab.addEventListener('click', function() {
-                // Hapus status aktif dari semua tab
                 filterTabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
 
                 const filterValue = this.getAttribute('data-filter');
 
-                // Sembunyikan/Tampilkan item berdasarkan data-category
                 masonryItems.forEach(item => {
                     if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
                         item.style.display = 'block';

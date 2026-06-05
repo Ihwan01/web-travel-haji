@@ -1,6 +1,6 @@
 <div class="page-hero">
     <div class="page-hero-bg">
-        <img src="<?= $assets_url ?>images/70396676c20915fc9ab5f92c99deaebb.jpg" alt="Journey Hero">
+        <img src="<?= $assets_url ?>images/Hero_Journey.jpg" alt="Journey Hero">
     </div>
     <div class="page-hero-content">
         <span class="page-hero-label">Signature Journey</span>
@@ -42,59 +42,63 @@
         $all_packages = $packages;
     } else {
         $all_packages = [
-            (object)['id'=>1,'name'=>'Rindu Classic','slug'=>'rindu-classic','collection_type'=>'Classic','tagline'=>'Perjalanan penuh ketenangan','price_display'=>'Hubungi Kami','main_image'=>null],
-            (object)['id'=>2,'name'=>'Rindu Signature','slug'=>'rindu-signature','collection_type'=>'Signature','tagline'=>'Pengalaman premium tak terlupakan','price_display'=>'Hubungi Kami','main_image'=>null],
-            (object)['id'=>3,'name'=>'Rindu Private','slug'=>'rindu-private','collection_type'=>'Private','tagline'=>'Dirancang khusus untuk Anda','price_display'=>'Custom','main_image'=>null],
-            (object)['id'=>4,'name'=>'Sacred Journey','slug'=>'sacred-journey','collection_type'=>'Sacred','tagline'=>'Perjalanan haji yang bermakna','price_display'=>'Hubungi Kami','main_image'=>null],
+            (object)['id' => 1, 'name' => 'Rindu Classic', 'slug' => 'rindu-classic', 'collection_type' => 'Classic', 'tagline' => 'Perjalanan penuh ketenangan', 'price_display' => 'Hubungi Kami', 'main_image' => null],
+            (object)['id' => 2, 'name' => 'Rindu Signature', 'slug' => 'rindu-signature', 'collection_type' => 'Signature', 'tagline' => 'Pengalaman premium tak terlupakan', 'price_display' => 'Hubungi Kami', 'main_image' => null],
+            (object)['id' => 3, 'name' => 'Rindu Private', 'slug' => 'rindu-private', 'collection_type' => 'Private', 'tagline' => 'Dirancang khusus untuk Anda', 'price_display' => 'Custom', 'main_image' => null],
+            (object)['id' => 4, 'name' => 'Sacred Journey', 'slug' => 'sacred-journey', 'collection_type' => 'Sacred', 'tagline' => 'Perjalanan haji yang bermakna', 'price_display' => 'Hubungi Kami', 'main_image' => null],
         ];
     }
     ?>
 
     <div class="journey-slider-wrapper reveal" style="margin-top: 64px;">
-        
+
         <button class="slider-btn prev-btn" id="journeyPrev" aria-label="Geser Kiri">
-            <svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <svg viewBox="0 0 24 24">
+                <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" fill="none" />
+            </svg>
         </button>
 
         <div class="pkg-grid" id="journeySlider">
-            <?php 
-            foreach ($all_packages as $pkg): 
+            <?php
+            foreach ($all_packages as $pkg):
                 $type = $pkg->collection_type;
                 $desc = isset($collection_desc[$type]) ? $collection_desc[$type] : '';
                 $bg   = isset($bg_map[$type]) ? $bg_map[$type] : 'pkg-bg-classic';
             ?>
-            <a href="<?= base_url('journey/' . $pkg->slug) ?>" class="pkg-card">
-                <div class="pkg-card-visual">
-                    <?php if ($pkg->main_image): ?>
-                        <img class="pkg-card-img" src="<?= base_url('assets/uploads/packages/' . $pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
-                    <?php else: ?>
-                        <div class="pkg-card-img <?= $bg ?>"></div>
-                    <?php endif; ?>
-                    <div class="pkg-card-visual-overlay"></div>
-                </div>
-                <div class="pkg-card-info">
-                    <span class="pkg-card-collection">Rindu <?= htmlspecialchars($type) ?></span>
-                    <h2 class="pkg-card-name"><?= htmlspecialchars($pkg->name) ?></h2>
-                    <?php if ($pkg->tagline): ?>
-                    <p class="pkg-card-tagline"><?= htmlspecialchars($pkg->tagline) ?></p>
-                    <?php endif; ?>
-                    
-                    <p class="pkg-card-desc"><?= $desc ?></p>
-                    
-                    <?php if ($pkg->price_display): ?>
-                    <div class="pkg-card-price">
-                        <?= htmlspecialchars($pkg->price_display) ?>
-                        <small>/ jamaah</small>
+                <a href="<?= base_url('journey/' . $pkg->slug) ?>" class="pkg-card">
+                    <div class="pkg-card-visual">
+                        <?php if ($pkg->main_image): ?>
+                            <img class="pkg-card-img" src="<?= base_url('assets/uploads/packages/' . $pkg->main_image) ?>" alt="<?= htmlspecialchars($pkg->name) ?>">
+                        <?php else: ?>
+                            <div class="pkg-card-img <?= $bg ?>"></div>
+                        <?php endif; ?>
+                        <div class="pkg-card-visual-overlay"></div>
                     </div>
-                    <?php endif; ?>
-                    <span class="detail-link">Lihat Detail</span>
-                </div>
-            </a>
+                    <div class="pkg-card-info">
+                        <span class="pkg-card-collection">Rindu <?= htmlspecialchars($type) ?></span>
+                        <h2 class="pkg-card-name"><?= htmlspecialchars($pkg->name) ?></h2>
+                        <?php if ($pkg->tagline): ?>
+                            <p class="pkg-card-tagline"><?= htmlspecialchars($pkg->tagline) ?></p>
+                        <?php endif; ?>
+
+                        <p class="pkg-card-desc"><?= $desc ?></p>
+
+                        <?php if ($pkg->price_display): ?>
+                            <div class="pkg-card-price">
+                                <?= htmlspecialchars($pkg->price_display) ?>
+                                <small>/ jamaah</small>
+                            </div>
+                        <?php endif; ?>
+                        <span class="detail-link">Lihat Detail</span>
+                    </div>
+                </a>
             <?php endforeach; ?>
         </div>
 
         <button class="slider-btn next-btn" id="journeyNext" aria-label="Geser Kanan">
-            <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <svg viewBox="0 0 24 24">
+                <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" fill="none" />
+            </svg>
         </button>
     </div>
 
@@ -119,8 +123,11 @@
                 // Menjamin pemindahan DOM terjadi TEPAT saat animasi selembut sutra selesai
                 const smoothScrollTo = (amount) => {
                     return new Promise(resolve => {
-                        slider.scrollBy({ left: amount, behavior: 'smooth' });
-                        
+                        slider.scrollBy({
+                            left: amount,
+                            behavior: 'smooth'
+                        });
+
                         let scrollTimeout;
                         const scrollHandler = () => {
                             clearTimeout(scrollTimeout);
@@ -130,12 +137,12 @@
                             }, 40); // Jika selama 40ms tidak ada pergerakan, berarti geseran mulus sudah selesai
                         };
                         slider.addEventListener('scroll', scrollHandler);
-                        
+
                         // Fallback keamanan jika browser sedang lag
                         setTimeout(() => {
                             slider.removeEventListener('scroll', scrollHandler);
                             resolve();
-                        }, 700); 
+                        }, 700);
                     });
                 };
 
