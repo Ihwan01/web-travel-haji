@@ -23,7 +23,7 @@
                     <label class="form-label font-weight-bold">Tipe Media <span class="text-danger">*</span></label>
                     <select class="form-select form-control" name="media_type" id="media_type" required onchange="toggleMediaInput()">
                         <option value="Photo" <?= set_select('media_type', 'Photo'); ?>>Foto</option>
-                        <option value="Video" <?= set_select('media_type', 'Video'); ?>>Tautan Video (YouTube/IG)</option>
+                        <option value="Video" <?= set_select('media_type', 'Video'); ?>>Video / Embed</option>
                     </select>
                 </div>
             </div>
@@ -36,9 +36,9 @@
                 </div>
 
                 <div class="col-md-6 mb-4" id="video_input_box" style="display: none;">
-                    <label class="form-label font-weight-bold">Tautan Video (URL) <span class="text-danger">*</span></label>
-                    <input type="url" class="form-control" name="video_url" placeholder="https://www.youtube.com/watch?v=...">
-                    <small class="text-muted d-block mt-1">Masukkan link YouTube, Instagram Reels, atau TikTok.</small>
+                    <label class="form-label font-weight-bold">Tautan Video / Kode Embed HTML <span class="text-danger">*</span></label>
+                    <textarea class="form-control" name="video_url" rows="4" placeholder="Masukkan Link YouTube/TikTok, atau copas kode HTML <iframe... / <blockquote... dari Instagram di sini."></textarea>
+                    <small class="text-muted d-block mt-1">Skrip akan otomatis mengenali link dan mengubahnya menjadi pemutar video.</small>
                 </div>
 
                 <div class="col-md-6 mb-4" id="thumbnail_box" style="display: none;">

@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800"><?= isset($title) ? $title : 'Kelola Galeri' ?></h1>
+    <h1 class="h3 mb-0 text-gray-800"><?= isset($title) ? $title : 'Kelola Experience' ?></h1>
     <a href="<?= base_url('galleries/create') ?>" class="btn btn-sm btn-primary shadow-sm">
         <i class="fas fa-upload fa-sm text-white-50 mr-1"></i> Unggah Media
     </a>
@@ -45,7 +45,7 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <strong><?= $m->title ?></strong><br>
+                                    <strong><?= htmlspecialchars($m->title) ?></strong><br>
                                     <small class="text-muted"> Diunggah: <?= date('d M Y', strtotime($m->created_at)) ?></small>
                                 </td>
                                 <td class="text-center">

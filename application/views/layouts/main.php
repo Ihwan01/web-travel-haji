@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +23,7 @@
     <link rel="stylesheet" href="<?= $assets_url ?>css/<?= isset($page) ? $page : 'home' ?>.css">
     <link rel="icon" type="image/png" href="<?= base_url('assets/images/Logo.png') ?>" />
 </head>
+
 <body class="page-<?= isset($page) ? $page : 'home' ?>">
 
     <!-- NAVBAR -->
@@ -37,7 +39,7 @@
 
     <!-- Global JS -->
     <script src="<?= $assets_url ?>js/main.js">
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const navbar = document.getElementById("navbar");
 
             function checkScroll() {
@@ -56,7 +58,8 @@
             window.addEventListener("scroll", checkScroll);
         });
     </script>
-    
+
 
 </body>
+
 </html>

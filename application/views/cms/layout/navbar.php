@@ -16,7 +16,7 @@
         $menus = [
             'journeys'  => ['icon' => 'fa-route', 'label' => 'Paket Perjalanan'],
             'journals'  => ['icon' => 'fa-book-open', 'label' => 'Artikel Jurnal'],
-            'galleries' => ['icon' => 'fa-images', 'label' => 'Galeri Media'],
+            'galleries' => ['icon' => 'fa-images', 'label' => 'Galeri Experiences'],
             'fashions'  => ['icon' => 'fa-tshirt', 'label' => 'Perlengkapan'],
             'leads'     => ['icon' => 'fa-envelope', 'label' => 'Konsultasi']
         ];

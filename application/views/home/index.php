@@ -10,6 +10,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 ================================================================================
 */
 ?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
 <section class="hero-custom-slider" id="homeHero">
 
@@ -72,13 +73,10 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         let slideInterval;
 
         function showSlide(index) {
-            // Matikan semua slide
             slides.forEach(s => s.classList.remove('active'));
-            // Aktifkan slide yang dipilih
             slides[index].classList.add('active');
             currentSlide = index;
 
-            // Update teks paginasi
             if (currSlideText) {
                 currSlideText.innerText = '0' + (index + 1);
             }
@@ -95,7 +93,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         }
 
         function startSlideShow() {
-            // Animasi otomatis setiap 8 detik
             slideInterval = setInterval(nextSlide, 8000);
         }
 
@@ -104,7 +101,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
             startSlideShow();
         }
 
-        // 1. LOGIKA KLIK PAGINASI
         if (currSlideText && totalSlideText) {
             currSlideText.addEventListener('click', function() {
                 prevSlide();
@@ -117,7 +113,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
             });
         }
 
-        // 2. LOGIKA SWIPE UNTUK MOBILE/TOUCH
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -135,20 +130,17 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         });
 
         function handleSwipe() {
-            const swipeThreshold = 50; // Minimal jarak geser dalam pixel
+            const swipeThreshold = 50;
             if (touchEndX < touchStartX - swipeThreshold) {
-                // Geser ke kiri (Next Slide)
                 nextSlide();
                 resetSlideShow();
             }
             if (touchEndX > touchStartX + swipeThreshold) {
-                // Geser ke kanan (Prev Slide)
                 prevSlide();
                 resetSlideShow();
             }
         }
 
-        // Mulai Slideshow
         startSlideShow();
     });
 </script>
@@ -181,10 +173,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 
         <div class="about-visual-side reveal delay-1">
             <?php
-            // Menampung link video dari CMS (jika sudah ada nanti). Default menggunakan YouTube Unlisted.
             $video_link = !empty($site_settings->about_media) ? $site_settings->about_media : 'https://youtu.be/D6FRezJF3rU?si=Pb4_jlicHrHTLQOU';
-
-            // Menampung gambar thumbnail
             $thumbnail = !empty($site_settings->about_video_thumbnail) ? base_url($site_settings->about_video_thumbnail) : base_url('assets/images/nuansa-rindu-about-thumbnail.webp');
             ?>
 
@@ -272,46 +261,31 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         const nextBtn = document.getElementById('journeyNext');
 
         if (slider && prevBtn && nextBtn) {
-
-            // Matikan fungsi bawaan browser yang mengoreksi scroll otomatis
             slider.style.overflowAnchor = 'none';
-
-            // Mengunci animasi agar tidak bentrok jika user klik terlalu cepat
             let isAnimating = false;
 
-            // ── LOGIKA TOMBOL KANAN (GESER KANAN TERUS) ──
             nextBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-
-                // Jika sedang animasi atau jumlah kartu pas di layar (tidak perlu slide), batalkan.
                 if (isAnimating || slider.scrollWidth <= slider.clientWidth + 10) return;
                 isAnimating = true;
 
                 const firstCard = slider.firstElementChild;
-                const cardWidth = firstCard.offsetWidth + 3; // +3 adalah ukuran gap di CSS
+                const cardWidth = firstCard.offsetWidth + 3;
 
-                // 1. Geser mulus ke arah kanan
                 slider.scrollBy({
                     left: cardWidth,
                     behavior: 'smooth'
                 });
 
-                // 2. Tunggu animasi geser selesai (sekitar 450ms)
                 setTimeout(() => {
-                    // Pindahkan elemen kartu pertama ke urutan paling akhir
                     slider.appendChild(firstCard);
-
-                    // Tarik posisi scroll ke kiri secara instan agar tidak terasa melompat
                     slider.scrollLeft -= cardWidth;
-
                     isAnimating = false;
                 }, 450);
             });
 
-            // ── LOGIKA TOMBOL KIRI (GESER KIRI TERUS) ──
             prevBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-
                 if (isAnimating || slider.scrollWidth <= slider.clientWidth + 10) return;
                 isAnimating = true;
 
@@ -319,27 +293,19 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 const firstCard = slider.firstElementChild;
                 const cardWidth = firstCard.offsetWidth + 3;
 
-                // 1. Pindahkan elemen kartu terakhir ke urutan paling depan secara instan
                 slider.prepend(lastCard);
-
-                // 2. Majukan posisi scroll ke kanan secara instan agar tampilan layar tidak berubah
                 slider.scrollLeft += cardWidth;
-
-                // 3. Paksa browser merender susunan yang baru
                 slider.getBoundingClientRect();
 
-                // 4. Baru jalankan animasi geser mundur (smooth ke kiri)
                 slider.scrollBy({
                     left: -cardWidth,
                     behavior: 'smooth'
                 });
 
-                // Lepas kunci animasi setelah selesai
                 setTimeout(() => {
                     isAnimating = false;
                 }, 450);
             });
-
         }
     });
 </script>
@@ -348,21 +314,51 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     <p class="section-label reveal">Visual Story</p>
     <h2 class="vs-heading reveal">Momen yang terasa,<br>bukan sekadar terlihat.</h2>
 
-    <div class="vs-grid reveal">
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-1.jpg') ?>">
-            <div class="vs-img vs-bg-1"></div>
-        </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-2.jpg') ?>">
-            <div class="vs-img vs-bg-2"></div>
-        </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-3.jpg') ?>">
-            <div class="vs-img vs-bg-3"></div>
-        </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-4.jpg') ?>">
-            <div class="vs-img vs-bg-4"></div>
-        </div>
-        <div class="vs-item" data-lightbox data-type="Photo" data-src="<?= base_url('assets/images/gallery/vs-5.jpg') ?>">
-            <div class="vs-img vs-bg-5"></div>
+    <div class="vs-masonry-container reveal">
+        <div class="vs-masonry">
+            <?php
+            // Data Media: Diambil dari DB (jika sudah ada $latest_media) atau dummy
+            $media_list = !empty($latest_media) ? $latest_media : [
+                (object)['id' => 101, 'title' => 'Senja di Nabawi', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-1.jpg', 'thumbnail_url' => null],
+                (object)['id' => 102, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-2.jpg'],
+                (object)['id' => 103, 'title' => 'Tawaf Ketenangan', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-3.jpg', 'thumbnail_url' => null],
+                (object)['id' => 104, 'title' => 'Perjalanan Hati', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-4.jpg'],
+                (object)['id' => 105, 'title' => 'Madinah Dirindukan', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-5.jpg', 'thumbnail_url' => null],
+            ];
+            ?>
+
+            <?php foreach ($media_list as $m): ?>
+                <?php if ($m->media_type === 'Video'): ?>
+                    <div id="embed-home-<?= $m->id ?>" style="display: none;">
+                        <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
+                    </div>
+
+                    <a href="#embed-home-<?= $m->id ?>" class="vs-item glightbox" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
+                        <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
+                        <div class="vs-overlay">
+                            <div class="vs-play-btn">
+                                <svg viewBox="0 0 24 24">
+                                    <polygon points="7,4 19,12 7,20" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="vs-title-overlay">
+                            <span class="vs-item-badge">Film</span>
+                            <h3 class="vs-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                        </div>
+                    </a>
+
+                <?php else: ?>
+                    <a href="<?= base_url($m->file_url) ?>" class="vs-item glightbox" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
+                        <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
+                        <div class="vs-overlay"></div>
+                        <div class="vs-title-overlay">
+                            <h3 class="vs-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                        </div>
+                    </a>
+                <?php endif; ?>
+            <?php endforeach; ?>
+
         </div>
     </div>
 
@@ -445,3 +441,20 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         <?php endif; ?>
     </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof GLightbox !== 'undefined') {
+            const homeLightbox = GLightbox({
+                selector: '.glightbox',
+                touchNavigation: true,
+                loop: true,
+                autoplayVideos: true,
+                zoomable: true,
+                openEffect: 'zoom',
+                closeEffect: 'fade'
+            });
+        }
+    });
+</script>

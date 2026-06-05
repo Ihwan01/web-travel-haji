@@ -13,7 +13,7 @@ class Gallery extends Admin_Controller
 
     public function index()
     {
-        $data['title'] = 'Manajemen Galeri & Film | CMS';
+        $data['title'] = 'Manajemen Experience & Film | CMS';
         $data['media'] = $this->Gallery_model->get_all();
 
         $this->render('cms/gallery/index', $data);
@@ -42,9 +42,10 @@ class Gallery extends Admin_Controller
                 }
                 $file_url = $upload_img;
             } else {
-                $file_url = $this->input->post('video_url', TRUE);
+                // Gunakan FALSE agar tag HTML Iframe/Blockquote dari admin tidak dipotong
+                $file_url = trim($this->input->post('video_url', FALSE));
                 if (empty($file_url)) {
-                    $this->session->set_flashdata('error_message', 'Tautan video wajib diisi.');
+                    $this->session->set_flashdata('error_message', 'Tautan video atau Kode Embed wajib diisi.');
                     $this->render('cms/gallery/create', $data);
                     return;
                 }
@@ -64,7 +65,7 @@ class Gallery extends Admin_Controller
             ];
 
             $this->Gallery_model->insert($save_data);
-            $this->session->set_flashdata('success_message', 'Media berhasil ditambahkan ke Galeri.');
+            $this->session->set_flashdata('success_message', 'Media berhasil ditambahkan ke Experience.');
             redirect('galleries');
         }
     }
@@ -91,7 +92,8 @@ class Gallery extends Admin_Controller
             ];
 
             if ($data['media']->media_type === 'Video') {
-                $new_video = $this->input->post('video_url', TRUE);
+                // FALSE agar tag HTML tidak hilang
+                $new_video = trim($this->input->post('video_url', FALSE));
                 if (!empty($new_video)) $update_data['file_url'] = $new_video;
 
                 if (!empty($_FILES['thumbnail_url']['name'])) {
@@ -118,7 +120,7 @@ class Gallery extends Admin_Controller
         if ($gallery) {
             $this->restrict_action('galleries', 'delete', $gallery->author_id);
             $this->Gallery_model->delete($id);
-            $this->session->set_flashdata('success_message', 'Foto berhasil dihapus.');
+            $this->session->set_flashdata('success_message', 'Media berhasil dihapus.');
         }
         redirect('galleries');
     }

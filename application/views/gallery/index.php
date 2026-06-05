@@ -1,10 +1,7 @@
-<!-- ══════════════════════════════════════════════════════
-     GALLERY / FILM — index.php
-     ══════════════════════════════════════════════════════ -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
 <div class="gallery-page">
 
-    <!-- ── HERO ───────────────────────────────────────── -->
     <div class="gallery-hero">
         <p class="section-label">Experience</p>
         <div class="gallery-hero-inner">
@@ -17,141 +14,115 @@
         </div>
     </div>
 
-    <!-- ── FILTER ──────────────────────────────────────── -->
     <div class="gallery-filter">
-        <button class="filter-tab active" data-filter="all">Semua</button>
-        <button class="filter-tab" data-filter="video">Film & Video</button>
-        <button class="filter-tab" data-filter="photo">Photography</button>
+        <button class="filter-tab active" data-filter="all">Semua Experience</button>
+        <button class="filter-tab" data-filter="Video">Cinematic Film</button>
+        <button class="filter-tab" data-filter="Photo">Photography</button>
     </div>
 
     <?php
-    // Pisah media berdasarkan tipe
-    $videos = [];
-    $photos = [];
-    if (!empty($media)) {
-        foreach ($media as $m) {
-            if ($m->media_type === 'Video') $videos[] = $m;
-            else $photos[] = $m;
-        }
-    }
-
-    // Dummy videos jika kosong
-    if (empty($videos)) {
-        $videos = [
-            (object)['id'=>1,'title'=>'Nuansa Rindu — The Film','media_type'=>'Video','file_url'=>'','thumbnail_url'=>null,'aspect_ratio'=>'Landscape'],
-            (object)['id'=>2,'title'=>'Perjalanan Hati','media_type'=>'Video','file_url'=>'','thumbnail_url'=>null,'aspect_ratio'=>'Landscape'],
-            (object)['id'=>3,'title'=>'Rindu Classic 2024','media_type'=>'Video','file_url'=>'','thumbnail_url'=>null,'aspect_ratio'=>'Landscape'],
-            (object)['id'=>4,'title'=>'Sacred Moments','media_type'=>'Video','file_url'=>'','thumbnail_url'=>null,'aspect_ratio'=>'Landscape'],
-            (object)['id'=>5,'title'=>'Fashion Identity','media_type'=>'Video','file_url'=>'','thumbnail_url'=>null,'aspect_ratio'=>'Landscape'],
-            (object)['id'=>6,'title'=>'Behind The Journey','media_type'=>'Video','file_url'=>'','thumbnail_url'=>null,'aspect_ratio'=>'Landscape'],
+    // Dummy Data Fallback (Jika database masih kosong)
+    if (empty($media)) {
+        $media = [
+            (object)['id' => 1, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-1.jpg'],
+            (object)['id' => 2, 'title' => 'Visual Story 1', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-2.jpg', 'thumbnail_url' => null],
+            (object)['id' => 3, 'title' => 'Visual Story 2', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-3.jpg', 'thumbnail_url' => null],
+            (object)['id' => 4, 'title' => 'Perjalanan Hati', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-4.jpg'],
+            (object)['id' => 5, 'title' => 'Visual Story 3', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-5.jpg', 'thumbnail_url' => null],
         ];
     }
-
-    // Dummy photos jika kosong
-    if (empty($photos)) {
-        for ($i = 1; $i <= 9; $i++) {
-            $photos[] = (object)['id'=>$i,'title'=>'Visual Story '.$i,'media_type'=>'Photo',
-                'file_url'=>'','thumbnail_url'=>null,'aspect_ratio'=> $i%3===0 ? 'Portrait' : 'Landscape'];
-        }
-    }
-
-    $film_bgs = ['film-bg-1','film-bg-2','film-bg-3','film-bg-4','film-bg-5','film-bg-6'];
-    $photo_bgs= ['photo-bg-1','photo-bg-2','photo-bg-3','photo-bg-4','photo-bg-5','photo-bg-6','photo-bg-7','photo-bg-8','photo-bg-9'];
-    $featured_video = $videos[0];
-    $other_videos   = array_slice($videos, 1);
     ?>
 
-    <!-- ── FILM SECTION ────────────────────────────────── -->
-    <section class="gallery-films" id="sectionVideo">
-        <div class="gallery-section-title">Cinematic Films</div>
+    <div class="luxury-gallery-container reveal">
+        <div class="luxury-masonry" id="luxuryMasonry">
 
-        <!-- Featured film -->
-        <div class="film-featured reveal"
-             <?php if ($featured_video->file_url): ?>
-             data-lightbox data-type="Video" data-src="<?= base_url($featured_video->file_url) ?>"
-             <?php endif; ?>>
-            <?php if ($featured_video->thumbnail_url): ?>
-                <img class="film-featured-img" src="<?= base_url($featured_video->thumbnail_url) ?>" alt="<?= htmlspecialchars($featured_video->title) ?>">
-            <?php else: ?>
-                <div class="film-featured-img film-bg-1"></div>
-            <?php endif; ?>
-            <div class="film-featured-overlay">
-                <div class="play-circle">
-                    <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-                </div>
-                <h2 class="film-featured-title"><?= htmlspecialchars($featured_video->title) ?></h2>
-            </div>
-            <span class="film-featured-meta">Play Film ✦</span>
-        </div>
+            <?php foreach ($media as $m): ?>
 
-        <!-- Film grid -->
-        <?php if (!empty($other_videos)): ?>
-        <div class="film-grid reveal">
-            <?php foreach ($other_videos as $idx => $vid): ?>
-            <div class="film-item"
-                 <?php if ($vid->file_url): ?>
-                 data-lightbox data-type="Video" data-src="<?= base_url($vid->file_url) ?>"
-                 <?php endif; ?>>
-                <?php if ($vid->thumbnail_url): ?>
-                    <img class="film-item-img" src="<?= base_url($vid->thumbnail_url) ?>" alt="<?= htmlspecialchars($vid->title) ?>">
-                <?php else: ?>
-                    <div class="film-item-img <?= $film_bgs[($idx + 1) % count($film_bgs)] ?>"></div>
-                <?php endif; ?>
-                <div class="film-item-overlay">
-                    <div class="play-sm">
-                        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                <?php if ($m->media_type === 'Video'): ?>
+                    <div id="embed-vid-<?= $m->id ?>" style="display: none;">
+                        <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
                     </div>
-                    <span class="film-item-title"><?= htmlspecialchars($vid->title) ?></span>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-    </section>
 
-    <!-- ── PHOTO SECTION ───────────────────────────────── -->
-    <section class="gallery-photos" id="sectionPhoto">
-        <div class="gallery-section-title">Photography</div>
+                    <a href="#embed-vid-<?= $m->id ?>" class="luxury-item glightbox" data-category="Video" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
+                        <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="luxury-img">
+                        <div class="luxury-overlay">
+                            <div class="luxury-play-btn">
+                                <svg viewBox="0 0 24 24">
+                                    <polygon points="7,4 19,12 7,20" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="luxury-title-overlay">
+                            <span class="luxury-item-badge">Film</span>
+                            <h3 class="luxury-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                        </div>
+                    </a>
 
-        <div class="photo-masonry reveal">
-            <?php foreach ($photos as $idx => $ph): ?>
-            <div class="photo-item"
-                 <?php if ($ph->file_url): ?>
-                 data-lightbox data-type="Photo" data-src="<?= base_url($ph->file_url) ?>"
-                 <?php endif; ?>>
-                <?php if ($ph->file_url): ?>
-                    <img src="<?= base_url($ph->file_url) ?>" alt="<?= htmlspecialchars($ph->title) ?>">
                 <?php else: ?>
-                    <div class="photo-bg <?= $photo_bgs[$idx % count($photo_bgs)] ?>"></div>
+                    <a href="<?= base_url($m->file_url) ?>" class="luxury-item glightbox" data-category="Photo" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
+                        <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="luxury-img">
+                        <div class="luxury-overlay"></div>
+                        <div class="luxury-title-overlay">
+                            <h3 class="luxury-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                        </div>
+                    </a>
                 <?php endif; ?>
-                <div class="photo-overlay">
-                    <div class="photo-zoom">
-                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
 
+            <?php endforeach; ?>
+
+        </div>
+    </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
 <script>
-// Filter tabs
-document.querySelectorAll('.filter-tab').forEach(function(tab) {
-    tab.addEventListener('click', function() {
-        document.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
-        tab.classList.add('active');
-        var filter = tab.getAttribute('data-filter');
-        var secVideo = document.getElementById('sectionVideo');
-        var secPhoto = document.getElementById('sectionPhoto');
-        if (filter === 'all') {
-            secVideo.style.display = ''; secPhoto.style.display = '';
-        } else if (filter === 'video') {
-            secVideo.style.display = ''; secPhoto.style.display = 'none';
-        } else {
-            secVideo.style.display = 'none'; secPhoto.style.display = '';
-        }
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // 1. Inisialisasi GLightbox (Mewah, dengan animasi zoom)
+        const lightbox = GLightbox({
+            selector: '.glightbox',
+            touchNavigation: true,
+            loop: true,
+            autoplayVideos: true,
+            zoomable: true,
+            openEffect: 'zoom',
+            closeEffect: 'fade',
+            cssEfects: {
+                fade: {
+                    in: 'fadeIn',
+                    out: 'fadeOut'
+                },
+                zoom: {
+                    in: 'zoomIn',
+                    out: 'zoomOut'
+                }
+            }
+        });
+
+        // 2. Logika Filter Grid Masonry
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const masonryItems = document.querySelectorAll('.luxury-item');
+
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Hapus status aktif dari semua tab
+                filterTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                const filterValue = this.getAttribute('data-filter');
+
+                // Sembunyikan/Tampilkan item berdasarkan data-category
+                masonryItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block'; // Susunan Masonry CSS akan otomatis menyesuaikan kekosongan
+                        // Tambahkan efek fade-in kecil
+                        item.style.animation = 'fadeUp 0.5s ease forwards';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
     });
-});
 </script>

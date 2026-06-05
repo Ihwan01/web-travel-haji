@@ -13,9 +13,9 @@
 
             <?php if ($media->media_type == 'Video'): ?>
                 <div class="mb-3">
-                    <label class="form-label font-weight-bold">Tautan Video Baru (Opsional)</label>
-                    <input type="text" name="video_url" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah tautan">
-                    <small class="text-muted d-block mt-1">Saat ini: <a href="<?= $media->file_url ?>" target="_blank">Lihat Video Aktif</a></small>
+                    <label class="form-label font-weight-bold">Tautan / Kode Embed Video Baru (Opsional)</label>
+                    <textarea name="video_url" class="form-control" rows="4" placeholder="Kosongkan jika tidak ingin mengubah tautan/embed saat ini"></textarea>
+                    <small class="text-muted d-block mt-1">Sistem mendukung link pendek TikTok, URL YouTube, maupun copas kode HTML Iframe/Blockquote Instagram.</small>
                 </div>
                 <div class="mb-3">
                     <label class="form-label font-weight-bold">Ganti Sampul / Thumbnail (Opsional)</label>
