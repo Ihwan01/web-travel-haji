@@ -1,95 +1,73 @@
-<!-- ══════════════════════════════════════════════════════
-     ABOUT — index.php
-     ══════════════════════════════════════════════════════ -->
-
-<!-- ── ABOUT HERO ─────────────────────────────────────── -->
 <section class="about-hero">
     <div class="about-hero-bg">
-        <img src="<?= $assets_url ?>images/hero/about-hero.jpg" alt="Tentang Nuansa Rindu">
+        <img src="<?= $assets_url ?>images/about-hero.png" alt="Tentang Nuansa Rindu">
     </div>
     <div class="about-hero-content">
-        <span class="about-hero-label">Tentang Nuansa Rindu</span>
+        <span class="about-hero-label">The Preamble</span>
         <h1 class="about-hero-title">
-            Kami percaya setiap langkah<br>
-            menuju Baitullah adalah<br>
-            <em style="font-style:italic; color:var(--gold);">rindu yang menemukan jalan pulang.</em>
+            Bukan tentang seberapa jauh<br>melangkah, melainkan seberapa<br>dalam kita <em style="font-style:italic; color:var(--gold, #C7A570);">menunduk.</em>
         </h1>
         <p class="about-hero-sub">
-            Nuansa Rindu bukan sekadar perjalanan. Ini adalah pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.
+            Banyak yang mengira perjalanan ke Tanah Suci adalah pencapaian. Bagi kami, ia adalah sebuah kepulangan. Sebuah jeda dari riuhnya dunia untuk kembali menyapa bagian paling murni dalam diri kita.
         </p>
     </div>
 </section>
 
-<!-- ── STORY SECTION ──────────────────────────────────── -->
 <section class="about-story">
 
-    <!-- Block 1: Asal cerita -->
     <div class="story-grid reveal">
         <div class="story-visual">
-            <div class="story-img story-bg-1"></div>
+            <img src="<?= $assets_url ?>images/about-origin.png" alt="The Origin Nuansa Rindu" class="story-img">
             <div class="story-visual-deco"></div>
         </div>
         <div class="story-text">
-            <p class="section-label">Cerita Kami</p>
-            <h2>Dari sebuah rindu<br>yang mendalam.</h2>
+            <p class="section-label">The Origin</p>
+            <h2>Lahir dari keresahan<br>akan ruang yang hilang.</h2>
             <p>
-                Nuansa Rindu lahir dari sebuah kerinduan yang sederhana namun dalam — rindu untuk pulang ke Baitullah, rindu untuk bersujud di tanah yang paling dicintai, rindu untuk merasakan kedekatan yang sesungguhnya dengan Sang Pencipta.
+                Seringkali, perjalanan spiritual terjebak dalam ritme yang terburu-buru, jadwal yang padat, dan kelelahan fisik yang mendistraksi jiwa. Nuansa Rindu lahir dari sebuah kesadaran bahwa ibadah tertinggi membutuhkan ketenangan mutlak.
             </p>
             <p>
-                Kami memulai perjalanan ini bukan sebagai perusahaan perjalanan biasa, tetapi sebagai teman yang memahami betapa berharganya setiap langkah menuju tanah suci. Setiap detail kami rancang dengan hati — dari akomodasi yang menenangkan hingga momen-momen yang akan terukir selamanya dalam kenangan.
+                Kami tidak merancang "paket wisata". Kami merancang sebuah kanvas kosong tempat Anda bisa melukiskan rindu dan doa dengan leluasa. Dengan pendekatan <em>Quiet Luxury</em>, kami menyingkirkan segala bentuk kerepotan teknis, memberikan Anda privasi, dan menghadirkan standar pelayanan eksklusif tanpa kompromi.
             </p>
-            <blockquote>
-                "Bukan seberapa jauh perjalanannya,<br>
-                tapi seberapa dalam maknanya."
-            </blockquote>
         </div>
     </div>
 
-    <!-- Block 2: Filosofi -->
     <div class="story-grid reverse reveal">
         <div class="story-visual">
-            <div class="story-img story-bg-2"></div>
+            <img src="<?= $assets_url ?>images/about-Philosophy.png" alt="Filosofi Nuansa Rindu" class="story-img">
             <div class="story-visual-deco" style="bottom:auto; top:-24px; right:auto; left:-24px;"></div>
         </div>
         <div class="story-text">
-            <p class="section-label">Filosofi Rindu</p>
-            <h2>Rindu adalah<br>arah yang paling jujur.</h2>
+            <p class="section-label">The Core Philosophy</p>
+            <h2>Mengapa kami menamainya<br>Nuansa Rindu?</h2>
             <p>
-                Kami percaya bahwa rindu adalah perasaan paling jujur yang bisa manusia rasakan. Rindu kepada Tuhan, rindu kepada jati diri, rindu kepada ketenangan yang hakiki.
+                Karena Baitullah tidak pernah sekadar dikunjungi; ia selalu dirindukan. Ada panggilan tak bersuara yang membuat jutaan manusia selalu ingin kembali, mengulang air mata yang sama, di pelataran yang sama.
             </p>
             <p>
-                Itulah mengapa kami menamai diri Nuansa Rindu — karena di setiap perjalanan yang kami rancang, ada nuansa rindu yang kami jaga agar tetap hidup dan terawat. Bukan hanya perjalanan fisik, tapi perjalanan batin yang membawa Anda kembali kepada yang paling esensi.
-            </p>
-            <p>
-                Setiap sentuhan dalam perjalanan Anda — dari aroma seragam yang kami pilih hingga musik yang menemani perjalanan — semuanya kami rancang untuk menjaga nuansa rindu itu tetap menyala.
+                Kami ingin menjadi bagian dari nuansa kepulangan itu — merawat rindu Anda dengan takzim, sejak niat diucapkan hingga kaki kembali memijak tanah air. Setiap sentuhan dalam perjalanan Anda dirancang untuk menjaga nuansa rindu itu tetap menyala.
             </p>
         </div>
     </div>
 
-    <!-- Block 3: Pendekatan visual -->
     <div class="story-grid reveal">
         <div class="story-visual">
-            <div class="story-img story-bg-3"></div>
+            <img src="<?= $assets_url ?>images/about-identity.png" alt="Identitas Visual Nuansa Rindu" class="story-img">
             <div class="story-visual-deco"></div>
         </div>
         <div class="story-text">
-            <p class="section-label">Konsep Visual & Fashion</p>
-            <h2>Identitas yang<br>memancarkan kemuliaan.</h2>
+            <p class="section-label">Our Identity</p>
+            <h2>Keanggunan dalam<br>kesederhanaan.</h2>
             <p>
-                Di Nuansa Rindu, penampilan adalah bagian dari ibadah. Seragam jamaah kami dirancang bukan sekadar untuk keseragaman, tapi untuk memancarkan keanggunan, kesederhanaan, dan kemuliaan seorang tamu Allah.
+                Kami percaya bahwa persiapan fisik yang paripurna adalah bentuk penghormatan tertinggi sebelum menghadap Yang Maha Kuasa. Nuansa Rindu adalah pelopor yang memadukan kedalaman spiritual dengan identitas gaya hidup yang elegan.
             </p>
             <p>
-                Kami berkolaborasi dengan desainer modest fashion terpilih untuk menciptakan travel essentials yang fungsional sekaligus estetis — passport holder, tote bag, luggage tag, dan outfit yang akan membuat Anda merasa seperti sedang dalam fashion campaign, bukan perjalanan biasa.
-            </p>
-            <p>
-                Karena kami percaya: ketika Anda tampil dengan penuh kesadaran dan kemuliaan, ibadah pun terasa lebih khusyuk dan bermakna.
+                Melalui kurasi <em>modest travel attire</em> berbahan serat premium, palet warna <em>earthy tones</em> yang membumi, hingga detail aksesori perjalanan yang estetik, kami memastikan Anda melangkah dengan rasa hormat, nyaman, dan tenang, tanpa sedikit pun kehilangan fokus pada esensi ibadah.
             </p>
         </div>
     </div>
 
 </section>
 
-<!-- ── VALUES SECTION ──────────────────────────────────── -->
 <section class="about-values">
     <p class="section-label reveal">Nilai-Nilai Kami</p>
     <h2 class="values-heading reveal">Prinsip yang mendasari<br>setiap langkah kami.</h2>
@@ -105,20 +83,19 @@
             ['Kebermaknaan', 'Di akhir perjalanan, yang paling penting bukan foto yang Anda bawa pulang, tapi perubahan yang terjadi di dalam hati.'],
         ];
         foreach ($values as $i => $v): ?>
-        <div class="value-item reveal delay-<?= ($i % 4) + 1 ?>">
-            <div class="value-num">0<?= $i + 1 ?></div>
-            <h3 class="value-title"><?= $v[0] ?></h3>
-            <p class="value-desc"><?= $v[1] ?></p>
-        </div>
+            <div class="value-item reveal delay-<?= ($i % 4) + 1 ?>">
+                <div class="value-num">0<?= $i + 1 ?></div>
+                <h3 class="value-title"><?= $v[0] ?></h3>
+                <p class="value-desc"><?= $v[1] ?></p>
+            </div>
         <?php endforeach; ?>
     </div>
 </section>
 
-<!-- ── APPROACH SECTION ────────────────────────────────── -->
 <section class="about-approach">
-    <p class="section-label reveal" style="justify-content:center;">Pendekatan Kami</p>
+    <p class="section-label reveal" style="justify-content:center;">Sebuah Undangan</p>
     <blockquote class="approach-quote reveal">
-        "Kami tidak sekadar mengantarkan Anda ke Baitullah. Kami menemani setiap langkah hati Anda dalam perjalanan pulang yang paling bermakna."
+        "Biarkan kami menjaga perjalanan Anda,<br>agar Anda dapat sepenuhnya menjaga hati."
     </blockquote>
     <p class="approach-sub reveal">
         Tim Nuansa Rindu terdiri dari para profesional yang tidak hanya berpengalaman di industri perjalanan, tapi juga memiliki kecintaan mendalam terhadap nilai-nilai spiritual dan estetika yang kami perjuangkan bersama.
