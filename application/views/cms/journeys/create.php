@@ -26,6 +26,7 @@
                         <label class="form-label font-weight-bold">Nama Perjalanan (Paket) <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="name" value="<?= set_value('name') ?>" required>
                     </div>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label font-weight-bold">Tipe Koleksi</label>
@@ -41,13 +42,32 @@
                             <input type="number" class="form-control" name="price" value="<?= set_value('price') ?>" required placeholder="Contoh: 35000000">
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label font-weight-bold">Tagline</label>
-                        <input type="text" class="form-control" name="tagline" value="<?= set_value('tagline') ?>">
+
+                    <div class="row bg-light pt-3 pb-1 mb-3 rounded border">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label font-weight-bold">Durasi</label>
+                            <input type="text" class="form-control" name="duration" value="<?= set_value('duration') ?>" placeholder="Contoh: 10 - 14 Hari">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label font-weight-bold">Keberangkatan</label>
+                            <input type="text" class="form-control" name="departure" value="<?= set_value('departure') ?>" placeholder="Contoh: 24 Sep 2024">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label font-weight-bold">Kapasitas / Kuota Grup</label>
+                            <input type="number" class="form-control" name="capacity" value="<?= set_value('capacity') ?>" placeholder="Contoh: 40">
+                            <small class="text-muted d-block mt-1">Kuota maksimal jamaah per grup keberangkatan (Hanya angka).</small>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label font-weight-bold">Harga Tampil (Display)</label>
-                        <input type="text" class="form-control" name="price_display" value="<?= set_value('price_display') ?>">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold">Tagline</label>
+                            <input type="text" class="form-control" name="tagline" value="<?= set_value('tagline') ?>">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label font-weight-bold">Harga Tampil (Display)</label>
+                            <input type="text" class="form-control" name="price_display" value="<?= set_value('price_display') ?>">
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -65,13 +85,16 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row mt-3">
                 <div class="col-md-6 mb-3">
-                    <label class="form-label font-weight-bold">Detail Itinerary</label>
+                    <label class="form-label font-weight-bold">Tentang Perjalanan Ini</label>
+                    <small class="text-info d-block mb-2"><i class="fas fa-info-circle"></i> Gunakan kolom ini untuk mendeskripsikan secara detail tentang perjalanan ini kepada calon jamaah.</small>
                     <textarea class="form-control" name="itinerary" id="itinerary" rows="6"><?= set_value('itinerary') ?></textarea>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label font-weight-bold">Detail Hotel & Akomodasi</label>
+                    <label class="form-label font-weight-bold">Yang Kami Siapkan</label>
+                    <small class="text-info d-block mb-2"><i class="fas fa-info-circle"></i> Pisahkan dengan baris baru (Enter) untuk menampilkan daftar list fasilitas/pelayanan di halaman frontend.</small>
                     <textarea class="form-control" name="hotel_details" id="hotel_details" rows="6"><?= set_value('hotel_details') ?></textarea>
                 </div>
             </div>

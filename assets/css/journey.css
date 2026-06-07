@@ -361,11 +361,16 @@
 .detail-hero-overlay {
 	position: absolute;
 	inset: 0;
+	/* Gradasi Ganda: Gelap di atas (untuk Navbar) dan Gelap di bawah (untuk Judul) */
 	background: linear-gradient(
-		to top,
-		rgba(26, 5, 0, 0.75) 0%,
-		rgba(26, 5, 0, 0.2) 50%,
-		transparent 100%
+		to bottom,
+		rgba(10, 5, 2, 0.85) 0%,
+		/* Ujung atas sangat gelap (area logo/menu) */ rgba(10, 5, 2, 0.25) 15%,
+		/* Transisi halus memudar ke bawah */ transparent 30%,
+		/* Area tengah transparan utuh (gambar terlihat jelas) */ transparent 50%,
+		/* Area tengah transparan utuh */ rgba(10, 5, 2, 0.3) 70%,
+		/* Mulai menggelap untuk bersiap ke judul */ rgba(10, 5, 2, 0.85) 100%
+			/* Ujung bawah sangat gelap (area teks Rindu Signature) */
 	);
 	padding: 56px 60px;
 	display: flex;

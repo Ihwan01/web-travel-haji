@@ -42,7 +42,10 @@ class Journeys extends Admin_Controller
                 'itinerary'       => $this->input->post('itinerary'),
                 'hotel_details'   => $this->input->post('hotel_details'),
                 'status'          => $this->input->post('status', TRUE),
-                'created_at'      => date('Y-m-d H:i:s')
+                'created_at'      => date('Y-m-d H:i:s'),
+                'duration'        => $this->input->post('duration'),
+                'departure'       => $this->input->post('departure'),
+                'capacity'        => $this->input->post('capacity')
             ];
 
             if (!empty($_FILES['main_image']['name'])) {
@@ -87,7 +90,10 @@ class Journeys extends Admin_Controller
                 'itinerary'       => $this->input->post('itinerary'),
                 'hotel_details'   => $this->input->post('hotel_details'),
                 'status'          => $this->input->post('status', TRUE),
-                'updated_at'      => date('Y-m-d H:i:s')
+                'updated_at'      => date('Y-m-d H:i:s'),
+                'duration'        => $this->input->post('duration'),
+                'departure'       => $this->input->post('departure'),
+                'capacity'        => $this->input->post('capacity')
             ];
 
             if (!empty($_FILES['main_image']['name'])) {
