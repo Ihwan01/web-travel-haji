@@ -20,54 +20,48 @@
         <button class="filter-tab" data-filter="Photo">Photography</button>
     </div>
 
-    <?php
-    if (empty($media)) {
-        $media = [
-            (object)['id' => 1, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-1.jpg'],
-            (object)['id' => 2, 'title' => 'Visual Story 1', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-2.jpg', 'thumbnail_url' => null],
-            (object)['id' => 3, 'title' => 'Visual Story 2', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-3.jpg', 'thumbnail_url' => null],
-            (object)['id' => 4, 'title' => 'Perjalanan Hati', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-4.jpg'],
-            (object)['id' => 5, 'title' => 'Visual Story 3', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-5.jpg', 'thumbnail_url' => null],
-        ];
-    }
-    ?>
-
     <div class="luxury-gallery-container reveal">
         <div class="luxury-masonry" id="luxuryMasonry">
 
-            <?php foreach ($media as $m): ?>
+            <?php if (!empty($media)): ?>
+                <?php foreach ($media as $m): ?>
 
-                <?php if ($m->media_type === 'Video'): ?>
-                    <div id="embed-vid-<?= $m->id ?>" style="display: none;">
-                        <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
-                    </div>
+                    <?php if ($m->media_type === 'Video'): ?>
+                        <div id="embed-vid-<?= $m->id ?>" style="display: none;">
+                            <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
+                        </div>
 
-                    <a href="#embed-vid-<?= $m->id ?>" class="luxury-item glightbox" data-category="Video" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
-                        <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="luxury-img">
-                        <div class="luxury-overlay">
-                            <div class="luxury-play-btn">
-                                <svg viewBox="0 0 24 24">
-                                    <polygon points="7,4 19,12 7,20" />
-                                </svg>
+                        <a href="#embed-vid-<?= $m->id ?>" class="luxury-item glightbox" data-category="Video" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
+                            <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="luxury-img">
+                            <div class="luxury-overlay">
+                                <div class="luxury-play-btn">
+                                    <svg viewBox="0 0 24 24">
+                                        <polygon points="7,4 19,12 7,20" />
+                                    </svg>
+                                </div>
                             </div>
-                        </div>
-                        <div class="luxury-title-overlay">
-                            <span class="luxury-item-badge">Film</span>
-                            <h3 class="luxury-item-title"><?= htmlspecialchars($m->title) ?></h3>
-                        </div>
-                    </a>
+                            <div class="luxury-title-overlay">
+                                <span class="luxury-item-badge">Film</span>
+                                <h3 class="luxury-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                            </div>
+                        </a>
 
-                <?php else: ?>
-                    <a href="<?= base_url($m->file_url) ?>" class="luxury-item glightbox" data-category="Photo" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
-                        <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="luxury-img">
-                        <div class="luxury-overlay"></div>
-                        <div class="luxury-title-overlay">
-                            <h3 class="luxury-item-title"><?= htmlspecialchars($m->title) ?></h3>
-                        </div>
-                    </a>
-                <?php endif; ?>
+                    <?php else: ?>
+                        <a href="<?= base_url($m->file_url) ?>" class="luxury-item glightbox" data-category="Photo" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
+                            <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="luxury-img">
+                            <div class="luxury-overlay"></div>
+                            <div class="luxury-title-overlay">
+                                <h3 class="luxury-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                            </div>
+                        </a>
+                    <?php endif; ?>
 
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="color: #f5f0e8; text-align: center; width: 100%; grid-column: 1 / -1; margin-top: 40px; opacity: 0.6;">
+                    Belum ada experience yang ditambahkan.
+                </p>
+            <?php endif; ?>
 
         </div>
     </div>
@@ -98,30 +92,51 @@
             }
         });
 
-        // [BUG FIX] Solusi Cerdas & Aman Zombie Audio GLightbox
+        // [FITUR TIKTOK] - Inject Script TikTok saat Pop-up slide terbuka
+        luxuryLightbox.on('slide_after_load', (data) => {
+            const slideContent = data.slide.querySelector('.tiktok-embed');
+            if (slideContent) {
+                const oldScript = document.getElementById('tiktok-script-dinamis');
+                if (oldScript) oldScript.remove();
+
+                const script = document.createElement('script');
+                script.id = 'tiktok-script-dinamis';
+                script.src = 'https://www.tiktok.com/embed.js';
+                script.async = true;
+                document.body.appendChild(script);
+            }
+        });
+
+        // [BUG FIX] Solusi Definitif Zombie Audio GLightbox
         luxuryLightbox.on('close', () => {
             setTimeout(() => {
-                // Hanya target elemen yang sedang aktif di pop-up, bukan data aslinya
-                const activeContent = document.querySelector('.gslide.current .ginner-container');
-                if (activeContent) {
-                    const vids = activeContent.querySelectorAll('video');
+                // Jangan cari ".gslide.current", cari target asalnya langsung di DOM!
+                const embedContainers = document.querySelectorAll('[id^="embed-"]');
+                embedContainers.forEach(container => {
+
+                    const vids = container.querySelectorAll('video');
                     vids.forEach(v => {
                         v.pause();
                         v.currentTime = 0;
                     });
 
-                    const iframes = activeContent.querySelectorAll('iframe');
+                    const iframes = container.querySelectorAll('iframe');
                     iframes.forEach(iframe => {
-                        let src = iframe.src;
+                        let currentSrc = iframe.src;
+                        if (currentSrc.includes('autoplay=1') || currentSrc.includes('autoplay=true')) {
+                            currentSrc = currentSrc.replace('autoplay=1', 'autoplay=0').replace('autoplay=true', 'autoplay=false');
+                        }
                         iframe.src = 'about:blank';
+
                         setTimeout(() => {
-                            iframe.src = src; // Kembalikan nilai source-nya untuk memori
+                            iframe.src = currentSrc;
                         }, 50);
                     });
-                }
-            }, 400); // Eksekusi setelah transisi CSS fade-out selesai
+                });
+            }, 400);
         });
 
+        // Logika Tab Filter
         const filterTabs = document.querySelectorAll('.filter-tab');
         const masonryItems = document.querySelectorAll('.luxury-item');
 

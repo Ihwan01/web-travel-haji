@@ -7,49 +7,56 @@ if (!function_exists('generate_video_embed')) {
         $input = trim($input);
         if (empty($input)) return '';
 
-        // LOGIKA 1: Jika sudah berupa tag embed manual
+        // ── LOGIKA 1: EKSTRAKSI TIKTOK ───────────────────────────────────────
+        $tiktok_id = '';
+
+        if (preg_match('/data-video-id="(\d+)"/i', $input, $match)) {
+            $tiktok_id = $match[1];
+        } elseif (preg_match('/tiktok\.com\/.*video\/(\d+)/i', $input, $match)) {
+            $tiktok_id = $match[1];
+        } elseif (preg_match('/(?:vt|vm)\.tiktok\.com\/([a-zA-Z0-9]+)/i', $input)) {
+            $ch = curl_init($input);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+            curl_setopt($ch, CURLOPT_NOBODY, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            if (preg_match('/[Ll]ocation:\s*([^\r\n]+)/', $response, $loc_match)) {
+                $redirect_url = trim($loc_match[1]);
+                if (preg_match('/video\/(\d+)/i', $redirect_url, $sub_match)) {
+                    $tiktok_id = $sub_match[1];
+                }
+            }
+        }
+
+        // KUNCI: Menggunakan data-src, bukan src. TikTok tidak akan crash karena belum dimuat.
+        if (!empty($tiktok_id)) {
+            return '<iframe class="nr-lazy-iframe" data-src="https://www.tiktok.com/embed/v2/' . $tiktok_id . '?lang=id-ID" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 100%; min-height: 600px; max-width: 400px; margin: 0 auto; display: block; background: #000; border-radius: 8px;"></iframe>';
+        }
+
+        // ── LOGIKA 2: YOUTUBE ────────────────────────────────────────────────
+        if (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i', $input, $match)) {
+            $video_id = $match[1];
+            return '<iframe class="nr-lazy-iframe" data-src="https://www.youtube.com/embed/' . $video_id . '?autoplay=1&rel=0" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; min-height: 400px; background: #000; border-radius: 8px;"></iframe>';
+        }
+
+        // ── LOGIKA 3: INSTAGRAM ──────────────────────────────────────────────
+        if (preg_match('/instagram\.com\/(?:p|reel)\/([a-zA-Z0-9_\-]+)/i', $input, $match)) {
+            $ig_id = $match[1];
+            return '<iframe class="nr-lazy-iframe" data-src="https://www.instagram.com/p/' . $ig_id . '/embed" width="100%" height="100%" frameborder="0" scrolling="no" allowtransparency="true" style="width: 100%; height: 100%; min-height: 520px; max-width: 500px; margin: 0 auto; display: block; background: #fff; border: 1px solid #dbdbdb; border-radius: 8px;"></iframe>';
+        }
+
+        // ── LOGIKA 4: MANUAL EMBED TAG ───────────────────────────────────────
         if (stripos($input, '<iframe') !== false || stripos($input, '<blockquote') !== false || stripos($input, '<script') !== false) {
             return $input;
         }
 
-        // LOGIKA 2: Deteksi YouTube (Termasuk dukungan untuk /shorts/)
-        if (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/i', $input, $match)) {
-            $video_id = $match[1];
-            return '<iframe src="https://www.youtube.com/embed/' . $video_id . '?autoplay=1&rel=0" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; min-height: 400px; background: #000; border-radius: 4px;"></iframe>';
-        }
-
-        // LOGIKA 3: Deteksi Instagram
-        if (preg_match('/instagram\.com\/(?:p|reel)\/([a-zA-Z0-9_\-]+)/i', $input, $match)) {
-            $ig_id = $match[1];
-            return '<iframe src="https://www.instagram.com/p/' . $ig_id . '/embed" width="100%" height="100%" frameborder="0" scrolling="no" allowtransparency="true" style="width: 100%; height: 100%; min-height: 520px; max-width: 500px; margin: 0 auto; display: block; background: #fff; border: 1px solid #dbdbdb; border-radius: 4px;"></iframe>';
-        }
-
-        // LOGIKA 4: Deteksi TikTok
-        // Format A: URL panjang (tiktok.com/@user/video/12345...)
-        if (preg_match('/tiktok\.com\/@[\w.-]+\/video\/(\d+)/i', $input, $match)) {
-            $tiktok_id = $match[1];
-            return '<iframe src="https://www.tiktok.com/embed/v2/' . $tiktok_id . '" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; min-height: 600px; max-width: 400px; margin: 0 auto; display: block; border-radius: 4px;"></iframe>';
-        }
-
-        // Format B: URL pendek (vt.tiktok.com/XXXXX/)
-        if (preg_match('/vt\.tiktok\.com\/([a-zA-Z0-9]+)/i', $input, $match)) {
-            $ch = curl_init($input);
-            curl_setopt($ch, CURLOPT_NOBODY, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-            curl_exec($ch);
-            $final_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-            curl_close($ch);
-
-            // Ekstrak ID dari URL panjang hasil resolve
-            if (preg_match('/video\/(\d+)/i', $final_url, $sub_match)) {
-                $tiktok_id = $sub_match[1];
-                return '<iframe src="https://www.tiktok.com/embed/v2/' . $tiktok_id . '" width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%; min-height: 600px; max-width: 400px; margin: 0 auto; display: block; border-radius: 4px;"></iframe>';
-            }
-        }
-
-        // FALLBACK: MP4/WEBM Local Video
-        return '<video src="' . htmlspecialchars($input, ENT_QUOTES, 'UTF-8') . '" controls autoplay style="width:100%; max-height:80vh;"></video>';
+        // ── FALLBACK: LOKAL VIDEO ────────────────────────────────────────────
+        return '<video src="' . htmlspecialchars($input, ENT_QUOTES, 'UTF-8') . '" controls autoplay style="width:100%; max-height:80vh; background: #000; border-radius: 8px;"></video>';
     }
 }

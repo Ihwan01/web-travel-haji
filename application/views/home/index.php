@@ -470,27 +470,47 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 }
             });
 
-            // [BUG FIX] Menghentikan Zombie Audio saat pop-up ditutup secara aman
+            // [FITUR TIKTOK] - Inject Script TikTok saat Pop-up slide terbuka
+            homeLightbox.on('slide_after_load', (data) => {
+                const slideContent = data.slide.querySelector('.tiktok-embed');
+                if (slideContent) {
+                    const oldScript = document.getElementById('tiktok-script-dinamis');
+                    if (oldScript) oldScript.remove();
+
+                    const script = document.createElement('script');
+                    script.id = 'tiktok-script-dinamis';
+                    script.src = 'https://www.tiktok.com/embed.js';
+                    script.async = true;
+                    document.body.appendChild(script);
+                }
+            });
+
+            // [BUG FIX] Solusi Definitif Zombie Audio GLightbox
             homeLightbox.on('close', () => {
                 setTimeout(() => {
-                    const activeContent = document.querySelector('.gslide.current .ginner-container');
-                    if (activeContent) {
-                        const vids = activeContent.querySelectorAll('video');
+                    const embedContainers = document.querySelectorAll('[id^="embed-"]');
+                    embedContainers.forEach(container => {
+
+                        const vids = container.querySelectorAll('video');
                         vids.forEach(v => {
                             v.pause();
                             v.currentTime = 0;
                         });
 
-                        const iframes = activeContent.querySelectorAll('iframe');
+                        const iframes = container.querySelectorAll('iframe');
                         iframes.forEach(iframe => {
-                            let src = iframe.src;
+                            let currentSrc = iframe.src;
+                            if (currentSrc.includes('autoplay=1') || currentSrc.includes('autoplay=true')) {
+                                currentSrc = currentSrc.replace('autoplay=1', 'autoplay=0').replace('autoplay=true', 'autoplay=false');
+                            }
                             iframe.src = 'about:blank';
+
                             setTimeout(() => {
-                                iframe.src = src;
+                                iframe.src = currentSrc;
                             }, 50);
                         });
-                    }
-                }, 400); // 400ms delay sinkron dengan transisi fadeOut
+                    });
+                }, 400);
             });
         }
     });
