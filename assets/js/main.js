@@ -5,13 +5,22 @@
 document.addEventListener("DOMContentLoaded", function () {
 	// ── Navbar scroll effect ─────────────────────────────
 	const navbar = document.getElementById("navbar");
-	window.addEventListener("scroll", function () {
-		if (window.scrollY > 40) {
-			navbar.classList.add("scrolled");
-		} else {
-			navbar.classList.remove("scrolled");
+	// Buat fungsi terpisah agar bisa dipanggil dua kali (saat load & saat scroll)
+	function checkScroll() {
+		if (navbar) {
+			if (window.scrollY > 40) {
+				navbar.classList.add("scrolled");
+			} else {
+				navbar.classList.remove("scrolled");
+			}
 		}
-	});
+	}
+
+	// 1. Panggil saat pertama kali web dimuat (mengatasi bug saat refresh di tengah halaman)
+	checkScroll();
+
+	// 2. Panggil setiap kali user melakukan scroll
+	window.addEventListener("scroll", checkScroll);
 
 	// ── Mobile hamburger ─────────────────────────────────
 	const toggle = document.getElementById("navToggle");

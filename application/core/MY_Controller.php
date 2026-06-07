@@ -40,20 +40,23 @@ class Public_Controller extends MY_Controller
 
         // Memuat Model SEO & Company
         $this->load->model('Seo_model');
-        $this->load->model('Company_model'); // Pastikan model ini sudah Anda buat sesuai arahan sebelumnya
+        $this->load->model('Company_model');
 
-        // Tarik Data SEO
-        $this->data['seo_tracking'] = $this->Seo_model->get_tracking();
+        // [DIPERBAIKI] Ubah nama variabel menjadi 'tracking' agar sesuai dengan main.php
+        $this->data['tracking'] = $this->Seo_model->get_tracking();
 
+        // Deteksi halaman saat ini (home, about, journey, dll)
         $current_page = $this->uri->segment(1) ? $this->uri->segment(1) : 'home';
         $meta = $this->Seo_model->get_meta_by_url($current_page);
+
         $this->data['seo_meta'] = $meta;
 
+        // Timpa title default jika admin sudah mengatur meta_title khusus di CMS
         if ($meta && !empty($meta->meta_title)) {
             $this->data['title'] = $meta->meta_title;
         }
 
-        // [BARU] Tarik Data Profil & Kontak Perusahaan secara Global untuk Frontend
+        // Tarik Data Profil & Kontak Perusahaan secara Global untuk Frontend
         $this->data['company'] = $this->Company_model->get_profile();
     }
 }
