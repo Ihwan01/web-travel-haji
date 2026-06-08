@@ -8,17 +8,18 @@ class Contact extends Public_Controller
         parent::__construct();
         $this->load->model('Lead_model');
         $this->load->helper('whatsapp');
+        $this->load->model('Package_model');
     }
 
     public function index()
     {
-        // [PERBAIKAN] Mengambil daftar paket dari tabel 'packages'
-        // Kolom nama adalah 'name', dan status adalah 'status' = 'Published'
-        $data['journeys'] = $this->db->select('name')
-            ->where('status', 'Published')
-            ->order_by('id', 'DESC')
-            ->get('packages')
-            ->result();
+        // [KOREKSI TERBAIK] 
+        // 1. Ubah variabel menjadi 'packages' agar cocok dengan HTML di View
+        // 2. Gunakan Model yang sudah ada agar konsisten dengan controller lain
+        $data['packages'] = $this->Package_model->get_published();
+
+        // Variabel untuk menandai opsi mana yang dipilih jika user datang dari halaman detail (opsional)
+        $data['selected_pkg'] = $this->input->get('interest');
 
         $data['page']     = 'contact';
         $data['title']    = 'Konsultasi Privat — Nuansa Rindu';

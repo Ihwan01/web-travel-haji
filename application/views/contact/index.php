@@ -110,19 +110,20 @@
                         <label class="form-label" for="package_interest">Perjalanan yang Diminati</label>
                         <select id="package_interest" name="package_interest" class="form-select">
                             <option value="">— Pilih Perjalanan —</option>
+                            
                             <?php if (!empty($packages)): ?>
                                 <?php foreach ($packages as $pkg): ?>
-                                    <option value="<?= htmlspecialchars($pkg->name) ?>" <?= ($selected_pkg === $pkg->name) ? 'selected' : '' ?>>
+                                    <option value="<?= htmlspecialchars($pkg->name) ?>" <?= (isset($selected_pkg) && $selected_pkg === $pkg->name) ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($pkg->name) ?>
                                     </option>
                                 <?php endforeach; ?>
                             <?php else: ?>
-                                <option value="Rindu Classic" <?= $selected_pkg === 'Rindu Classic' ? 'selected' : '' ?>>Rindu Classic — Umrah Regular</option>
-                                <option value="Rindu Signature" <?= $selected_pkg === 'Rindu Signature' ? 'selected' : '' ?>>Rindu Signature — Umrah Premium</option>
-                                <option value="Rindu Private" <?= $selected_pkg === 'Rindu Private' ? 'selected' : '' ?>>Rindu Private — Umrah Custom</option>
-                                <option value="Sacred Journey" <?= $selected_pkg === 'Sacred Journey' ? 'selected' : '' ?>>Sacred Journey — Haji</option>
-                                <option value="Belum Tahu">Belum Tahu, Perlu Konsultasi</option>
+                                <option value="" disabled>Belum ada paket tersedia saat ini</option>
                             <?php endif; ?>
+                            
+                            <option value="Belum Tahu" <?= (isset($selected_pkg) && $selected_pkg === 'Belum Tahu') ? 'selected' : '' ?>>
+                                Belum Tahu, Perlu Konsultasi
+                            </option>
                         </select>
                     </div>
 

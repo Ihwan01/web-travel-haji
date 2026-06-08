@@ -1010,3 +1010,25 @@ footer {
 		gap: 16px;
 	}
 }
+
+/* ─── KUSTOMISASI DROPDOWN (FORM SELECT) ───────────────────────── */
+.form-select {
+	/* Pastikan warna teks utama tetap terlihat elegan */
+	color: var(--brown, #3b2a1a);
+	background-color: transparent;
+}
+
+/* Mengatur warna dasar dari daftar pilihan (dropdown) */
+.form-select option {
+	background-color: #f5f0e8; /* Warna cream Nuansa Rindu */
+	color: #3b2a1a;
+	padding: 10px;
+}
+
+/* Mengubah warna latar menjadi Mahogany SAAT DIPILIH atau DISOROT */
+.form-select option:checked,
+.form-select option:hover,
+.form-select:focus > option:checked {
+	background-color: #4a2c2a !important; /* Warna Mahogany */
+	color: #f5f0e8 !important; /* Warna teks menjadi terang agar terbaca */
+}
