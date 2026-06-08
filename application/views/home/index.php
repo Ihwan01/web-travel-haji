@@ -455,10 +455,11 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 loop: true,
                 autoplayVideos: true,
                 zoomable: true,
+                preload: false, // [KUNCI 1] MATIKAN PRELOAD agar video sebelah tidak dimuat diam-diam
                 descPosition: 'bottom',
                 openEffect: 'zoom',
                 closeEffect: 'fade',
-                cssEffects: { // Diperbaiki dari cssEfects menjadi cssEffects
+                cssEffects: {
                     fade: {
                         in: 'fadeIn',
                         out: 'fadeOut'
@@ -470,12 +471,12 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 }
             });
 
-            // [KUNCI PERBAIKAN 1] - Trigger saat slide terbuka
-            homeLightbox.on('slide_after_load', (data) => {
-                const slide = data.slide;
+            // --- FUNGSI HELPER: Menyalakan Video ---
+            function playSlideVideo(slideNode) {
+                if (!slideNode) return;
 
-                // Eksekusi Iframe Lazy Load (Ubah data-src menjadi src agar video muncul)
-                const iframes = slide.querySelectorAll('iframe.nr-lazy-iframe');
+                // Nyalakan Iframe (YouTube/IG)
+                const iframes = slideNode.querySelectorAll('iframe.nr-lazy-iframe');
                 iframes.forEach(iframe => {
                     const realSrc = iframe.getAttribute('data-src');
                     if (realSrc && iframe.getAttribute('src') !== realSrc) {
@@ -483,14 +484,14 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     }
                 });
 
-                // Autoplay untuk video lokal (MP4)
-                const localVideos = slide.querySelectorAll('video');
+                // Nyalakan Video Lokal (MP4)
+                const localVideos = slideNode.querySelectorAll('video');
                 localVideos.forEach(vid => {
                     vid.play().catch(e => console.log("Autoplay tertahan browser"));
                 });
 
-                // Inject Script TikTok Dinamis
-                if (slide.querySelector('.tiktok-embed') || slide.innerHTML.includes('tiktok.com')) {
+                // Inject TikTok Dinamis
+                if (slideNode.querySelector('.tiktok-embed') || slideNode.innerHTML.includes('tiktok.com')) {
                     const oldScript = document.getElementById('tiktok-script-dinamis');
                     if (oldScript) oldScript.remove();
 
@@ -500,24 +501,54 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     script.async = true;
                     document.body.appendChild(script);
                 }
-            });
+            }
 
-            // [KUNCI PERBAIKAN 2] - Hentikan audio saat slide ditutup dengan aman
-            homeLightbox.on('slide_before_close', (data) => {
-                const slide = data.slide;
+            // --- FUNGSI HELPER: Mematikan Video ---
+            function stopSlideVideo(slideNode) {
+                if (!slideNode) return;
 
-                // Matikan Iframe seketika dengan mengosongkan 'src'
-                const iframes = slide.querySelectorAll('iframe.nr-lazy-iframe');
+                // Matikan Iframe dengan mencabut src-nya
+                const iframes = slideNode.querySelectorAll('iframe.nr-lazy-iframe');
                 iframes.forEach(iframe => {
                     iframe.removeAttribute('src');
                 });
 
-                // Matikan Video MP4 Lokal
-                const localVideos = slide.querySelectorAll('video');
+                // Matikan Video Lokal
+                const localVideos = slideNode.querySelectorAll('video');
                 localVideos.forEach(vid => {
                     vid.pause();
                     vid.currentTime = 0;
                 });
+            }
+
+            // [EVENT 1] Trigger saat pop-up video pertama kali terbuka / diload
+            homeLightbox.on('slide_after_load', (data) => {
+                const slide = data.slideNode || data.slide;
+                // Pastikan kita HANYA menyalakan video jika slide tersebut sedang tampil (mencegah bug background play)
+                if (slide && slide.classList.contains('current')) {
+                    playSlideVideo(slide);
+                }
+            });
+
+            // [EVENT 2] Trigger saat user menggeser (Next / Prev) video di dalam Pop-up
+            homeLightbox.on('slide_changed', ({
+                prev,
+                current
+            }) => {
+                if (prev) {
+                    const prevSlide = prev.slideNode || prev.slide;
+                    stopSlideVideo(prevSlide); // Matikan video yang ditinggalkan
+                }
+                if (current) {
+                    const currentSlide = current.slideNode || current.slide;
+                    playSlideVideo(currentSlide); // Nyalakan video yang baru masuk
+                }
+            });
+
+            // [EVENT 3] Trigger saat Pop-up ditutup sepenuhnya (Klik X atau area luar)
+            homeLightbox.on('slide_before_close', (data) => {
+                const slide = data.slideNode || data.slide;
+                stopSlideVideo(slide);
             });
         }
     });
