@@ -80,7 +80,7 @@
             descPosition: 'bottom',
             openEffect: 'zoom',
             closeEffect: 'fade',
-            cssEfects: {
+            cssEffects: { // Diperbaiki dari cssEfects menjadi cssEffects
                 fade: {
                     in: 'fadeIn',
                     out: 'fadeOut'
@@ -92,10 +92,27 @@
             }
         });
 
-        // [FITUR TIKTOK] - Inject Script TikTok saat Pop-up slide terbuka
+        // [KUNCI PERBAIKAN 1] - Trigger saat slide terbuka
         luxuryLightbox.on('slide_after_load', (data) => {
-            const slideContent = data.slide.querySelector('.tiktok-embed');
-            if (slideContent) {
+            const slide = data.slide; // Fokus pada slide yang sedang aktif
+
+            // Eksekusi Iframe Lazy Load (Ubah data-src menjadi src agar video muncul)
+            const iframes = slide.querySelectorAll('iframe.nr-lazy-iframe');
+            iframes.forEach(iframe => {
+                const realSrc = iframe.getAttribute('data-src');
+                if (realSrc && iframe.getAttribute('src') !== realSrc) {
+                    iframe.setAttribute('src', realSrc);
+                }
+            });
+
+            // Autoplay untuk video lokal (MP4)
+            const localVideos = slide.querySelectorAll('video');
+            localVideos.forEach(vid => {
+                vid.play().catch(e => console.log("Autoplay tertahan browser"));
+            });
+
+            // Inject Script TikTok Dinamis
+            if (slide.querySelector('.tiktok-embed') || slide.innerHTML.includes('tiktok.com')) {
                 const oldScript = document.getElementById('tiktok-script-dinamis');
                 if (oldScript) oldScript.remove();
 
@@ -107,33 +124,22 @@
             }
         });
 
-        // [BUG FIX] Solusi Definitif Zombie Audio GLightbox
-        luxuryLightbox.on('close', () => {
-            setTimeout(() => {
-                // Jangan cari ".gslide.current", cari target asalnya langsung di DOM!
-                const embedContainers = document.querySelectorAll('[id^="embed-"]');
-                embedContainers.forEach(container => {
+        // [KUNCI PERBAIKAN 2] - Hentikan audio saat slide ditutup dengan aman
+        luxuryLightbox.on('slide_before_close', (data) => {
+            const slide = data.slide;
 
-                    const vids = container.querySelectorAll('video');
-                    vids.forEach(v => {
-                        v.pause();
-                        v.currentTime = 0;
-                    });
+            // Matikan Iframe seketika dengan mengosongkan 'src'
+            const iframes = slide.querySelectorAll('iframe.nr-lazy-iframe');
+            iframes.forEach(iframe => {
+                iframe.removeAttribute('src');
+            });
 
-                    const iframes = container.querySelectorAll('iframe');
-                    iframes.forEach(iframe => {
-                        let currentSrc = iframe.src;
-                        if (currentSrc.includes('autoplay=1') || currentSrc.includes('autoplay=true')) {
-                            currentSrc = currentSrc.replace('autoplay=1', 'autoplay=0').replace('autoplay=true', 'autoplay=false');
-                        }
-                        iframe.src = 'about:blank';
-
-                        setTimeout(() => {
-                            iframe.src = currentSrc;
-                        }, 50);
-                    });
-                });
-            }, 400);
+            // Matikan Video MP4 Lokal
+            const localVideos = slide.querySelectorAll('video');
+            localVideos.forEach(vid => {
+                vid.pause();
+                vid.currentTime = 0;
+            });
         });
 
         // Logika Tab Filter
