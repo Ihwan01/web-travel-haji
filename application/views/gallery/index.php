@@ -16,7 +16,7 @@
 
     <div class="gallery-filter">
         <button class="filter-tab active" data-filter="all">Semua Experience</button>
-        <button class="filter-tab" data-filter="Video">Cinematic Film</button>
+        <button class="filter-tab" data-filter="Video">Videography</button>
         <button class="filter-tab" data-filter="Photo">Photography</button>
     </div>
 
