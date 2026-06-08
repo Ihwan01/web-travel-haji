@@ -7,12 +7,8 @@
 
     <?php
     // --- LOGIKA FALLBACK METADATA ---
-    // Jika ada metadata spesifik dari tabel seo_metadata, gunakan itu. 
-    // Jika tidak, gunakan $title dari Controller atau default text.
     $final_title = !empty($seo_meta->meta_title) ? $seo_meta->meta_title : (isset($title) ? $title : 'Nuansa Rindu — Perjalanan Hati');
-
     $final_desc = !empty($seo_meta->meta_description) ? $seo_meta->meta_description : 'Nuansa Rindu — Perjalanan spiritual Umroh yang dirancang untuk menenangkan hati dan memperkaya jiwa.';
-
     $final_keywords = !empty($seo_meta->meta_keywords) ? $seo_meta->meta_keywords : 'umroh premium, travel umroh jakarta, haji furoda, nuansa rindu, umroh luxury';
     ?>
 
@@ -48,8 +44,7 @@
             ! function(f, b, e, v, n, t, s) {
                 if (f.fbq) return;
                 n = f.fbq = function() {
-                    n.callMethod ?
-                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments)
                 };
                 if (!f._fbq) f._fbq = n;
                 n.push = n;
@@ -61,8 +56,7 @@
                 t.src = v;
                 s = b.getElementsByTagName(e)[0];
                 s.parentNode.insertBefore(t, s)
-            }(window, document, 'script',
-                'https://connect.facebook.net/en_US/fbevents.js');
+            }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '<?= htmlspecialchars($tracking->meta_pixel_code) ?>');
             fbq('track', 'PageView');
         </script>
@@ -92,6 +86,28 @@
 
     <script src="<?= $assets_url ?>js/main.js"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const navbar = document.getElementById("navbar");
+            const toggle = document.getElementById("navToggle");
+            const navList = document.querySelector(".nav-links");
+
+            if (toggle && navList && navbar) {
+                // Menyamakan transisi tombol hamburger dengan gaya background gelap
+                toggle.addEventListener("click", function() {
+                    // Beri class "active" pada toggle untuk animasi ikon "X"
+                    toggle.classList.toggle("active");
+
+                    // Beri class tambahan untuk mengubah background navbar jadi seragam saat menu turun
+                    if (navList.classList.contains("open")) {
+                        navbar.classList.add("menu-open");
+                    } else {
+                        navbar.classList.remove("menu-open");
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

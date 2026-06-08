@@ -3,41 +3,25 @@
    ═══════════════════════════════════════════════════════ */
 
 .navbar {
-	position: fixed; /* Membuat navbar melayang di atas konten/background */
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	z-index: 1000;
-
-	/* Inti dari transparan */
 	background: transparent;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Garis tipis transparan agar tetap elegan */
-
-	/* Beri padding seperlunya */
-	padding: 20px 40px;
-
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	padding: 20px 40px; /* Padding ideal desktop */
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-
-	/* Efek transisi halus saat berubah warna nantinya */
 	transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.navbar.scrolled {
-	background: var(--mahogany);
-	box-shadow: 0 2px 24px rgba(59, 42, 26, 0.08);
-}
-.navbar.dark-mode {
-	background: rgba(26, 16, 8, 0.92);
-	border-bottom-color: rgba(196, 163, 90, 0.1);
-}
-.navbar.dark-mode .nav-logo,
-.navbar.dark-mode .nav-links a {
-	color: rgba(245, 240, 232, 0.85);
-}
-.navbar.dark-mode .nav-cta {
-	color: var(--white);
-	border-color: var(--gold);
+
+.navbar.scrolled,
+.navbar.menu-open {
+	background: var(--mahogany, #1a0e06);
+	box-shadow: 0 2px 24px rgba(0, 0, 0, 0.15);
+	border-bottom-color: transparent;
 }
 
 .nav-logo {
@@ -57,6 +41,7 @@
 	gap: 36px;
 	list-style: none;
 }
+
 .nav-links a {
 	font-size: 0.68rem;
 	letter-spacing: 0.16em;
@@ -67,6 +52,7 @@
 	padding-bottom: 4px;
 	transition: color var(--transition);
 }
+
 .nav-links a::after {
 	content: "";
 	position: absolute;
@@ -77,10 +63,12 @@
 	background: var(--gold);
 	transition: width var(--transition);
 }
+
 .nav-links a:hover,
 .nav-links a.active {
 	color: var(--gold);
 }
+
 .nav-links a:hover::after,
 .nav-links a.active::after {
 	width: 100%;
@@ -99,6 +87,7 @@
 	transition: all var(--transition);
 	white-space: nowrap;
 }
+
 .nav-cta:hover {
 	background: var(--brown);
 	color: var(--cream);
@@ -108,49 +97,98 @@
 .nav-hamburger {
 	display: none;
 	flex-direction: column;
-	gap: 5px;
+	gap: 6px;
 	background: none;
 	border: none;
 	cursor: pointer;
 	padding: 4px;
+	z-index: 1001; /* Pastikan selalu berada di atas menu dropdown */
 }
+
 .nav-hamburger span {
 	display: block;
 	width: 24px;
 	height: 1.5px;
-	background: var(--brown);
-	transition: all var(--transition);
+	background: var(--white);
+	transition: all 0.3s ease-in-out;
 }
 
-/* ── Mobile nav ───────────────────────────────────────── */
+/* Animasi silang "X" elegan saat menu terbuka */
+.nav-hamburger.active span:nth-child(1) {
+	transform: translateY(7.5px) rotate(45deg);
+}
+.nav-hamburger.active span:nth-child(2) {
+	opacity: 0;
+}
+.nav-hamburger.active span:nth-child(3) {
+	transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ── Mobile nav (Tablet & Smartphone) ─────────────────── */
 @media (max-width: 1024px) {
 	.navbar {
-		padding: 0 32px;
+		/* [FIXED] Padding atas-bawah dinaikkan agar logo memiliki napas yang ideal (tidak sempit/mepet atas) */
+		padding: 16px 24px;
 	}
-	.nav-links {
-		display: none;
-	}
+
 	.nav-cta {
 		display: none;
 	}
+
 	.nav-hamburger {
 		display: flex;
 	}
 
-	.nav-links.open {
+	.nav-links {
 		display: flex;
 		flex-direction: column;
-		position: fixed;
-		top: var(--nav-h);
+		position: absolute;
+		top: 100%; /* Melekat sempurna di dasar navbar */
 		left: 0;
-		right: 0;
-		background: rgba(245, 240, 232, 0.98);
-		padding: 32px;
-		gap: 24px;
-		border-top: 1px solid rgba(196, 163, 90, 0.15);
-		box-shadow: 0 8px 32px rgba(59, 42, 26, 0.1);
+		width: 100%;
+		background: var(
+			--mahogany,
+			#1a0e06
+		); /* Warna seragam dengan navbar saat menu dibuka */
+		padding: 0 32px;
+		gap: 0;
+
+		/* Animasi dropdown tirai */
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+		border-top: none;
 	}
-	.nav-links.open a {
-		font-size: 0.9rem;
+
+	.nav-links.open {
+		max-height: 400px;
+		opacity: 1;
+		padding: 12px 32px 32px;
+		border-top: 1px solid rgba(196, 163, 90, 0.15); /* Garis aksen tipis */
+		box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3); /* Bayangan memudar halus ke bawah */
+	}
+
+	.nav-links a {
+		display: block;
+		padding: 16px 0;
+		font-size: 0.85rem;
+		color: rgba(
+			245,
+			240,
+			232,
+			0.9
+		) !important; /* [FIXED] Teks cerah agar terbaca jelas pada bg gelap */
+		border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Separator minimalis */
+	}
+
+	.nav-links a::after {
+		display: none; /* Hilangkan garis emas bawah animasi versi desktop */
+	}
+
+	.nav-links a:hover,
+	.nav-links a.active {
+		color: var(--gold, #c4a35a) !important;
+		padding-left: 8px; /* Efek bergeser ke kanan halus sebagai penanda hover di mobile */
 	}
 }
