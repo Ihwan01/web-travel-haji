@@ -33,7 +33,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         </div>
         <div class="hero-content">
             <h1 class="hero-title">Lebih dari perjalanan,<br>ini tentang <em>pulang.</em></h1>
-            <p class="hero-desc">Kami percaya setiap langkah menuju Baitullah adalah rindu yang menemukan jalan pulang. Sebuah pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.</p>
+            <p class="hero-desc">Kami believe setiap langkah menuju Baitullah adalah rindu yang menemukan jalan pulang. Sebuah pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.</p>
             <div class="hero-actions">
                 <a href="<?= base_url('about') ?>" class="arrow-link light">ABOUT US</a>
             </div>
@@ -181,7 +181,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 <?= function_exists('generate_video_embed') ? generate_video_embed($video_link) : '' ?>
             </div>
 
-            <div class="about-video-wrap glightbox" href="#embed-about-vid" data-glightbox="title: Tentang Nuansa Rindu; type: inline;">
+            <div class="about-video-wrap glightbox" data-href="#embed-about-vid" data-gallery="about-video" data-glightbox="title: Tentang Nuansa Rindu; type: inline;">
                 <?php if ($thumbnail): ?>
                     <img src="<?= $thumbnail ?>" alt="Tentang Nuansa Rindu" class="about-video-img">
                 <?php else: ?>
@@ -343,7 +343,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                         <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
                     </div>
 
-                    <a href="#embed-home-<?= $m->id ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
+                    <a href="#embed-home-<?= $m->id ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-gallery="visual-story" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
                         <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
                         <div class="vs-overlay">
                             <div class="vs-play-btn">
@@ -359,7 +359,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     </a>
 
                 <?php else: ?>
-                    <a href="<?= base_url($m->file_url) ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
+                    <a href="<?= base_url($m->file_url) ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-gallery="visual-story" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
                         <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
                         <div class="vs-overlay"></div>
                         <div class="vs-title-overlay">
