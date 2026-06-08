@@ -204,7 +204,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 
 <?php if (isset($show_journey) && $show_journey): ?>
     <section class="journey-section" id="journey">
-
         <div class="journey-header">
             <div class="reveal">
                 <p class="section-label">Signature Journey</p>
@@ -212,14 +211,12 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     Pilih perjalanan yang<br>sesuai dengan hati Anda.
                 </h2>
             </div>
-
             <div class="journey-nav-wrapper reveal">
                 <a href="<?= base_url('journey') ?>" class="arrow-link">View All Journey</a>
             </div>
         </div>
 
         <div class="journey-slider-wrapper reveal">
-
             <button class="slider-btn prev-btn" id="journeyPrev" aria-label="Geser Kiri">
                 <svg viewBox="0 0 24 24">
                     <path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" fill="none" />
@@ -253,7 +250,6 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" fill="none" />
                 </svg>
             </button>
-
         </div>
     </section>
 <?php endif; ?>
@@ -321,22 +317,33 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
     <div class="vs-masonry-container reveal">
         <div class="vs-masonry">
             <?php
-            $media_list = !empty($latest_media) ? $latest_media : [
+            // Ambil semua data media, namun pangkas (slice) sehingga maksimal HANYA 5 ITEM yang di render ke Homepage.
+            $raw_media = !empty($latest_media) ? $latest_media : [
                 (object)['id' => 101, 'title' => 'Senja di Nabawi', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-1.jpg', 'thumbnail_url' => null],
                 (object)['id' => 102, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-2.jpg'],
                 (object)['id' => 103, 'title' => 'Tawaf Ketenangan', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-3.jpg', 'thumbnail_url' => null],
                 (object)['id' => 104, 'title' => 'Perjalanan Hati', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-4.jpg'],
                 (object)['id' => 105, 'title' => 'Madinah Dirindukan', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-5.jpg', 'thumbnail_url' => null],
             ];
+
+            // Mengamankan agar output selalu maksimal 5 (Desktop & Tablet)
+            $media_list = array_slice($raw_media, 0, 5);
+            $item_count = 0;
             ?>
 
             <?php foreach ($media_list as $m): ?>
+                <?php
+                $item_count++;
+                // Jika item adalah urutan ke-4 atau ke-5, berikan class khusus agar disembunyikan di versi Handphone
+                $mobile_hide_class = ($item_count > 3) ? 'hide-on-mobile' : '';
+                ?>
+
                 <?php if ($m->media_type === 'Video'): ?>
                     <div id="embed-home-<?= $m->id ?>" style="display: none;">
                         <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
                     </div>
 
-                    <a href="#embed-home-<?= $m->id ?>" class="vs-item glightbox" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
+                    <a href="#embed-home-<?= $m->id ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
                         <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
                         <div class="vs-overlay">
                             <div class="vs-play-btn">
@@ -352,7 +359,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     </a>
 
                 <?php else: ?>
-                    <a href="<?= base_url($m->file_url) ?>" class="vs-item glightbox" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
+                    <a href="<?= base_url($m->file_url) ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
                         <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
                         <div class="vs-overlay"></div>
                         <div class="vs-title-overlay">
@@ -455,7 +462,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 loop: true,
                 autoplayVideos: true,
                 zoomable: true,
-                preload: false, // [KUNCI 1] MATIKAN PRELOAD agar video sebelah tidak dimuat diam-diam
+                preload: false,
                 descPosition: 'bottom',
                 openEffect: 'zoom',
                 closeEffect: 'fade',
@@ -471,11 +478,8 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 }
             });
 
-            // --- FUNGSI HELPER: Menyalakan Video ---
             function playSlideVideo(slideNode) {
                 if (!slideNode) return;
-
-                // Nyalakan Iframe (YouTube/IG)
                 const iframes = slideNode.querySelectorAll('iframe.nr-lazy-iframe');
                 iframes.forEach(iframe => {
                     const realSrc = iframe.getAttribute('data-src');
@@ -484,13 +488,11 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                     }
                 });
 
-                // Nyalakan Video Lokal (MP4)
                 const localVideos = slideNode.querySelectorAll('video');
                 localVideos.forEach(vid => {
                     vid.play().catch(e => console.log("Autoplay tertahan browser"));
                 });
 
-                // Inject TikTok Dinamis
                 if (slideNode.querySelector('.tiktok-embed') || slideNode.innerHTML.includes('tiktok.com')) {
                     const oldScript = document.getElementById('tiktok-script-dinamis');
                     if (oldScript) oldScript.remove();
@@ -503,17 +505,13 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 }
             }
 
-            // --- FUNGSI HELPER: Mematikan Video ---
             function stopSlideVideo(slideNode) {
                 if (!slideNode) return;
-
-                // Matikan Iframe dengan mencabut src-nya
                 const iframes = slideNode.querySelectorAll('iframe.nr-lazy-iframe');
                 iframes.forEach(iframe => {
                     iframe.removeAttribute('src');
                 });
 
-                // Matikan Video Lokal
                 const localVideos = slideNode.querySelectorAll('video');
                 localVideos.forEach(vid => {
                     vid.pause();
@@ -521,31 +519,27 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                 });
             }
 
-            // [EVENT 1] Trigger saat pop-up video pertama kali terbuka / diload
             homeLightbox.on('slide_after_load', (data) => {
                 const slide = data.slideNode || data.slide;
-                // Pastikan kita HANYA menyalakan video jika slide tersebut sedang tampil (mencegah bug background play)
                 if (slide && slide.classList.contains('current')) {
                     playSlideVideo(slide);
                 }
             });
 
-            // [EVENT 2] Trigger saat user menggeser (Next / Prev) video di dalam Pop-up
             homeLightbox.on('slide_changed', ({
                 prev,
                 current
             }) => {
                 if (prev) {
                     const prevSlide = prev.slideNode || prev.slide;
-                    stopSlideVideo(prevSlide); // Matikan video yang ditinggalkan
+                    stopSlideVideo(prevSlide);
                 }
                 if (current) {
                     const currentSlide = current.slideNode || current.slide;
-                    playSlideVideo(currentSlide); // Nyalakan video yang baru masuk
+                    playSlideVideo(currentSlide);
                 }
             });
 
-            // [EVENT 3] Trigger saat Pop-up ditutup sepenuhnya (Klik X atau area luar)
             homeLightbox.on('slide_before_close', (data) => {
                 const slide = data.slideNode || data.slide;
                 stopSlideVideo(slide);
