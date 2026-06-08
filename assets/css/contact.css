@@ -11,28 +11,46 @@
 
 /* ── HERO ─────────────────────────────────────────────── */
 .contact-hero {
-	background: linear-gradient(
-		to right,
-		rgba(26, 5, 0, 0.72) 0%,
-		rgba(26, 5, 0, 0.4) 50%,
-		rgba(26, 5, 0, 0.15) 100%
-	);
-	padding: calc(var(--nav-h, 80px) + 60px) 60px 80px;
-
 	position: relative;
 	overflow: hidden;
+	/* Memberikan ruang napas yang lebih luas agar gambar terlihat megah */
+	padding: calc(var(--nav-h, 80px) + 80px) 60px 100px;
+	min-height: 60vh;
+	display: flex;
+	align-items: center;
 }
 
-.contact-hero::before {
+/* Layer Background & Gambar */
+.contact-hero-bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background: var(--mahogany, #0e0c09);
+}
+
+.contact-hero-bg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0.65; /* Menjaga kontras gambar agar tetap luxury */
+	object-position: center right; /* Memastikan fokus objek (misal: jurnal/pena) di kanan tidak terpotong */
+}
+
+/* Gradasi Overlay agar teks di sebelah kiri sangat terbaca */
+.contact-hero-bg::after {
 	content: "";
 	position: absolute;
 	inset: 0;
-	background: radial-gradient(
-		ellipse at 30% 50%,
-		rgba(196, 163, 90, 0.07) 0%,
-		transparent 60%
+	background: linear-gradient(
+		to right,
+		rgba(14, 12, 9, 0.85) 0%,
+		/* Sangat gelap di sisi teks (kiri) */ rgba(14, 12, 9, 0.4) 50%,
+		/* Mulai transparan di tengah */ rgba(14, 12, 9, 0.05) 100%
+			/* Sepenuhnya transparan di sisi gambar (kanan) */
 	);
 }
+
+/* Garis emas estetik di batas bawah hero */
 .contact-hero::after {
 	content: "";
 	position: absolute;
@@ -40,18 +58,27 @@
 	left: 0;
 	right: 0;
 	height: 1px;
+	z-index: 3;
 	background: linear-gradient(
 		to right,
 		transparent,
-		rgba(196, 163, 90, 0.25),
+		rgba(196, 163, 90, 0.3),
 		transparent
 	);
 }
+
+/* Wrapper Konten Teks */
+.contact-hero-content {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+}
+
 .contact-hero-label {
-	font-size: 0.62rem;
+	font-size: 0.65rem;
 	letter-spacing: 0.28em;
 	text-transform: uppercase;
-	color: rgba(196, 163, 90, 0.6);
+	color: var(--gold, #c4a35a);
 	margin-bottom: 28px;
 	display: flex;
 	align-items: center;
@@ -59,30 +86,55 @@
 	opacity: 0;
 	animation: fadeUp 0.9s 0.2s forwards;
 }
+
 .contact-hero-label::after {
 	content: "";
 	flex: 0 0 36px;
 	height: 1px;
 	background: rgba(196, 163, 90, 0.4);
 }
+
 .contact-hero-title {
-	font-family: var(--font-display);
-	font-size: clamp(2.4rem, 5vw, 4.5rem);
+	font-family: var(--font-display, serif);
+	font-size: clamp(2.4rem, 5vw, 4.2rem);
 	font-weight: 300;
 	color: #f5f0e8;
-	line-height: 1.1;
-	max-width: 620px;
+	line-height: 1.2;
+	max-width: 680px;
 	margin-bottom: 24px;
 	opacity: 0;
 	animation: fadeUp 0.9s 0.35s forwards;
 }
+
 .contact-hero-sub {
-	font-size: 0.88rem;
-	color: rgba(245, 240, 232, 0.45);
-	max-width: 440px;
+	font-family: var(--font-body, sans-serif);
+	font-size: 0.9rem;
+	color: rgba(245, 241, 235, 0.7);
+	max-width: 500px;
 	line-height: 1.85;
 	opacity: 0;
 	animation: fadeUp 0.9s 0.5s forwards;
+}
+
+/* Penyesuaian Responsif untuk Hero Contact */
+@media (max-width: 1024px) {
+	.contact-hero {
+		padding: calc(var(--nav-h, 80px) + 60px) 32px 80px;
+		min-height: 50vh;
+	}
+	.contact-hero-bg::after {
+		/* Di layar kecil/tablet, gradasi dari atas ke bawah, bukan kiri ke kanan karena teks biasanya memakan seluruh lebar */
+		background: linear-gradient(
+			to bottom,
+			rgba(14, 12, 9, 0.8) 0%,
+			rgba(14, 12, 9, 0.6) 100%
+		);
+	}
+}
+@media (max-width: 640px) {
+	.contact-hero {
+		padding: calc(var(--nav-h, 80px) + 40px) 20px 60px;
+	}
 }
 
 /* ── MAIN LAYOUT (Single Column) ─────────────────────── */
