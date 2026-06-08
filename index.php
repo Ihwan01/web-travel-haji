@@ -61,11 +61,11 @@
  */
 $domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-if ($domain === 'localhost' || $domain === '127.0.0.1' || strpos($domain, '192.168.') !== false) {
+// if ($domain === 'localhost' || $domain === '127.0.0.1' || strpos($domain, '192.168.') !== false) {
 	define('ENVIRONMENT', 'development'); // Gunakan DB Root / Lokal
-} else {
-	define('ENVIRONMENT', 'production');  // Gunakan DB Hostinger
-}
+// } else {
+// 	define('ENVIRONMENT', 'production');  // Gunakan DB Hostinger
+// }
 
 /*
  *---------------------------------------------------------------

@@ -8,8 +8,6 @@ class Home extends Public_Controller
         parent::__construct();
         $this->load->model('Package_model');
         $this->load->model('Journal_model');
-
-        // [BARU] Memanggil Model Gallery dan Helper Embed untuk kebutuhan Visual Story
         $this->load->model('Gallery_model');
         $this->load->helper('embed');
     }

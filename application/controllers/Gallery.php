@@ -7,7 +7,6 @@ class Gallery extends MY_Controller
     {
         parent::__construct();
         $this->load->model('Gallery_model');
-        // Panggil helper yang baru dibuat
         $this->load->helper('embed');
     }
 

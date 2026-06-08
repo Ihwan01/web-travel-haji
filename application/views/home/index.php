@@ -316,64 +316,61 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 
     <div class="vs-masonry-container reveal">
         <div class="vs-masonry">
-            <?php
-            // Ambil semua data media, namun pangkas (slice) sehingga maksimal HANYA 5 ITEM yang di render ke Homepage.
-            $raw_media = !empty($latest_media) ? $latest_media : [
-                (object)['id' => 101, 'title' => 'Senja di Nabawi', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-1.jpg', 'thumbnail_url' => null],
-                (object)['id' => 102, 'title' => 'Nuansa Rindu Film', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-2.jpg'],
-                (object)['id' => 103, 'title' => 'Tawaf Ketenangan', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-3.jpg', 'thumbnail_url' => null],
-                (object)['id' => 104, 'title' => 'Perjalanan Hati', 'media_type' => 'Video', 'file_url' => 'https://www.youtube.com/watch?v=D6FRezJF3rU', 'thumbnail_url' => 'assets/images/gallery/vs-4.jpg'],
-                (object)['id' => 105, 'title' => 'Madinah Dirindukan', 'media_type' => 'Photo', 'file_url' => 'assets/images/gallery/vs-5.jpg', 'thumbnail_url' => null],
-            ];
-
-            // Mengamankan agar output selalu maksimal 5 (Desktop & Tablet)
-            $media_list = array_slice($raw_media, 0, 5);
-            $item_count = 0;
-            ?>
-
-            <?php foreach ($media_list as $m): ?>
+            <?php if (!empty($latest_media)): ?>
                 <?php
-                $item_count++;
-                // Jika item adalah urutan ke-4 atau ke-5, berikan class khusus agar disembunyikan di versi Handphone
-                $mobile_hide_class = ($item_count > 3) ? 'hide-on-mobile' : '';
+                // Memastikan maksimal hanya 5 item yang dirender untuk tata letak Homepage
+                $media_list = array_slice($latest_media, 0, 5);
+                $item_count = 0;
                 ?>
 
-                <?php if ($m->media_type === 'Video'): ?>
-                    <div id="embed-home-<?= $m->id ?>" style="display: none;">
-                        <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
-                    </div>
+                <?php foreach ($media_list as $m): ?>
+                    <?php
+                    $item_count++;
+                    // Jika item adalah urutan ke-4 atau ke-5, berikan class khusus agar disembunyikan di layar HP
+                    $mobile_hide_class = ($item_count > 3) ? 'hide-on-mobile' : '';
+                    ?>
 
-                    <a href="#embed-home-<?= $m->id ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-gallery="visual-story" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
-                        <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
-                        <div class="vs-overlay">
-                            <div class="vs-play-btn">
-                                <svg viewBox="0 0 24 24">
-                                    <polygon points="7,4 19,12 7,20" />
-                                </svg>
+                    <?php if ($m->media_type === 'Video'): ?>
+                        <div id="embed-home-<?= $m->id ?>" style="display: none;">
+                            <?= function_exists('generate_video_embed') ? generate_video_embed($m->file_url) : '' ?>
+                        </div>
+
+                        <a href="#embed-home-<?= $m->id ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-gallery="visual-story" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: inline;">
+                            <img src="<?= base_url($m->thumbnail_url ?: 'assets/images/nuansa-rindu-about-thumbnail.webp') ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
+                            <div class="vs-overlay">
+                                <div class="vs-play-btn">
+                                    <svg viewBox="0 0 24 24">
+                                        <polygon points="7,4 19,12 7,20" />
+                                    </svg>
+                                </div>
                             </div>
-                        </div>
-                        <div class="vs-title-overlay">
-                            <span class="vs-item-badge">Film</span>
-                            <h3 class="vs-item-title"><?= htmlspecialchars($m->title) ?></h3>
-                        </div>
-                    </a>
+                            <div class="vs-title-overlay">
+                                <span class="vs-item-badge">Film</span>
+                                <h3 class="vs-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                            </div>
+                        </a>
 
-                <?php else: ?>
-                    <a href="<?= base_url($m->file_url) ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-gallery="visual-story" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
-                        <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
-                        <div class="vs-overlay"></div>
-                        <div class="vs-title-overlay">
-                            <h3 class="vs-item-title"><?= htmlspecialchars($m->title) ?></h3>
-                        </div>
-                    </a>
-                <?php endif; ?>
-            <?php endforeach; ?>
-
+                    <?php else: ?>
+                        <a href="<?= base_url($m->file_url) ?>" class="vs-item glightbox <?= $mobile_hide_class ?>" data-gallery="visual-story" data-glightbox="title: <?= htmlspecialchars($m->title) ?>; type: image;">
+                            <img src="<?= base_url($m->file_url) ?>" alt="<?= htmlspecialchars($m->title) ?>" class="vs-img">
+                            <div class="vs-overlay"></div>
+                            <div class="vs-title-overlay">
+                                <h3 class="vs-item-title"><?= htmlspecialchars($m->title) ?></h3>
+                            </div>
+                        </a>
+                    <?php endif; ?>
+                    
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="color: var(--muted); grid-column: 1 / -1; text-align: center; font-style: italic; width: 100%;">
+                    Belum ada visual story yang ditambahkan.
+                </p>
+            <?php endif; ?>
         </div>
     </div>
 
     <div style="margin-top:48px; text-align:center;">
-        <a href="<?= base_url('gallery') ?>" class="arrow-link light" style="margin:0 auto;">Lihat Semua Experience</a>
+        <a href="<?= base_url('gallery') ?>" class="arrow-link light" style="margin:0 auto; color: var(--gold-lt);">Lihat Semua Experience</a>
     </div>
 </section>
 
