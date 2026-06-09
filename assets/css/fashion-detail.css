@@ -1,0 +1,198 @@
+/* ═══════════════════════════════════════════════════════
+   NUANSA RINDU — fashion-detail.css
+   ═══════════════════════════════════════════════════════ */
+
+/* ── PERBAIKAN NAVBAR TRANSPARAN DI BACKGROUND TERANG ── */
+.page-fashion-detail .navbar:not(.scrolled):not(.menu-open) .nav-logo,
+.page-fashion-detail .navbar:not(.scrolled):not(.menu-open) .nav-links a {
+	color: var(--brown);
+}
+.page-fashion-detail .navbar:not(.scrolled):not(.menu-open) .nav-cta {
+	color: var(--brown);
+	border-color: var(--brown);
+}
+.page-fashion-detail .navbar:not(.scrolled):not(.menu-open) .nav-cta:hover {
+	background: var(--brown);
+	color: var(--cream);
+}
+.page-fashion-detail
+	.navbar:not(.scrolled):not(.menu-open)
+	.nav-hamburger
+	span {
+	background: var(--brown);
+}
+.page-fashion-detail
+	.navbar:not(.scrolled):not(.menu-open)
+	.nav-links
+	a::after {
+	background: var(--brown);
+}
+.page-fashion-detail .navbar:not(.scrolled):not(.menu-open) {
+	border-bottom-color: rgba(59, 42, 26, 0.15); /* Garis bawah cokelat tipis */
+}
+
+/* ── LAYOUT UTAMA ── */
+.fashion-detail-page {
+	background: var(--cream);
+	padding-top: calc(var(--nav-h) + 40px);
+	padding-bottom: 120px;
+}
+
+.fd-back-nav {
+	max-width: 1300px;
+	margin: 0 auto 40px;
+	padding: 0 60px;
+}
+.back-arrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+.back-arrow svg {
+	width: 16px;
+	height: 16px;
+	transition: transform 0.3s ease;
+}
+.back-arrow:hover svg {
+	transform: translateX(-4px);
+}
+
+.fd-container {
+	max-width: 1300px;
+	margin: 0 auto;
+	padding: 0 60px;
+	display: grid;
+	grid-template-columns: 1.2fr 0.8fr;
+	gap: 80px;
+	align-items: start;
+}
+
+/* ── KIRI: GALERI GAMBAR ──────────────────────────────── */
+.fd-gallery {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+.fd-img-wrap {
+	width: 100%;
+	overflow: hidden;
+	cursor: zoom-in;
+	background: #e8e2d8;
+}
+.fd-img {
+	width: 100%;
+	height: auto;
+	display: block;
+	object-fit: cover;
+	transition: transform 0.8s ease;
+}
+.fd-img-wrap:hover .fd-img {
+	transform: scale(1.03);
+}
+
+/* ── KANAN: DETAIL INFO (STICKY) ──────────────────────── */
+.fd-info-wrapper {
+	position: sticky;
+	top: calc(var(--nav-h) + 40px);
+}
+.fd-category {
+	font-size: 0.65rem;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--gold-lt);
+	display: block;
+	margin-bottom: 16px;
+}
+.fd-title {
+	font-family: var(--font-display);
+	font-size: clamp(2rem, 3.5vw, 3rem);
+	font-weight: 300;
+	color: var(--brown);
+	line-height: 1.1;
+	margin-bottom: 12px;
+}
+.fd-fabric {
+	color: var(--muted);
+	font-style: italic;
+	font-family: var(--font-display);
+	font-size: 1.2rem;
+	margin-bottom: 32px;
+}
+
+.fd-divider {
+	width: 100%;
+	height: 1px;
+	background: rgba(59, 42, 26, 0.15);
+	margin-bottom: 32px;
+}
+
+.fd-desc {
+	font-size: 0.88rem;
+	color: var(--muted);
+	line-height: 1.85;
+	margin-bottom: 48px;
+}
+
+/* Tombol CTA */
+.fd-actions {
+	margin-bottom: 56px;
+}
+.fd-btn-primary {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 16px 24px;
+	background: var(--brown);
+	color: var(--cream);
+	font-size: 0.75rem;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	text-decoration: none;
+	transition: all 0.4s ease;
+	border: 1px solid var(--brown);
+	margin-bottom: 16px;
+}
+.fd-btn-primary:hover {
+	background: transparent;
+	color: var(--brown);
+}
+.fd-notes {
+	font-size: 0.7rem;
+	color: rgba(59, 42, 26, 0.6);
+	line-height: 1.6;
+	text-align: center;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 1024px) {
+	.fd-container,
+	.fd-back-nav {
+		padding: 0 40px;
+	}
+	.fd-container {
+		grid-template-columns: 1fr 1fr;
+		gap: 48px;
+	}
+}
+
+@media (max-width: 768px) {
+	.fashion-detail-page {
+		padding-top: calc(var(--nav-h) + 20px);
+	}
+	.fd-container {
+		grid-template-columns: 1fr;
+		gap: 40px;
+	}
+	.fd-info-wrapper {
+		position: relative;
+		top: 0;
+	}
+	.fd-title {
+		font-size: 2.2rem;
+	}
+	.fd-container,
+	.fd-back-nav {
+		padding: 0 24px;
+	}
+}

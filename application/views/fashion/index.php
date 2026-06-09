@@ -77,7 +77,7 @@
                         }
                         $main_img = !empty($images) ? $images[0] : null;
                     ?>
-                        <div class="ess-item">
+                        <a href="<?= base_url('fashion/' . $item->slug) ?>" class="ess-item" style="text-decoration: none;">
                             <?php if ($main_img): ?>
                                 <img class="ess-img" src="<?= base_url($main_img) ?>" alt="<?= htmlspecialchars($item->name) ?>">
                             <?php else: ?>
@@ -88,7 +88,7 @@
                                 <p class="ess-name"><?= htmlspecialchars($item->name) ?></p>
                                 <p class="ess-detail"><?= htmlspecialchars($item->fabric_details ?? '') ?></p>
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p style="color: var(--muted);">Koleksi belum tersedia saat ini.</p>
