@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="<?= base_url('assets/css/cms-style.css'); ?>">
+    <link rel="icon" type="image/png" href="<?= base_url('assets/images/Logo.png') ?>" />
 </head>
 
 <body>
