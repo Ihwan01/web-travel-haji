@@ -10,22 +10,33 @@
     $final_title = !empty($seo_meta->meta_title) ? $seo_meta->meta_title : (isset($title) ? $title : 'Nuansa Rindu — Perjalanan Hati');
     $final_desc = !empty($seo_meta->meta_description) ? $seo_meta->meta_description : 'Nuansa Rindu — Perjalanan spiritual Umroh yang dirancang untuk menenangkan hati dan memperkaya jiwa.';
     $final_keywords = !empty($seo_meta->meta_keywords) ? $seo_meta->meta_keywords : 'umroh premium, travel umroh jakarta, haji furoda, nuansa rindu, umroh luxury';
+
+    // Logika gambar Open Graph (Thumbnail WhatsApp/Medsos)
+    // Jika ada variabel gambar spesifik dari controller (misal halaman detail jurnal), gunakan itu. Jika tidak, gunakan logo default.
+    $final_og_image = isset($og_image) ? $og_image : base_url('assets/images/Logo.png');
     ?>
 
     <title><?= htmlspecialchars($final_title) ?></title>
     <meta name="description" content="<?= htmlspecialchars($final_desc) ?>">
     <meta name="keywords" content="<?= htmlspecialchars($final_keywords) ?>">
 
+    <!-- Canonical URL (Penting untuk SEO agar tidak ada duplicate content) -->
+    <link rel="canonical" href="<?= current_url() ?>" />
+
+    <!-- Open Graph / Meta Medsos -->
     <meta property="og:title" content="<?= htmlspecialchars($final_title) ?>">
     <meta property="og:description" content="<?= htmlspecialchars($final_desc) ?>">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?= current_url() ?>">
     <meta property="og:site_name" content="Nuansa Rindu">
+    <meta property="og:image" content="<?= $final_og_image ?>">
 
+    <!-- Google Search Console Verification -->
     <?php if (!empty($tracking->gsc_code)): ?>
         <meta name="google-site-verification" content="<?= htmlspecialchars($tracking->gsc_code) ?>" />
     <?php endif; ?>
 
+    <!-- Google Analytics 4 -->
     <?php if (!empty($tracking->ga4_code)): ?>
         <script async src="https://www.googletagmanager.com/gtag/js?id=<?= htmlspecialchars($tracking->ga4_code) ?>"></script>
         <script>
@@ -39,6 +50,7 @@
         </script>
     <?php endif; ?>
 
+    <!-- Meta Pixel -->
     <?php if (!empty($tracking->meta_pixel_code)): ?>
         <script>
             ! function(f, b, e, v, n, t, s) {

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://demo.nuansarindu.id/sitemap.xml

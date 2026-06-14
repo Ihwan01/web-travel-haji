@@ -108,6 +108,9 @@ $route['users/force_reset_password/(:any)'] = 'cms/users/force_reset_password/$1
 |--------------------------------------------------------------------------
 */
 $route['']                      = 'Home/index';
+// [TAMBAHAN BARU] Rute untuk menangkap sitemap.xml dan melemparnya ke Controller Sitemap
+$route['sitemap\.xml']          = 'Sitemap/index';
+
 $route['journey']               = 'Journey/index';
 $route['journey/(:any)']        = 'Journey/detail/$1';
 $route['about']                 = 'About/index';
