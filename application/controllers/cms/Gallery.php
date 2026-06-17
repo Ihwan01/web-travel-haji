@@ -138,7 +138,7 @@ class Gallery extends Admin_Controller
         $config = [
             'upload_path'   => $upload_path,
             'allowed_types' => 'jpg|jpeg|png|webp|mp4|mov|webm',
-            'max_size'      => 102400,
+            'max_size'      => 2048, // Max 2MB
             'file_name'     => uniqid() . '_' . time(),
         ];
 
@@ -150,5 +150,41 @@ class Gallery extends Admin_Controller
         }
 
         return null;
+    }
+
+    public function bulk_action()
+    {
+        $action = $this->input->post('action');
+        $ids = $this->input->post('ids');
+
+        if (empty($ids)) {
+            $this->session->set_flashdata('error_message', 'Tidak ada data galeri yang dipilih.');
+            redirect('galleries');
+        }
+
+        if ($action == 'delete') {
+            $deleted_count = 0;
+            foreach ($ids as $id) {
+                $item = $this->Gallery_model->get_by_id($id);
+                if ($item) {
+                    // Proteksi role 3 seperti jurnal
+                    if ($this->data['role_id'] == 3 && $item->author_id != $this->data['admin_id']) {
+                        continue;
+                    }
+
+                    // Hapus file fisik gambar (sesuaikan 'file_name' atau 'thumbnail' dengan DB Anda)
+                    if ($item->file_name && file_exists(FCPATH . 'assets/uploads/gallery/' . $item->file_name)) {
+                        unlink(FCPATH . 'assets/uploads/gallery/' . $item->file_name);
+                    }
+
+                    $this->Gallery_model->delete($id);
+                    $deleted_count++;
+                }
+            }
+            if ($deleted_count > 0) {
+                $this->session->set_flashdata('success_message', $deleted_count . ' data galeri berhasil dihapus.');
+            }
+        }
+        redirect('galleries');
     }
 }

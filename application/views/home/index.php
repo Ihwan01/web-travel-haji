@@ -33,7 +33,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
         </div>
         <div class="hero-content">
             <h1 class="hero-title">Lebih dari perjalanan,<br>ini tentang <em>pulang.</em></h1>
-            <p class="hero-desc">Kami believe setiap langkah menuju Baitullah adalah rindu yang menemukan jalan pulang. Sebuah pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.</p>
+            <p class="hero-desc">Kami percaya setiap langkah menuju Baitullah adalah rindu yang menemukan jalan pulang. Sebuah pengalaman spiritual yang dirancang untuk menenangkan hati dan memperkaya jiwa.</p>
             <div class="hero-actions">
                 <a href="<?= base_url('about') ?>" class="arrow-link light">ABOUT US</a>
             </div>
@@ -220,7 +220,7 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
                             </div>
                         </a>
                     <?php endif; ?>
-                    
+
                 <?php endforeach; ?>
             <?php else: ?>
                 <p style="color: var(--muted); grid-column: 1 / -1; text-align: center; font-style: italic; width: 100%;">
@@ -236,29 +236,61 @@ $display_slides = $use_slider ? $hero_slides : (!empty($hero_slides) ? [$hero_sl
 </section>
 
 <?php if (isset($show_fashion) && $show_fashion): ?>
-    <section class="fashion-section">
-        <div class="fashion-header">
-            <div class="reveal">
-                <p class="section-label">Fashion Identity</p>
+    <section class="fashion-essentials">
+        <div class="essentials-header reveal">
+            <div>
+                <p class="section-label">Travel Essentials</p>
                 <h2 class="display-heading" style="font-size:clamp(2rem,3.5vw,3rem); line-height:1.2;">
-                    Berpakaian dengan<br>makna dan keanggunan.
+                    Detail kecil yang<br>membuat perjalanan terasa istimewa.
                 </h2>
             </div>
-            <a href="<?= base_url('fashion') ?>" class="arrow-link reveal">Lihat Koleksi</a>
+            <div class="essentials-header-right">
+                <a href="<?= base_url('fashion') ?>" class="arrow-link">Lihat Semua Koleksi</a>
+            </div>
         </div>
 
-        <div class="fashion-strip reveal">
-            <?php
-            $fashion_labels = ['Seragam Jamaah', 'Travel Essentials', 'Passport Holder', 'Tote Bag', 'Outfit Details'];
-            $fashion_bgs    = ['fs-bg-1', 'fs-bg-2', 'fs-bg-3', 'fs-bg-4', 'fs-bg-5'];
-            for ($i = 0; $i < 5; $i++): ?>
-                <div class="fs-item">
-                    <div class="fs-img <?= $fashion_bgs[$i] ?>"></div>
-                    <div class="fs-overlay">
-                        <p class="fs-name"><?= $fashion_labels[$i] ?></p>
-                    </div>
-                </div>
-            <?php endfor; ?>
+        <div class="essentials-slider-wrapper reveal">
+            <!-- Tombol Navigasi Slider -->
+            <button class="ess-btn prev-btn" id="essPrev" aria-label="Geser Kiri">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button class="ess-btn next-btn" id="essNext" aria-label="Geser Kanan">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+
+            <!-- Container Item Slider -->
+            <div class="essentials-items" id="essSlider">
+                <?php if (!empty($fashions)): ?>
+                    <?php
+                    $ess_bgs = ['ess-bg-1', 'ess-bg-2', 'ess-bg-3', 'ess-bg-4', 'ess-bg-5'];
+                    foreach ($fashions as $idx => $item):
+                        $images = [];
+                        if (!empty($item->image_gallery)) {
+                            $images = json_decode($item->image_gallery, true);
+                        }
+                        $main_img = !empty($images) ? $images[0] : null;
+                    ?>
+                        <a href="<?= base_url('fashion/' . $item->slug) ?>" class="ess-item" style="text-decoration: none;">
+                            <?php if ($main_img): ?>
+                                <img class="ess-img" src="<?= base_url($main_img) ?>" alt="<?= htmlspecialchars($item->name) ?>">
+                            <?php else: ?>
+                                <div class="ess-img <?= $ess_bgs[$idx % 5] ?>"></div>
+                            <?php endif; ?>
+
+                            <div class="ess-info">
+                                <p class="ess-name"><?= htmlspecialchars($item->name) ?></p>
+                                <p class="ess-detail"><?= htmlspecialchars($item->fabric_details ?? '') ?></p>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="color: var(--muted); padding: 20px;">Koleksi belum tersedia saat ini.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 <?php endif; ?>

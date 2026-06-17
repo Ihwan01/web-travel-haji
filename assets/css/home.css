@@ -452,7 +452,6 @@
 	width: 100%;
 }
 
-/* Masonry Default 3 Kolom (Desktop) Sama seperti Gallery */
 .vs-masonry {
 	column-count: 3;
 	column-gap: 24px;
@@ -488,7 +487,6 @@
 	transform: scale(1.05);
 }
 
-/* Overlay & Ikon Play */
 .vs-overlay {
 	position: absolute;
 	inset: 0;
@@ -540,7 +538,6 @@
 	fill: #1a1008;
 }
 
-/* Judul Media Melayang */
 .vs-title-overlay {
 	position: absolute;
 	bottom: 0;
@@ -574,70 +571,145 @@
 	font-weight: 300;
 }
 
-/* ── FASHION IDENTITY ─────────────────────────────────── */
-.fashion-section {
-	background: var(--cream);
+/* ── TRAVEL ESSENTIALS (SWIPEABLE SLIDER) ────────────── */
+.fashion-essentials {
 	padding: 100px 60px;
+	background: var(--cream);
 }
-.fashion-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: flex-end;
-	margin-bottom: 56px;
-}
-.fashion-strip {
+.essentials-header {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	gap: 3px;
+	grid-template-columns: 1fr 1fr;
+	gap: 80px;
+	align-items: flex-end;
+	margin-bottom: 40px;
 }
-.fs-item {
+.essentials-header-right {
+	display: flex;
+	justify-content: flex-end; /* Memposisikan link Lihat Semua ke Kanan */
+}
+
+.essentials-slider-wrapper {
+	position: relative;
+	width: 100%;
+}
+.ess-btn {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+	width: 48px;
+	height: 48px;
+	background: #1a1008;
+	border: 1px solid var(--gold);
+	color: var(--gold);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+	outline: none;
+}
+.ess-btn:hover {
+	background: var(--gold);
+	color: var(--cream);
+	transform: translateY(-50%) scale(1.1);
+	box-shadow: 0 6px 20px rgba(196, 163, 90, 0.3);
+}
+.ess-btn svg {
+	width: 20px;
+	height: 20px;
+}
+.ess-btn.prev-btn {
+	left: -24px;
+}
+.ess-btn.next-btn {
+	right: -24px;
+}
+
+.essentials-items {
+	display: flex;
+	gap: 4px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	padding-bottom: 20px;
+}
+.essentials-items::-webkit-scrollbar {
+	display: none;
+}
+
+.ess-item {
+	flex: 0 0 calc(25% - 3px);
+	scroll-snap-align: start;
 	position: relative;
 	overflow: hidden;
-	cursor: pointer;
-	aspect-ratio: 2/3;
+	cursor: grab;
+	aspect-ratio: 3/4;
+	background: var(--brown);
 }
-.fs-img {
+.ess-item:active {
+	cursor: grabbing;
+}
+.ess-img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.6s ease;
+	opacity: 0.8;
+	transition:
+		transform 0.6s ease,
+		opacity 0.4s;
+	display: block;
+	pointer-events: none;
 }
-.fs-item:hover .fs-img {
+.ess-item:hover .ess-img {
 	transform: scale(1.05);
+	opacity: 0.95;
 }
-.fs-overlay {
+.ess-info {
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	padding: 24px 18px;
+	padding: 24px 16px;
 	background: linear-gradient(
 		to top,
-		rgba(26, 5, 0, 0.75) 0%,
+		rgba(26, 5, 0, 0.85) 0%,
 		transparent 100%
 	);
+	pointer-events: none;
 }
-.fs-name {
+.ess-name {
 	font-family: var(--font-display);
-	font-size: 1rem;
+	font-size: 1.1rem;
 	color: #f5f0e8;
-	font-weight: 400;
+	margin-bottom: 4px;
+}
+.ess-detail {
+	font-size: 0.62rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--gold-lt);
 }
 
-.fs-bg-1 {
-	background: linear-gradient(160deg, #c8b890, #8a7858, #4a3818);
+/* Fallback Gradients */
+.ess-bg-1 {
+	background: linear-gradient(160deg, #c8b890, #8a8060, #4a4030);
 }
-.fs-bg-2 {
-	background: linear-gradient(160deg, #90a8b0, #607080, #304050);
+.ess-bg-2 {
+	background: linear-gradient(160deg, #7890a0, #485868, #182030);
 }
-.fs-bg-3 {
-	background: linear-gradient(160deg, #b8a078, #806848, #402818);
+.ess-bg-3 {
+	background: linear-gradient(160deg, #c0a070, #806040, #402010);
 }
-.fs-bg-4 {
-	background: linear-gradient(160deg, #a8b8a0, #687860, #283828);
+.ess-bg-4 {
+	background: linear-gradient(160deg, #8a9880, #506048, #182018);
 }
-.fs-bg-5 {
-	background: linear-gradient(160deg, #c0a888, #907058, #402010);
+.ess-bg-5 {
+	background: linear-gradient(160deg, #b89870, #786040, #382010);
 }
 
 /* ── JOURNAL SECTION ──────────────────────────────────── */
@@ -724,43 +796,6 @@
 	}
 }
 
-/* ── Lightbox ─────────────────────────────────────────── */
-#lightbox-overlay {
-	position: fixed;
-	inset: 0;
-	z-index: 9999;
-	background: rgba(10, 5, 0, 0.92);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity 0.3s;
-}
-#lightbox-overlay.active {
-	opacity: 1;
-	pointer-events: all;
-}
-.lb-inner {
-	position: relative;
-	max-width: 90vw;
-}
-.lb-close {
-	position: absolute;
-	top: -40px;
-	right: 0;
-	background: none;
-	border: none;
-	color: rgba(245, 240, 232, 0.6);
-	font-size: 1.8rem;
-	cursor: pointer;
-	line-height: 1;
-	transition: color var(--transition);
-}
-.lb-close:hover {
-	color: var(--gold);
-}
-
 /* ── NAVIGASI SLIDER (PANAH) ─────────────────────────── */
 .journey-nav-wrapper {
 	display: flex;
@@ -832,9 +867,12 @@
 	.journey-cards {
 		grid-auto-columns: calc(50% - 1.5px) !important;
 	}
-	.fashion-strip {
-		grid-template-columns: repeat(3, 1fr);
+
+	/* Penyesuaian Fashion Grid Homepage (Tablet) */
+	.fashion-home-grid {
+		aspect-ratio: 16 / 9;
 	}
+
 	.footer-bottom,
 	.footer-copy,
 	.footer-cta-section {
@@ -859,6 +897,21 @@
 	/* Penyesuaian Visual Story Masonry iPad/Tablet */
 	.vs-masonry {
 		column-count: 2;
+	}
+
+	.fashion-essentials {
+		padding-left: 32px;
+		padding-right: 32px;
+	}
+	.essentials-header {
+		grid-template-columns: 1fr;
+		gap: 32px;
+	}
+	.essentials-header-right {
+		justify-content: flex-start;
+	}
+	.ess-item {
+		flex: 0 0 calc(33.333% - 2.6px);
 	}
 }
 
@@ -889,12 +942,23 @@
 		display: none !important;
 	}
 
+	/* Penyesuaian Fashion Grid Homepage (Mobile) */
+	.fashion-home-grid {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto;
+		aspect-ratio: auto;
+	}
+	.fh-cell:nth-child(1) {
+		aspect-ratio: 4 / 3;
+	}
+	.fh-cell:nth-child(2),
+	.fh-cell:nth-child(3) {
+		aspect-ratio: 3 / 2;
+	}
+
 	.journal-cards {
 		grid-template-columns: 1fr;
 		gap: 12px;
-	}
-	.fashion-strip {
-		grid-template-columns: repeat(2, 1fr);
 	}
 	.why-items {
 		grid-template-columns: 1fr;
@@ -919,6 +983,29 @@
 	}
 	.about-video-wrap {
 		aspect-ratio: 16 / 9;
+	}
+
+	.fashion-essentials {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	.ess-item {
+		flex: 0 0 calc(50% - 2px);
+	}
+	.ess-btn {
+		display: none;
+	} /* Sembunyikan panah di HP karena user bisa swipe layarnya */
+}
+
+@media (max-width: 480px) {
+	.essentials-header {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 20px;
+	}
+	.ess-item {
+		flex: 0 0 calc(75% - 2px);
 	}
 }
 

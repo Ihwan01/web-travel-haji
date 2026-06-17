@@ -15,24 +15,42 @@ class Fashions extends Admin_Controller
     {
         $data['title'] = 'Manajemen Fashion & Perlengkapan | CMS';
         $data['fashions'] = $this->Fashion_model->get_all();
-
         $this->render('cms/fashions/index', $data);
     }
 
     public function create()
     {
-        // [GEMBOK AKTIF] Blokir Kontributor
         $this->restrict_action('fashions', 'create');
-
         $data['title'] = 'Tambah Koleksi Baru | CMS';
 
-        $this->form_validation->set_rules('name', 'Nama Koleksi', 'required|trim');
+        $this->form_validation->set_rules('name', 'Nama Koleksi', 'required|trim', [
+            'required' => '%s wajib diisi.'
+        ]);
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[Draft,Published]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/fashions/create', $data);
         } else {
-            $uploaded_images = $this->_upload_multiple_images('image_gallery', 'fashions');
+            $uploaded_images = [];
+
+            // [PERBAIKAN] Gunakan $data['error_upload'] alih-alih set_flashdata
+            if (empty($_FILES['image_gallery']['name'][0])) {
+                $data['error_upload'] = 'Minimal satu foto wajib diunggah untuk koleksi baru.';
+                $this->render('cms/fashions/create', $data);
+                return;
+            }
+
+            if (!empty($_FILES['image_gallery']['name'][0])) {
+                $upload_res = $this->_upload_multiple_images('image_gallery', 'fashions');
+
+                if (!$upload_res['status']) {
+                    // [PERBAIKAN]
+                    $data['error_upload'] = $upload_res['error'];
+                    $this->render('cms/fashions/create', $data);
+                    return;
+                }
+                $uploaded_images = $upload_res['data'];
+            }
 
             $save_data = [
                 'name'           => $this->input->post('name', TRUE),
@@ -51,7 +69,6 @@ class Fashions extends Admin_Controller
 
     public function edit($id)
     {
-        // [GEMBOK AKTIF] Blokir Kontributor
         $this->restrict_action('fashions', 'edit');
 
         $data['item'] = $this->Fashion_model->get_by_id($id);
@@ -61,8 +78,9 @@ class Fashions extends Admin_Controller
         }
 
         $data['title'] = 'Edit Koleksi: ' . $data['item']->name;
-
-        $this->form_validation->set_rules('name', 'Nama Koleksi', 'required|trim');
+        $this->form_validation->set_rules('name', 'Nama Koleksi', 'required|trim', [
+            'required' => '%s wajib diisi.'
+        ]);
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/fashions/edit', $data);
@@ -76,7 +94,16 @@ class Fashions extends Admin_Controller
             ];
 
             if (!empty($_FILES['image_gallery']['name'][0])) {
-                $uploaded_images = $this->_upload_multiple_images('image_gallery', 'fashions');
+                $upload_res = $this->_upload_multiple_images('image_gallery', 'fashions');
+
+                if (!$upload_res['status']) {
+                    // [PERBAIKAN]
+                    $data['error_upload'] = $upload_res['error'];
+                    $this->render('cms/fashions/edit', $data);
+                    return;
+                }
+
+                $uploaded_images = $upload_res['data'];
                 if (!empty($uploaded_images)) {
                     $old_images = json_decode($data['item']->image_gallery, true);
                     if ($old_images) {
@@ -96,9 +123,7 @@ class Fashions extends Admin_Controller
 
     public function delete($id)
     {
-        // [GEMBOK AKTIF] Blokir Kontributor
         $this->restrict_action('fashions', 'delete');
-
         $item = $this->Fashion_model->get_by_id($id);
         if ($item) {
             $images = json_decode($item->image_gallery, true);
@@ -123,11 +148,11 @@ class Fashions extends Admin_Controller
         $this->load->library('upload');
         $images_path = [];
         $files = $_FILES[$field];
-
         $file_count = count($files['name']);
 
         for ($i = 0; $i < $file_count; $i++) {
-            if ($files['error'][$i] === 0) {
+            // Proses file yang sah
+            if ($files['error'][$i] !== 4 && !empty($files['name'][$i])) {
                 $_FILES['single_file']['name']     = $files['name'][$i];
                 $_FILES['single_file']['type']     = $files['type'][$i];
                 $_FILES['single_file']['tmp_name'] = $files['tmp_name'][$i];
@@ -136,17 +161,23 @@ class Fashions extends Admin_Controller
 
                 $config['upload_path']   = $upload_path;
                 $config['allowed_types'] = 'jpg|jpeg|png|webp';
-                $config['max_size']      = 2048;
+                $config['max_size']      = 2048; // 2MB
                 $config['file_name']     = uniqid() . '_' . time() . '_' . $i;
 
                 $this->upload->initialize($config);
 
                 if ($this->upload->do_upload('single_file')) {
                     $images_path[] = 'assets/uploads/' . $subfolder . '/' . $this->upload->data('file_name');
+                } else {
+                    // Hentikan fungsi jika ada file yang bermasalah dan bersihkan tag HTML erornya
+                    return [
+                        'status' => false,
+                        'error' => 'Gagal pada file "' . $files['name'][$i] . '": ' . strip_tags($this->upload->display_errors('', ''))
+                    ];
                 }
             }
         }
 
-        return $images_path;
+        return ['status' => true, 'data' => $images_path];
     }
 }

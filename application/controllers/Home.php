@@ -9,6 +9,7 @@ class Home extends Public_Controller
         $this->load->model('Package_model');
         $this->load->model('Journal_model');
         $this->load->model('Gallery_model');
+        $this->load->model('Fashion_model');
         $this->load->helper('embed');
     }
 
@@ -16,14 +17,15 @@ class Home extends Public_Controller
     {
         $data['packages'] = $this->Package_model->get_published();
         $data['journals'] = $this->Journal_model->get_published(3);
-
-        // [BARU] Mengambil 5 data media terbaru dari tabel gallery_media untuk Visual Story
+        // Mengambil 5 data media terbaru dari tabel gallery_media untuk Visual Story
         $data['latest_media'] = $this->db->order_by('id', 'DESC')->limit(5)->get('gallery_media')->result();
+        // Mengambil data koleksi fashion
+        $data['fashions'] = $this->Fashion_model->get_published();
 
         $data['page']     = 'home';
 
         // Tarik data Slides untuk Hero Section
-        $data['hero_slides'] = $this->db->order_by('sort_order', 'ASC')->get('hero_slides')->result();
+        // $data['hero_slides'] = $this->db->order_by('sort_order', 'ASC')->get('hero_slides')->result();
 
         $site_title = isset($this->data['site_settings']->hero_tagline) ? $this->data['site_settings']->hero_tagline : 'Nuansa Rindu — Perjalanan Hati, Pulang Membawa Makna';
         $data['title'] = $site_title;

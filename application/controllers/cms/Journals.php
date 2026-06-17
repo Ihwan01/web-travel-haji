@@ -16,13 +16,11 @@ class Journals extends Admin_Controller
     {
         $data['title'] = 'Manajemen Artikel | CMS';
 
-        // Kontributor hanya melihat artikel miliknya di tabel (menggunakan fungsi model yang sudah diupdate)
         if ($this->data['role_id'] == 3) {
             $data['journals'] = $this->Journal_model->get_by_author($this->data['admin_id']);
         } else {
             $data['journals'] = $this->Journal_model->get_all();
         }
-
         $this->render('cms/journals/index', $data);
     }
 
@@ -30,17 +28,31 @@ class Journals extends Admin_Controller
     {
         $this->restrict_action('journals', 'create');
         $data['title'] = 'Tulis Artikel Baru | CMS';
-        $data['categories'] = $this->Journal_model->get_categories(); // Ambil Data Kategori
+        $data['categories'] = $this->Journal_model->get_categories();
 
-        $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
-        $this->form_validation->set_rules('category_id', 'Kategori', 'required|numeric');
+        // Aturan validasi dengan pesan eror bahasa Indonesia
+        $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim', [
+            'required' => '%s wajib diisi.'
+        ]);
+        $this->form_validation->set_rules('category_id', 'Kategori', 'required|numeric', [
+            'required' => '%s wajib dipilih.'
+        ]);
         $this->form_validation->set_rules('tags', 'Tags', 'trim');
-        $this->form_validation->set_rules('content', 'Konten Artikel', 'required');
+        $this->form_validation->set_rules('content', 'Konten Artikel', 'required', [
+            'required' => '%s wajib diisi.'
+        ]);
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[Draft,Published]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/journals/create', $data);
         } else {
+            // [PERBAIKAN] Validasi wajib upload gambar sampul
+            if (empty($_FILES['image']['name'])) {
+                $data['error_upload'] = 'Gambar Sampul wajib diunggah untuk artikel baru.';
+                $this->render('cms/journals/create', $data);
+                return;
+            }
+
             $save_data = [
                 'author_id'   => $this->data['admin_id'],
                 'category_id' => $this->input->post('category_id', TRUE),
@@ -57,7 +69,8 @@ class Journals extends Admin_Controller
                 if ($upload_img['status']) {
                     $save_data['image'] = $upload_img['file_name'];
                 } else {
-                    $this->session->set_flashdata('error_message', $upload_img['error']);
+                    // [PERBAIKAN] Mencegah Flashdata Leak
+                    $data['error_upload'] = 'Upload gagal: ' . $upload_img['error'];
                     $this->render('cms/journals/create', $data);
                     return;
                 }
@@ -82,10 +95,16 @@ class Journals extends Admin_Controller
         $data['title'] = 'Edit Artikel: ' . $data['journal']->title;
         $data['categories'] = $this->Journal_model->get_categories();
 
-        $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim');
-        $this->form_validation->set_rules('category_id', 'Kategori', 'required|numeric');
+        $this->form_validation->set_rules('title', 'Judul Artikel', 'required|trim', [
+            'required' => '%s wajib diisi.'
+        ]);
+        $this->form_validation->set_rules('category_id', 'Kategori', 'required|numeric', [
+            'required' => '%s wajib dipilih.'
+        ]);
         $this->form_validation->set_rules('tags', 'Tags', 'trim');
-        $this->form_validation->set_rules('content', 'Konten Artikel', 'required');
+        $this->form_validation->set_rules('content', 'Konten Artikel', 'required', [
+            'required' => '%s wajib diisi.'
+        ]);
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/journals/edit', $data);
@@ -108,7 +127,8 @@ class Journals extends Admin_Controller
                     }
                     $update_data['image'] = $upload['file_name'];
                 } else {
-                    $this->session->set_flashdata('error_message', $upload['error']);
+                    // [PERBAIKAN] Mencegah Flashdata Leak
+                    $data['error_upload'] = 'Upload gagal: ' . $upload['error'];
                     $this->render('cms/journals/edit', $data);
                     return;
                 }
@@ -136,45 +156,37 @@ class Journals extends Admin_Controller
     }
 
     // ===============================================
-    // MANAJEMEN KOMENTAR (PER ARTIKEL & GLOBAL)
+    // MANAJEMEN KOMENTAR & KATEGORI (TIDAK ADA PERUBAHAN)
     // ===============================================
 
     public function comments($journal_id)
     {
         $data['journal'] = $this->Journal_model->get_by_id($journal_id);
         $this->restrict_action('journals', 'edit', $data['journal']->author_id);
-
         $data['title']    = 'Kelola Komentar: ' . $data['journal']->title;
         $data['comments'] = $this->Journal_comment_model->get_by_journal($journal_id);
-
         $this->render('cms/journals/comments', $data);
     }
 
     public function all_comments()
     {
         $data['title'] = 'Semua Komentar (Global) | CMS';
-
-        // Menangkap parameter dari URL (GET)
         $status = $this->input->get('status') ?: 'all';
         $limit  = $this->input->get('limit') ?: 10;
         $page   = $this->input->get('page') ?: 0;
-
         $author_id = ($this->data['role_id'] == 3) ? $this->data['admin_id'] : null;
 
-        // Menyimpan status untuk dipertahankan di Form Dropdown
         $data['current_status'] = $status;
         $data['current_limit']  = $limit;
 
-        // Konfigurasi Paginasi
         $this->load->library('pagination');
         $config['base_url']             = base_url('journals/all_comments');
         $config['total_rows']           = $this->Journal_comment_model->count_all_paginated($status, $author_id);
         $config['per_page']             = $limit;
         $config['page_query_string']    = TRUE;
         $config['query_string_segment'] = 'page';
-        $config['reuse_query_string']   = TRUE; // Pertahankan filter saat ganti halaman
+        $config['reuse_query_string']   = TRUE;
 
-        // Styling Paginasi (Bootstrap 5)
         $config['full_tag_open']   = '<ul class="pagination justify-content-center m-0">';
         $config['full_tag_close']  = '</ul>';
         $config['first_link']      = 'Pertama';
@@ -207,11 +219,7 @@ class Journals extends Admin_Controller
     {
         $this->Journal_comment_model->update_status($comment_id, $status);
         $this->session->set_flashdata('success_message', 'Status komentar berhasil diubah.');
-
-        // Pengecekan Referrer
-        if ($this->input->get('ref') == 'all') {
-            redirect('journals/all_comments');
-        }
+        if ($this->input->get('ref') == 'all') redirect('journals/all_comments');
         redirect('journals/comments/' . $journal_id);
     }
 
@@ -225,13 +233,9 @@ class Journals extends Admin_Controller
             'is_admin_reply' => 1,
             'status'         => 'Approved'
         ];
-
         $this->Journal_comment_model->insert($reply_data);
         $this->session->set_flashdata('success_message', 'Balasan berhasil dikirim dan ditayangkan.');
-
-        if ($this->input->post('ref') == 'all') {
-            redirect('journals/all_comments');
-        }
+        if ($this->input->post('ref') == 'all') redirect('journals/all_comments');
         redirect('journals/comments/' . $journal_id);
     }
 
@@ -239,10 +243,7 @@ class Journals extends Admin_Controller
     {
         $this->Journal_comment_model->delete($comment_id);
         $this->session->set_flashdata('success_message', 'Komentar berhasil dihapus.');
-
-        if ($this->input->get('ref') == 'all') {
-            redirect('journals/all_comments');
-        }
+        if ($this->input->get('ref') == 'all') redirect('journals/all_comments');
         redirect('journals/comments/' . $journal_id);
     }
 
@@ -252,20 +253,16 @@ class Journals extends Admin_Controller
         $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
         $config['max_size']      = 2048;
         $config['encrypt_name']  = TRUE;
-        if (!is_dir($config['upload_path'])) {
-            mkdir($config['upload_path'], 0777, true);
-        }
+        if (!is_dir($config['upload_path'])) mkdir($config['upload_path'], 0777, true);
+
         $this->load->library('upload', $config);
         if ($this->upload->do_upload('image')) {
             return ['status' => true, 'file_name' => $this->upload->data('file_name')];
         } else {
-            return ['status' => false, 'error' => $this->upload->display_errors('', '')];
+            // [PERBAIKAN] Hapus tag HTML pada pesan eror upload bawaan
+            return ['status' => false, 'error' => strip_tags($this->upload->display_errors('', ''))];
         }
     }
-
-    // ===============================================
-    // MANAJEMEN KATEGORI
-    // ===============================================
 
     public function categories()
     {
@@ -278,17 +275,13 @@ class Journals extends Admin_Controller
     {
         $name = $this->input->post('name', TRUE);
         $slug = url_title($name, 'dash', TRUE);
-
         if (!empty($name)) {
             $this->db->insert('journal_categories', ['name' => $name, 'slug' => $slug]);
             $insert_id = $this->db->insert_id();
-
-            // Jika request berasal dari AJAX (Fitur tambah sekalian di form artikel)
             if ($this->input->is_ajax_request()) {
                 echo json_encode(['status' => 'success', 'id' => $insert_id, 'name' => $name]);
                 return;
             }
-
             $this->session->set_flashdata('success_message', 'Kategori baru berhasil ditambahkan.');
         }
         redirect('journals/categories');
@@ -296,12 +289,59 @@ class Journals extends Admin_Controller
 
     public function delete_category($id)
     {
-        // 1. Kosongkan category_id pada artikel yang menggunakan kategori ini (mencegah error relasi)
         $this->db->where('category_id', $id)->update('journals', ['category_id' => NULL]);
-
-        // 2. Hapus kategori
         $this->db->where('id', $id)->delete('journal_categories');
         $this->session->set_flashdata('success_message', 'Kategori berhasil dihapus.');
         redirect('journals/categories');
+    }
+
+    public function bulk_action()
+    {
+        $action = $this->input->post('action');
+        $ids = $this->input->post('ids');
+
+        if (empty($ids)) {
+            $this->session->set_flashdata('error_message', 'Tidak ada artikel yang dipilih.');
+            redirect('journals');
+        }
+
+        $success_count = 0;
+
+        foreach ($ids as $id) {
+            $journal = $this->Journal_model->get_by_id($id);
+            if ($journal) {
+                // Proteksi Hak Akses (Kontributor hanya bisa proses miliknya sendiri)
+                if ($this->data['role_id'] == 3 && $journal->author_id != $this->data['admin_id']) {
+                    continue;
+                }
+
+                if ($action == 'delete') {
+                    if ($journal->image && file_exists(FCPATH . 'assets/uploads/journals/' . $journal->image)) {
+                        unlink(FCPATH . 'assets/uploads/journals/' . $journal->image);
+                    }
+                    $this->Journal_model->delete($id);
+                    $success_count++;
+                } elseif ($action == 'publish') {
+                    $this->Journal_model->update($id, ['status' => 'Published']);
+                    $success_count++;
+                } elseif ($action == 'draft') {
+                    $this->Journal_model->update($id, ['status' => 'Draft']);
+                    $success_count++;
+                }
+            }
+        }
+
+        if ($success_count > 0) {
+            $msg = '';
+            if ($action == 'delete') $msg = $success_count . ' artikel berhasil dihapus.';
+            if ($action == 'publish') $msg = $success_count . ' artikel berhasil diterbitkan (Published).';
+            if ($action == 'draft') $msg = $success_count . ' artikel berhasil diubah menjadi Draf.';
+
+            $this->session->set_flashdata('success_message', $msg);
+        } else {
+            $this->session->set_flashdata('error_message', 'Aksi ditolak. Anda tidak memiliki izin untuk mengubah data yang dipilih.');
+        }
+
+        redirect('journals');
     }
 }

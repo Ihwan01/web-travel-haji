@@ -11,13 +11,19 @@
     </div>
 <?php endif; ?>
 
+<?php if (isset($error_upload)) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Gagal Upload:</strong> <?= $error_upload ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
 <?php if ($this->session->flashdata('error_message')) : ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Gagal:</strong> <?= $this->session->flashdata('error_message') ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
-
 <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 
 <div class="card shadow mb-4">

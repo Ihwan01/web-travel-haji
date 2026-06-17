@@ -4,10 +4,28 @@
 </div>
 
 <?php if (validation_errors()) : ?>
-    <div class="alert alert-danger"><?= validation_errors() ?></div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Terjadi Kesalahan Validasi:</strong><br>
+        <?= validation_errors() ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 <?php endif; ?>
 
-<div class="card shadow mb-4">
+<?php if (isset($error_upload)) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Gagal Upload:</strong> <?= $error_upload ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<?php if ($this->session->flashdata('error_message')) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Gagal:</strong> <?= $this->session->flashdata('error_message') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<div class="card shadow mb-4 border-left-primary">
     <div class="card-body">
         <form action="<?= base_url('fashions/edit/' . $item->id) ?>" method="POST" enctype="multipart/form-data">
             <div class="row">
@@ -39,9 +57,9 @@
                                 <span class="text-muted small">Belum ada foto</span>
                             <?php endif; ?>
                         </div>
-                        <label class="form-label font-weight-bold">Ganti Semua Foto (Opsional)</label>
+                        <label class="form-label font-weight-bold mt-2">Ganti Semua Foto (Opsional)</label>
                         <input type="file" class="form-control" name="image_gallery[]" accept="image/*" multiple>
-                        <small class="text-muted text-danger">Mengunggah foto baru akan MENGHAPUS & MENGGANTI foto lama.</small>
+                        <small class="text-muted text-danger d-block mt-1">Mengunggah foto baru akan MENGHAPUS & MENGGANTI foto lama. Maksimal 2MB per foto.</small>
                     </div>
                     <div class="mb-4">
                         <label class="form-label font-weight-bold">Status</label>

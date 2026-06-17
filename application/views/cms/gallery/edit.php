@@ -2,6 +2,14 @@
     <h1 class="h3 mb-0 text-gray-800">Edit Media</h1>
 </div>
 
+<?php if (validation_errors() || $this->session->flashdata('error_message')) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= validation_errors() ?>
+        <?= $this->session->flashdata('error_message') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
 <div class="card shadow mb-4 border-left-info">
     <div class="card-body">
         <form action="<?= base_url('galleries/edit/' . $media->id) ?>" method="POST" enctype="multipart/form-data">
@@ -25,12 +33,12 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label font-weight-bold">Ganti Sampul / Thumbnail (Opsional)</label>
-                    <input type="file" name="thumbnail_url" class="form-control" accept="image/*">
+                    <input type="file" name="thumbnail_url" class="form-control check-file-size" accept="image/*">
                 </div>
             <?php else: ?>
                 <div class="mb-3">
                     <label class="form-label font-weight-bold">Ganti File Foto (Opsional)</label>
-                    <input type="file" name="file_url" class="form-control" accept="image/*">
+                    <input type="file" name="file_url" class="form-control check-file-size" accept="image/*">
                     <small class="text-muted d-block mt-1">Biarkan kosong jika tidak ingin mengganti foto saat ini.</small>
                 </div>
             <?php endif; ?>
@@ -40,3 +48,21 @@
         </form>
     </div>
 </div>
+
+<script>
+    // VALIDASI JAVASCRIPT: Cek file > 2MB langsung saat dipilih
+    document.addEventListener("DOMContentLoaded", function() {
+        var fileInputs = document.querySelectorAll('.check-file-size');
+        fileInputs.forEach(function(input) {
+            input.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    var fileSizeMB = this.files[0].size / 1024 / 1024; // Konversi ke Megabyte
+                    if (fileSizeMB > 2) {
+                        alert('Peringatan: File yang Anda pilih berukuran ' + fileSizeMB.toFixed(2) + ' MB.\nSistem hanya menerima file maksimal 2 MB. Silakan kompres foto Anda terlebih dahulu.');
+                        this.value = ''; // Otomatis mengosongkan form input
+                    }
+                }
+            });
+        });
+    });
+</script>

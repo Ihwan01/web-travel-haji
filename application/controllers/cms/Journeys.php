@@ -20,13 +20,20 @@ class Journeys extends Admin_Controller
 
     public function create()
     {
-        // [GEMBOK AKTIF] Tolak Kontributor jika memaksa masuk via URL
         $this->restrict_action('journeys', 'create');
-
         $data['title'] = 'Tambah Paket Perjalanan | CMS';
 
-        $this->form_validation->set_rules('name', 'Nama Paket', 'required|trim');
-        $this->form_validation->set_rules('collection_type', 'Tipe Koleksi', 'required');
+        // Set Aturan Validasi beserta pesan eror kustom bahasa Indonesia
+        $this->form_validation->set_rules('name', 'Nama Perjalanan (Paket)', 'required|trim', [
+            'required' => '%s wajib diisi.'
+        ]);
+        $this->form_validation->set_rules('collection_type', 'Tipe Koleksi', 'required', [
+            'required' => '%s wajib dipilih.'
+        ]);
+        $this->form_validation->set_rules('price', 'Harga Dasar', 'required|numeric', [
+            'required' => '%s wajib diisi.',
+            'numeric'  => '%s hanya boleh berisi angka (tanpa titik/koma).'
+        ]);
         $this->form_validation->set_rules('status', 'Status', 'required|in_list[Draft,Published]');
 
         if ($this->form_validation->run() == FALSE) {
@@ -53,10 +60,16 @@ class Journeys extends Admin_Controller
                 if ($upload['status']) {
                     $save_data['main_image'] = $upload['file_name'];
                 } else {
+                    // Berhenti jika file gagal diupload (misal ukuran melebihi 2MB / format salah)
                     $this->session->set_flashdata('error_message', $upload['error']);
                     $this->render('cms/journeys/create', $data);
                     return;
                 }
+            } else {
+                // Wajib unggah gambar saat create
+                $this->session->set_flashdata('error_message', 'Gambar Utama (Sampul) wajib diunggah untuk paket baru.');
+                $this->render('cms/journeys/create', $data);
+                return;
             }
 
             $this->Package_model->insert($save_data);
@@ -67,7 +80,6 @@ class Journeys extends Admin_Controller
 
     public function edit($id)
     {
-        // [GEMBOK AKTIF]
         $this->restrict_action('journeys', 'edit');
 
         $data['package'] = $this->Package_model->get_by_id($id);
@@ -75,7 +87,16 @@ class Journeys extends Admin_Controller
 
         $data['title'] = 'Edit Paket: ' . $data['package']->name;
 
-        $this->form_validation->set_rules('name', 'Nama Paket', 'required|trim');
+        // Aturan validasi yang sama ketatnya dengan mode Tambah (Create)
+        $this->form_validation->set_rules('name', 'Nama Perjalanan', 'required|trim', [
+            'required' => '%s wajib diisi.'
+        ]);
+        $this->form_validation->set_rules('collection_type', 'Tipe Koleksi', 'required');
+        $this->form_validation->set_rules('price', 'Harga Dasar', 'required|numeric', [
+            'required' => '%s wajib diisi.',
+            'numeric'  => '%s hanya boleh berisi angka (tanpa titik/koma).'
+        ]);
+        $this->form_validation->set_rules('status', 'Status', 'required|in_list[Draft,Published]');
 
         if ($this->form_validation->run() == FALSE) {
             $this->render('cms/journeys/edit', $data);
@@ -103,6 +124,11 @@ class Journeys extends Admin_Controller
                         unlink(FCPATH . 'assets/uploads/packages/' . $data['package']->main_image);
                     }
                     $update_data['main_image'] = $upload['file_name'];
+                } else {
+                    // Berhenti jika file gagal diupload
+                    $this->session->set_flashdata('error_message', $upload['error']);
+                    $this->render('cms/journeys/edit', $data);
+                    return;
                 }
             }
 
@@ -114,9 +140,7 @@ class Journeys extends Admin_Controller
 
     public function delete($id)
     {
-        // [GEMBOK AKTIF]
         $this->restrict_action('journeys', 'delete');
-
         $package = $this->Package_model->get_by_id($id);
         if ($package) {
             if ($package->main_image && file_exists(FCPATH . 'assets/uploads/packages/' . $package->main_image)) {
@@ -132,7 +156,7 @@ class Journeys extends Admin_Controller
     {
         $config['upload_path']   = FCPATH . 'assets/uploads/packages/';
         $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
-        $config['max_size']      = 2048;
+        $config['max_size']      = 2048; // 2MB
         $config['encrypt_name']  = TRUE;
         if (!is_dir($config['upload_path'])) {
             mkdir($config['upload_path'], 0777, true);
@@ -141,7 +165,8 @@ class Journeys extends Admin_Controller
         if ($this->upload->do_upload('main_image')) {
             return ['status' => true, 'file_name' => $this->upload->data('file_name')];
         } else {
-            return ['status' => false, 'error' => $this->upload->display_errors('', '')];
+            // Strip tags HTML bawaan CodeIgniter agar pesan error terlihat rapi
+            return ['status' => false, 'error' => strip_tags($this->upload->display_errors('', ''))];
         }
     }
 }

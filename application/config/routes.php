@@ -73,6 +73,8 @@ $route['journals/comments/(:any)']                       = 'cms/journals/comment
 $route['journals/approve_comment/(:any)/(:any)/(:any)'] = 'cms/journals/approve_comment/$1/$2/$3';
 $route['journals/reply_comment/(:any)']                  = 'cms/journals/reply_comment/$1';
 $route['journals/delete_comment/(:any)/(:any)']          = 'cms/journals/delete_comment/$1/$2';
+// Rute untuk Bulk Action
+$route['journals/bulk_action']  = 'cms/journals/bulk_action';
 
 // Manajemen Konsultasi Masuk (Leads)
 $route['leads']               = 'cms/leads';
@@ -85,6 +87,8 @@ $route['galleries/index']         = 'cms/gallery/index'; // [TAMBAHAN] Untuk Pag
 $route['galleries/create']        = 'cms/gallery/create';
 $route['galleries/delete/(:any)'] = 'cms/gallery/delete/$1';
 $route['galleries/edit/(:any)']   = 'cms/gallery/edit/$1';
+// Rute untuk Bulk Action
+$route['galleries/bulk_action'] = 'cms/gallery/bulk_action'; // (Ubah 'galleries' menjadi 'gallery' jika URL Anda menggunakan kata tunggal)
 
 // Pengaturan SEO & Tracking
 $route['seo']                 = 'cms/seo';

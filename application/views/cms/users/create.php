@@ -46,7 +46,7 @@
 
                     <div class="mb-5 bg-light p-4 border rounded">
                         <label class="form-label fw-bold text-dark mb-1">Berikan Izin Akses Modul</label>
-                        <p class="text-muted small mb-3">Centang modul yang boleh dikelola oleh pengguna ini (Abaikan jika membuat Super Admin, karena Super Admin otomatis mengakses semua modul).</p>
+                        <p class="text-muted small mb-3">Centang modul yang boleh dikelola oleh pengguna ini (Abaikan jika membuat Super Admin dan Administrator, karena Super Admin otomatis mengakses semua modul).</p>
 
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" name="allowed_modules[]" value="journals" id="mod_journals" <?= set_checkbox('allowed_modules[]', 'journals') ?>>

@@ -24,70 +24,106 @@
         <h6 class="m-0 font-weight-bold text-primary">Daftar Publikasi & Artikel</h6>
     </div>
     <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle" width="100%" cellspacing="0">
-                <thead class="table-light">
-                    <tr>
-                        <th width="5%" class="text-center">No</th>
-                        <th width="15%" class="text-center">Sampul</th>
-                        <th>Judul & Meta</th>
-                        <th width="15%" class="text-center">Tanggal Dibuat</th>
-                        <th width="10%" class="text-center">Status</th>
-                        <th width="18%" class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($journals)): ?>
-                        <?php $no = 1;
-                        foreach ($journals as $j): ?>
-                            <tr>
-                                <td class="text-center"><?= $no++ ?></td>
-                                <td class="text-center">
-                                    <?php if ($j->image): ?>
-                                        <img src="<?= base_url('assets/uploads/journals/' . $j->image) ?>" alt="Sampul" class="img-thumbnail" style="max-height: 60px;">
-                                    <?php else: ?>
-                                        <span class="text-muted small">Tanpa Gambar</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <strong><?= htmlspecialchars($j->title) ?></strong><br>
-                                    <small class="text-muted">Kategori: <strong><?= htmlspecialchars($j->category_name ?? 'Tanpa Kategori') ?></strong></small><br>
-                                    <?php if (!empty($j->tags)): ?>
-                                        <small class="text-info"><i class="fas fa-tags mr-1"></i> <?= htmlspecialchars($j->tags) ?></small>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-center text-muted small">
-                                    <?= date('d M Y, H:i', strtotime($j->created_at)) ?>
-                                </td>
-                                <td class="text-center">
-                                    <?php if ($j->status == 'Published'): ?>
-                                        <span class="badge bg-success">Published</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-warning text-dark">Draft</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-center">
-                                    <a href="<?= base_url('journals/comments/' . $j->id) ?>" class="btn btn-sm btn-secondary mb-1 position-relative" title="Kelola Komentar">
-                                        <i class="fas fa-comments"></i>
-                                        <?php if (isset($j->comment_count) && $j->comment_count > 0): ?>
-                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
-                                                <?= $j->comment_count ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </a>
+        <form action="<?= base_url('journals/bulk_action') ?>" method="POST" id="bulkForm">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>">
 
-                                    <a href="<?= base_url('journals/edit/' . $j->id) ?>" class="btn btn-sm btn-info text-white mb-1" title="Edit"><i class="fas fa-edit"></i></a>
-                                    <a href="<?= base_url('journals/delete/' . $j->id) ?>" class="btn btn-sm btn-danger mb-1" title="Hapus" onclick="return confirm('Yakin ingin menghapus artikel ini secara permanen?');"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
+            <div class="d-flex mb-3">
+                <select name="action" class="form-select form-control w-auto mr-2" required>
+                    <option value="">-- Pilih Aksi Massal --</option>
+                    <option value="publish">Ubah ke Published</option>
+                    <option value="draft">Ubah ke Draft</option>
+                    <option value="delete">Hapus Terpilih</option>
+                </select>
+                <button type="submit" class="btn btn-danger btn-sm px-3" onclick="return confirm('Yakin ingin menjalankan aksi ini pada item yang dipilih?');">
+                    Terapkan
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle" width="100%" cellspacing="0">
+                    <thead class="table-light">
                         <tr>
-                            <td colspan="6" class="text-center py-4">Belum ada artikel yang diterbitkan.</td>
+                            <th width="3%" class="text-center">
+                                <input type="checkbox" id="checkAll">
+                            </th>
+                            <th width="5%" class="text-center">No</th>
+                            <th width="12%" class="text-center">Sampul</th>
+                            <th>Judul & Meta</th>
+                            <th width="15%" class="text-center">Tanggal Dibuat</th>
+                            <th width="10%" class="text-center">Status</th>
+                            <th width="18%" class="text-center">Aksi</th>
                         </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($journals)): ?>
+                            <?php $no = 1;
+                            foreach ($journals as $j): ?>
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="checkbox" name="ids[]" value="<?= $j->id ?>" class="checkItem">
+                                    </td>
+                                    <td class="text-center"><?= $no++ ?></td>
+                                    <td class="text-center">
+                                        <?php if ($j->image): ?>
+                                            <img src="<?= base_url('assets/uploads/journals/' . $j->image) ?>" alt="Sampul" class="img-thumbnail" style="max-height: 60px;">
+                                        <?php else: ?>
+                                            <span class="text-muted small">Tanpa Gambar</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <strong><?= htmlspecialchars($j->title) ?></strong><br>
+                                        <small class="text-muted">Kategori: <strong><?= htmlspecialchars($j->category_name ?? 'Tanpa Kategori') ?></strong></small><br>
+                                        <?php if (!empty($j->tags)): ?>
+                                            <small class="text-info"><i class="fas fa-tags mr-1"></i> <?= htmlspecialchars($j->tags) ?></small>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center text-muted small">
+                                        <?= date('d M Y, H:i', strtotime($j->created_at)) ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <?php if ($j->status == 'Published'): ?>
+                                            <span class="badge bg-success">Published</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning text-dark">Draft</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="<?= base_url('journals/comments/' . $j->id) ?>" class="btn btn-sm btn-secondary mb-1 position-relative" title="Kelola Komentar">
+                                            <i class="fas fa-comments"></i>
+                                            <?php if (isset($j->comment_count) && $j->comment_count > 0): ?>
+                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
+                                                    <?= $j->comment_count ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </a>
+                                        <a href="<?= base_url('journals/edit/' . $j->id) ?>" class="btn btn-sm btn-info text-white mb-1" title="Edit"><i class="fas fa-edit"></i></a>
+                                        <a href="<?= base_url('journals/delete/' . $j->id) ?>" class="btn btn-sm btn-danger mb-1" title="Hapus" onclick="return confirm('Yakin ingin menghapus artikel ini secara permanen?');"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7" class="text-center py-4">Belum ada artikel yang diterbitkan.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkAll = document.getElementById('checkAll');
+        const checkItems = document.querySelectorAll('.checkItem');
+
+        if (checkAll) {
+            checkAll.addEventListener('change', function() {
+                checkItems.forEach(function(checkbox) {
+                    checkbox.checked = checkAll.checked;
+                });
+            });
+        }
+    });
+</script>

@@ -11,13 +11,19 @@
     </div>
 <?php endif; ?>
 
+<?php if (isset($error_upload)) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Gagal Upload:</strong> <?= $error_upload ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
 <?php if ($this->session->flashdata('error_message')) : ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Gagal:</strong> <?= $this->session->flashdata('error_message') ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
-
 <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 
 <div class="card shadow mb-4 border-left-primary">
@@ -66,7 +72,7 @@
                             <div class="mb-4">
                                 <label class="form-label font-weight-bold">Gambar Sampul <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control" name="image" accept="image/*" required>
-                                <small class="text-muted d-block mt-2">Maksimal ukuran: 2MB. Format: JPG/PNG/WEBP.</small>
+                                <small class="text-muted d-block mt-2">Maksimal ukuran: 2MB. Format: JPG/PNG/JPEG.</small>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label font-weight-bold">Status Publikasi</label>

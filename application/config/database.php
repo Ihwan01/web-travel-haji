@@ -15,7 +15,7 @@ if (ENVIRONMENT === 'development') {
         // 'database' => 'nuansa_rindu',
 
         // pakai remote DB Hostinger
-        'hostname' => 'srv1866.hstgr.io', // Hostname tetap srv1866.hstgr.io karena diakses dari luar server Hostinger
+        'hostname' => 'srv1866.hstgr.io:3306', // Hostname tetap srv1866.hstgr.io karena diakses dari luar server Hostinger
         'username' => 'u930669699_nuansarindu',
         'password' => 'Q7m!4vP2#zL8sT9@kR6xN1$h',
         'database' => 'u930669699_nuansarindu',

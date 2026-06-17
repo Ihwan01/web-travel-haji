@@ -232,3 +232,89 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 });
+
+// ==========================================
+// INFINITE SLIDER UNTUK TRAVEL ESSENTIALS
+// ==========================================
+document.addEventListener("DOMContentLoaded", function () {
+	const essSlider = document.getElementById("essSlider");
+	const essPrevBtn = document.getElementById("essPrev");
+	const essNextBtn = document.getElementById("essNext");
+
+	if (essSlider && essPrevBtn && essNextBtn) {
+		essSlider.style.overflowAnchor = "none";
+		let isAnimating = false;
+
+		essNextBtn.addEventListener("click", (e) => {
+			e.preventDefault();
+			if (isAnimating || essSlider.scrollWidth <= essSlider.clientWidth + 10)
+				return;
+			isAnimating = true;
+
+			const firstCard = essSlider.firstElementChild;
+			const cardWidth = firstCard.offsetWidth + 4;
+
+			essSlider.scrollBy({ left: cardWidth, behavior: "smooth" });
+
+			setTimeout(() => {
+				essSlider.appendChild(firstCard);
+				essSlider.scrollLeft -= cardWidth;
+				isAnimating = false;
+			}, 450);
+		});
+
+		essPrevBtn.addEventListener("click", (e) => {
+			e.preventDefault();
+			if (isAnimating || essSlider.scrollWidth <= essSlider.clientWidth + 10)
+				return;
+			isAnimating = true;
+
+			const lastCard = essSlider.lastElementChild;
+			const firstCard = essSlider.firstElementChild;
+			const cardWidth = firstCard.offsetWidth + 4;
+
+			essSlider.prepend(lastCard);
+			essSlider.scrollLeft += cardWidth;
+			essSlider.getBoundingClientRect();
+
+			essSlider.scrollBy({ left: -cardWidth, behavior: "smooth" });
+
+			setTimeout(() => {
+				isAnimating = false;
+			}, 450);
+		});
+
+		// Deteksi Seret Mouse (Desktop)
+		let isDown = false;
+		let startX;
+		let scrollLeft;
+
+		essSlider.addEventListener("mousedown", (e) => {
+			isDown = true;
+			essSlider.style.scrollBehavior = "auto";
+			essSlider.style.cursor = "grabbing";
+			startX = e.pageX - essSlider.offsetLeft;
+			scrollLeft = essSlider.scrollLeft;
+		});
+
+		essSlider.addEventListener("mouseleave", () => {
+			isDown = false;
+			essSlider.style.scrollBehavior = "smooth";
+			essSlider.style.cursor = "grab";
+		});
+
+		essSlider.addEventListener("mouseup", () => {
+			isDown = false;
+			essSlider.style.scrollBehavior = "smooth";
+			essSlider.style.cursor = "grab";
+		});
+
+		essSlider.addEventListener("mousemove", (e) => {
+			if (!isDown) return;
+			e.preventDefault();
+			const x = e.pageX - essSlider.offsetLeft;
+			const walk = (x - startX) * 2;
+			essSlider.scrollLeft = scrollLeft - walk;
+		});
+	}
+});

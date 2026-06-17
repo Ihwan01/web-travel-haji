@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-md-6 mb-4" id="photo_input_box">
                     <label class="form-label font-weight-bold">File Foto <span class="text-danger">*</span></label>
-                    <input type="file" class="form-control" name="file_url" id="file_photo" accept="image/*">
+                    <input type="file" class="form-control check-file-size" name="file_url" id="file_photo" accept="image/*">
                     <small class="text-muted d-block mt-1">Format: JPG, PNG, WEBP. Maks 2MB.</small>
                 </div>
 
@@ -49,7 +49,7 @@
 
                 <div class="col-md-6 mb-4" id="thumbnail_box" style="display: none;">
                     <label class="form-label font-weight-bold">Gambar Sampul (Thumbnail) <span class="text-danger">*</span></label>
-                    <input type="file" class="form-control" name="thumbnail_url" accept="image/*">
+                    <input type="file" class="form-control check-file-size" name="thumbnail_url" accept="image/*">
                     <small class="text-muted d-block mt-1">Gambar yang akan tampil sebelum video diklik (Play).</small>
                 </div>
             </div>
@@ -83,5 +83,21 @@
         }
     }
 
-    document.addEventListener("DOMContentLoaded", toggleMediaInput);
+    document.addEventListener("DOMContentLoaded", function() {
+        toggleMediaInput();
+
+        // VALIDASI JAVASCRIPT: Cek file > 2MB langsung saat dipilih
+        var fileInputs = document.querySelectorAll('.check-file-size');
+        fileInputs.forEach(function(input) {
+            input.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    var fileSizeMB = this.files[0].size / 1024 / 1024; // Konversi ke Megabyte
+                    if (fileSizeMB > 2) {
+                        alert('Peringatan: File yang Anda pilih berukuran ' + fileSizeMB.toFixed(2) + ' MB.\nSistem hanya menerima file maksimal 2 MB. Silakan kompres foto Anda terlebih dahulu.');
+                        this.value = ''; // Otomatis mengosongkan form input
+                    }
+                }
+            });
+        });
+    });
 </script>

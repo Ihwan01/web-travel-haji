@@ -1,8 +1,22 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Edit Perjalanan: <?= $package->name ?></h1>
+    <h1 class="h3 mb-0 text-gray-800">Edit Perjalanan: <?= htmlspecialchars($package->name) ?></h1>
     <a href="<?= base_url('journeys') ?>" class="btn btn-sm btn-secondary">&larr; Kembali</a>
 </div>
 
+<?php if (validation_errors()) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Terjadi Kesalahan Validasi:</strong><br>
+        <?= validation_errors() ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<?php if ($this->session->flashdata('error_message')) : ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Gagal:</strong> <?= $this->session->flashdata('error_message') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <div class="card shadow mb-4 border-left-primary">
     <div class="card-body">
         <form action="<?= base_url('journeys/edit/' . $package->id) ?>" method="POST" enctype="multipart/form-data">
@@ -63,7 +77,7 @@
                             <div class="mb-2"><img src="<?= base_url('assets/uploads/packages/' . $package->main_image) ?>" class="img-thumbnail" width="100%"></div>
                         <?php endif; ?>
                         <input type="file" class="form-control" name="main_image">
-                        <small class="text-muted d-block mt-1">Biarkan kosong jika tidak ingin mengubah gambar.</small>
+                        <small class="text-muted d-block mt-1">Biarkan kosong jika tidak ingin mengubah gambar. Maksimal ukuran file: 2MB</small>
                     </div>
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">Status</label>
