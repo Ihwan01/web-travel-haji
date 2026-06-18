@@ -19,7 +19,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form action="<?= base_url('users/edit/' . $user['id']) ?>" method="POST">
+                <form action="<?= base_url('users/edit/' . $user['id']) ?>" method="POST" autocomplete="off">
                     <div class="mb-4">
                         <label class="form-label text-muted" style="font-size: 0.85rem; letter-spacing: 1px;">USERNAME</label>
                         <input type="text" name="username" class="form-control" value="<?= set_value('username', $user['username']) ?>" required autocomplete="off">
@@ -32,7 +32,7 @@
                     <div class="mb-4 bg-light p-3 border rounded">
                         <label class="form-label font-weight-bold text-danger">Ganti Kata Sandi (Opsional)</label>
                         <div class="input-group">
-                            <input type="password" id="edit_user_pass" name="password" class="form-control" placeholder="Biarkan kosong jika tidak ingin mengubah sandi">
+                            <input type="password" id="edit_user_pass" name="password" class="form-control" placeholder="Biarkan kosong jika tidak ingin mengubah sandi" autocomplete="new-password">
                             <button class="btn btn-outline-secondary toggle-password bg-white" type="button" data-target="#edit_user_pass">
                                 <i class="fas fa-eye text-muted"></i>
                             </button>
@@ -42,14 +42,14 @@
 
                     <div class="mb-4">
                         <label class="form-label text-muted" style="font-size: 0.85rem; letter-spacing: 1px;">OTORITAS AKSES</label>
-                        <select name="role_id" class="form-select form-control" style="cursor: pointer;" required>
+                        <select name="role_id" id="roleSelect" class="form-select form-control" style="cursor: pointer;" required>
                             <option value="1" <?= set_select('role_id', '1', $user['role_id'] == 1) ?>>Super Admin (Akses Penuh)</option>
                             <option value="2" <?= set_select('role_id', '2', $user['role_id'] == 2) ?>>Administrator (Akses Operasional)</option>
                             <option value="3" <?= set_select('role_id', '3', $user['role_id'] == 3) ?>>Kontributor Jurnal (Akses Penulisan)</option>
                         </select>
                     </div>
 
-                    <div class="mb-5 bg-light p-4 border rounded">
+                    <div id="modulePermissionsBlock" class="mb-5 bg-light p-4 border rounded" style="display: none;">
                         <label class="form-label fw-bold text-dark mb-1">Berikan Izin Akses Modul</label>
                         <p class="text-muted small mb-3">Centang modul yang boleh dikelola oleh pengguna ini.</p>
 
@@ -88,20 +88,40 @@
 </div>
 
 <script>
-    document.querySelectorAll('.toggle-password').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            const input = document.querySelector(this.getAttribute('data-target'));
-            const icon = this.querySelector('i');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle Show/Hide Password
+        document.querySelectorAll('.toggle-password').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const input = document.querySelector(this.getAttribute('data-target'));
+                const icon = this.querySelector('i');
 
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
         });
+
+        // Toggle Izin Akses Modul berdasarkan Otoritas
+        const roleSelect = document.getElementById('roleSelect');
+        const permissionsBlock = document.getElementById('modulePermissionsBlock');
+
+        function togglePermissions() {
+            if (roleSelect.value === '3') {
+                permissionsBlock.style.display = 'block';
+            } else {
+                permissionsBlock.style.display = 'none';
+            }
+        }
+
+        if (roleSelect) {
+            togglePermissions();
+            roleSelect.addEventListener('change', togglePermissions);
+        }
     });
 </script>

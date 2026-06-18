@@ -38,7 +38,7 @@
 
             <div class="mb-3">
                 <div class="input-group">
-                    <input type="password" id="new_password" name="password" class="form-control" placeholder="Biarkan kosong jika tidak ingin mengubah">
+                    <input type="password" id="new_password" name="password" autocomplete="new-password" class="form-control" placeholder="Biarkan kosong jika tidak ingin mengubah">
                     <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#new_password">
                         <i class="fas fa-eye"></i>
                     </button>
@@ -47,7 +47,7 @@
 
             <div>
                 <div class="input-group">
-                    <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Konfirmasi kata sandi baru">
+                    <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" class="form-control" placeholder="Konfirmasi kata sandi baru">
                     <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#confirm_password">
                         <i class="fas fa-eye"></i>
                     </button>
