@@ -30,7 +30,7 @@ class Profile extends Admin_Controller
             'email'    => $this->input->post('email', TRUE)
         ];
 
-        // [PEMBARUAN] Logika Ganti Password & Konfirmasi
+        // Logika Ganti Password & Konfirmasi
         $password = $this->input->post('password');
         $confirm_password = $this->input->post('confirm_password');
 
@@ -43,11 +43,13 @@ class Profile extends Admin_Controller
             $update_data['password'] = password_hash($password, PASSWORD_BCRYPT);
         }
 
-        // [PEMBARUAN] Upload Foto ke assets/uploads/profile/ (Cek Folder Otomatis)
+        // Ambil data admin saat ini untuk mendapatkan path foto lama
+        $current_admin = $this->db->where('id', $admin_id)->get('admins')->row();
+
+        // Upload Foto ke assets/uploads/profile/ 
         if (!empty($_FILES['profile_picture']['name'])) {
             $upload_path = FCPATH . 'assets/uploads/profile/';
 
-            // Cek dan buat folder jika belum ada
             if (!is_dir($upload_path)) {
                 mkdir($upload_path, 0777, TRUE);
             }
@@ -58,6 +60,11 @@ class Profile extends Admin_Controller
             $this->load->library('upload', $config);
 
             if ($this->upload->do_upload('profile_picture')) {
+                // [PERBAIKAN] Hapus foto profil lama dari server jika ada
+                if (!empty($current_admin->profile_picture) && file_exists(FCPATH . $current_admin->profile_picture)) {
+                    unlink(FCPATH . $current_admin->profile_picture);
+                }
+
                 $update_data['profile_picture'] = 'assets/uploads/profile/' . $this->upload->data('file_name');
             } else {
                 $this->session->set_flashdata('error_message', $this->upload->display_errors('', ''));

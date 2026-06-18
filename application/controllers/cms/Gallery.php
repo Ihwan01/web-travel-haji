@@ -79,9 +79,7 @@ class Gallery extends Admin_Controller
         }
 
         $this->restrict_action('galleries', 'edit', $data['media']->author_id);
-
         $data['title'] = 'Edit Media | CMS';
-
         $this->form_validation->set_rules('title', 'Judul Media', 'required|trim');
 
         if ($this->form_validation->run() == FALSE) {
@@ -92,18 +90,29 @@ class Gallery extends Admin_Controller
             ];
 
             if ($data['media']->media_type === 'Video') {
-                // FALSE agar tag HTML tidak hilang
                 $new_video = trim($this->input->post('video_url', FALSE));
                 if (!empty($new_video)) $update_data['file_url'] = $new_video;
 
                 if (!empty($_FILES['thumbnail_url']['name'])) {
                     $thumb_url = $this->_upload_file('thumbnail_url', 'thumbs');
-                    if ($thumb_url) $update_data['thumbnail_url'] = $thumb_url;
+                    if ($thumb_url) {
+                        // [PERBAIKAN] Hapus thumbnail lama saat edit video
+                        if (!empty($data['media']->thumbnail_url) && file_exists(FCPATH . $data['media']->thumbnail_url)) {
+                            unlink(FCPATH . $data['media']->thumbnail_url);
+                        }
+                        $update_data['thumbnail_url'] = $thumb_url;
+                    }
                 }
             } else {
                 if (!empty($_FILES['file_url']['name'])) {
                     $upload_img = $this->_upload_file('file_url', 'photos');
-                    if ($upload_img) $update_data['file_url'] = $upload_img;
+                    if ($upload_img) {
+                        // [PERBAIKAN] Hapus foto lama saat edit foto
+                        if (!empty($data['media']->file_url) && file_exists(FCPATH . $data['media']->file_url)) {
+                            unlink(FCPATH . $data['media']->file_url);
+                        }
+                        $update_data['file_url'] = $upload_img;
+                    }
                 }
             }
 
@@ -119,8 +128,56 @@ class Gallery extends Admin_Controller
 
         if ($gallery) {
             $this->restrict_action('galleries', 'delete', $gallery->author_id);
+
+            // [PERBAIKAN] Hapus file fisik Foto Utama (jika bukan link video)
+            if ($gallery->media_type === 'Photo' && !empty($gallery->file_url) && file_exists(FCPATH . $gallery->file_url)) {
+                unlink(FCPATH . $gallery->file_url);
+            }
+            // [PERBAIKAN] Hapus file fisik Thumbnail Video
+            if (!empty($gallery->thumbnail_url) && file_exists(FCPATH . $gallery->thumbnail_url)) {
+                unlink(FCPATH . $gallery->thumbnail_url);
+            }
+
             $this->Gallery_model->delete($id);
-            $this->session->set_flashdata('success_message', 'Media berhasil dihapus.');
+            $this->session->set_flashdata('success_message', 'Media dan assetnya berhasil dihapus.');
+        }
+        redirect('galleries');
+    }
+
+    public function bulk_action()
+    {
+        $action = $this->input->post('action');
+        $ids = $this->input->post('ids');
+
+        if (empty($ids)) {
+            $this->session->set_flashdata('error_message', 'Tidak ada data galeri yang dipilih.');
+            redirect('galleries');
+        }
+
+        if ($action == 'delete') {
+            $deleted_count = 0;
+            foreach ($ids as $id) {
+                $item = $this->Gallery_model->get_by_id($id);
+                if ($item) {
+                    if ($this->data['role_id'] == 3 && $item->author_id != $this->data['admin_id']) {
+                        continue;
+                    }
+
+                    // [PERBAIKAN] Menghapus file fisik di Bulk Delete menggunakan kolom yang benar
+                    if ($item->media_type === 'Photo' && !empty($item->file_url) && file_exists(FCPATH . $item->file_url)) {
+                        unlink(FCPATH . $item->file_url);
+                    }
+                    if (!empty($item->thumbnail_url) && file_exists(FCPATH . $item->thumbnail_url)) {
+                        unlink(FCPATH . $item->thumbnail_url);
+                    }
+
+                    $this->Gallery_model->delete($id);
+                    $deleted_count++;
+                }
+            }
+            if ($deleted_count > 0) {
+                $this->session->set_flashdata('success_message', $deleted_count . ' data galeri beserta assetnya berhasil dihapus.');
+            }
         }
         redirect('galleries');
     }
@@ -150,41 +207,5 @@ class Gallery extends Admin_Controller
         }
 
         return null;
-    }
-
-    public function bulk_action()
-    {
-        $action = $this->input->post('action');
-        $ids = $this->input->post('ids');
-
-        if (empty($ids)) {
-            $this->session->set_flashdata('error_message', 'Tidak ada data galeri yang dipilih.');
-            redirect('galleries');
-        }
-
-        if ($action == 'delete') {
-            $deleted_count = 0;
-            foreach ($ids as $id) {
-                $item = $this->Gallery_model->get_by_id($id);
-                if ($item) {
-                    // Proteksi role 3 seperti jurnal
-                    if ($this->data['role_id'] == 3 && $item->author_id != $this->data['admin_id']) {
-                        continue;
-                    }
-
-                    // Hapus file fisik gambar (sesuaikan 'file_name' atau 'thumbnail' dengan DB Anda)
-                    if ($item->file_name && file_exists(FCPATH . 'assets/uploads/gallery/' . $item->file_name)) {
-                        unlink(FCPATH . 'assets/uploads/gallery/' . $item->file_name);
-                    }
-
-                    $this->Gallery_model->delete($id);
-                    $deleted_count++;
-                }
-            }
-            if ($deleted_count > 0) {
-                $this->session->set_flashdata('success_message', $deleted_count . ' data galeri berhasil dihapus.');
-            }
-        }
-        redirect('galleries');
     }
 }
