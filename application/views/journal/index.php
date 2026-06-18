@@ -18,7 +18,8 @@
 
     <!-- ── FILTER KATEGORI ────────────────────────────── -->
     <div class="journal-category-nav reveal">
-        <ul class="jc-list">
+
+        <ul class="jc-list d-none-mobile">
             <li>
                 <a href="<?= base_url('journal') ?>" class="jc-link <?= empty($active_category) ? 'active' : '' ?>">Semua Jurnal</a>
             </li>
@@ -31,6 +32,24 @@
             <?php endforeach;
             endif; ?>
         </ul>
+
+        <div class="jc-dropdown-wrapper d-show-mobile">
+            <select id="mobileCategorySelect" class="jc-dropdown-select">
+                <option value="<?= base_url('journal') ?>" <?= empty($active_category) ? 'selected' : '' ?>>Semua Jurnal</option>
+                <?php if (!empty($categories)): foreach ($categories as $cat): ?>
+                        <option value="<?= base_url('journal?category=' . $cat->slug) ?>" <?= ($active_category == $cat->slug) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($cat->name) ?>
+                        </option>
+                <?php endforeach;
+                endif; ?>
+            </select>
+            <div class="jc-dropdown-icon">
+                <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+
     </div>
 
     <?php
@@ -106,3 +125,5 @@
     <?php endif; ?>
 
 </div>
+
+<script src="<?= base_url('assets/js/journal.js') ?>"></script>

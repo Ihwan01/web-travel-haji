@@ -11,6 +11,21 @@ class Journal_model extends CI_Model
         return $this->db->get('journal_categories')->result();
     }
 
+    // [BARU] Fungsi mengambil kategori yang HANYA memiliki artikel berstatus 'Published'
+    public function get_active_categories()
+    {
+        $this->db->select('journal_categories.*');
+        $this->db->from('journal_categories');
+        // JOIN INNER memastikan hanya kategori yang punya relasi dengan jurnal yang ditarik
+        $this->db->join('journals', 'journals.category_id = journal_categories.id', 'inner');
+        $this->db->where('journals.status', 'Published');
+        // GROUP BY mencegah kategori muncul ganda jika ada lebih dari 1 artikel di kategori yang sama
+        $this->db->group_by('journal_categories.id');
+        $this->db->order_by('journal_categories.name', 'ASC');
+
+        return $this->db->get()->result();
+    }
+
     public function get_all()
     {
         // [PEMBARUAN] Sub-query jumlah komentar dan JOIN nama kategori

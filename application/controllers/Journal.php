@@ -38,13 +38,28 @@ class Journal extends MY_Controller
         $this->db->order_by('journals.created_at', 'DESC');
         $data['journals'] = $this->db->get()->result();
 
-        // Mengambil semua kategori untuk navigasi tab filter
-        $data['categories'] = $this->db->get('journal_categories')->result();
+        // Mengambil kategori untuk navigasi tab filter (Hanya yang memiliki artikel Published)
+        $data['categories'] = $this->Journal_model->get_active_categories();
         $data['active_category'] = $category_slug;
 
         $data['page']     = 'journal';
         $data['title']    = 'Journal — Nuansa Rindu';
         $this->render('journal/index', $data);
+    }
+
+    // [BARU] Fungsi mengambil kategori yang HANYA memiliki artikel berstatus 'Published'
+    public function get_active_categories()
+    {
+        $this->db->select('journal_categories.*');
+        $this->db->from('journal_categories');
+        // JOIN INNER memastikan hanya kategori yang punya relasi dengan jurnal yang ditarik
+        $this->db->join('journals', 'journals.category_id = journal_categories.id', 'inner');
+        $this->db->where('journals.status', 'Published');
+        // GROUP BY mencegah kategori muncul ganda jika ada lebih dari 1 artikel di kategori yang sama
+        $this->db->group_by('journal_categories.id');
+        $this->db->order_by('journal_categories.name', 'ASC');
+
+        return $this->db->get()->result();
     }
 
     public function detail($slug)

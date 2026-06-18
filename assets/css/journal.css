@@ -456,6 +456,66 @@
 	color: #fff;
 	border-color: var(--gold);
 }
+/* Pengaturan visibilitas Desktop vs Mobile */
+.d-show-mobile {
+	display: none;
+}
+.d-none-mobile {
+	display: flex;
+}
+
+/* ── LUXURY DROPDOWN MOBILE ── */
+.jc-dropdown-wrapper {
+	position: relative;
+	width: 100%;
+	max-width: 400px;
+}
+.jc-dropdown-select {
+	width: 100%;
+	appearance: none; /* Menghilangkan panah default browser */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background: rgba(245, 240, 232, 0.95);
+	border: 1px solid rgba(196, 163, 90, 0.5);
+	color: var(--brown);
+	font-family: inherit;
+	font-size: 0.85rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 14px 40px 14px 20px;
+	border-radius: 4px; /* Sudut kotak klasik (bukan bulat) untuk kesan luxury */
+	cursor: pointer;
+	outline: none;
+	transition: all 0.3s ease;
+}
+.jc-dropdown-select:focus {
+	border-color: var(--gold);
+	box-shadow: 0 0 0 1px var(--gold);
+}
+.jc-dropdown-icon {
+	position: absolute;
+	right: 18px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none; /* Agar klik diteruskan ke select */
+	color: var(--gold);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* MEDIA QUERY UNTUK TABLET & SMARTPHONE (max-width 1024px) */
+@media (max-width: 1024px) {
+	.d-none-mobile {
+		display: none !important;
+	}
+	.d-show-mobile {
+		display: block !important;
+	}
+	.journal-category-nav {
+		margin-top: 10px; /* Jarak yang pas setelah teks hero di mobile */
+	}
+}
 
 /* Tags Artikel */
 .article-tags {
