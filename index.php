@@ -48,24 +48,13 @@
  *
  * This can be set to anything, but default usage is:
  *
- *     development
- *     testing
- *     production
+ * development
+ * testing
+ * production
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-/*
- *---------------------------------------------------------------
- * AUTO-DETECT ENVIRONMENT (LOKAL VS SERVER LIVE)
- *---------------------------------------------------------------
- */
-$domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
-
-// if ($domain === 'localhost' || $domain === '127.0.0.1' || strpos($domain, '192.168.') !== false) {
-	define('ENVIRONMENT', 'development'); // Gunakan DB Root / Lokal
-// } else {
-// 	define('ENVIRONMENT', 'production');  // Gunakan DB Hostinger
-// }
+define('ENVIRONMENT', 'production'); // Dikunci pada versi Final (Live)
 
 /*
  *---------------------------------------------------------------
