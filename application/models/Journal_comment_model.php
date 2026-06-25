@@ -75,4 +75,10 @@ class Journal_comment_model extends CI_Model
         // Hapus juga secara berantai ke bawah jika komentar induk dihapus
         $this->db->where('parent_id', $id)->delete($this->table);
     }
+
+    // [BARU] Fungsi untuk menghapus semua komentar berdasarkan ID Artikel
+    public function delete_by_journal($journal_id)
+    {
+        $this->db->where('journal_id', $journal_id)->delete($this->table);
+    }
 }

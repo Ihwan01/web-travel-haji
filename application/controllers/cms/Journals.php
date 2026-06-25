@@ -149,6 +149,9 @@ class Journals extends Admin_Controller
             if ($journal->image && file_exists(FCPATH . 'assets/uploads/journals/' . $journal->image)) {
                 unlink(FCPATH . 'assets/uploads/journals/' . $journal->image);
             }
+
+            // [PERBAIKAN] Hapus semua komentar yang terkait dengan artikel ini
+            $this->Journal_comment_model->delete_by_journal($id);
             $this->Journal_model->delete($id);
             $this->session->set_flashdata('success_message', 'Artikel berhasil dihapus.');
         }
@@ -319,6 +322,10 @@ class Journals extends Admin_Controller
                     if ($journal->image && file_exists(FCPATH . 'assets/uploads/journals/' . $journal->image)) {
                         unlink(FCPATH . 'assets/uploads/journals/' . $journal->image);
                     }
+
+                    // [PERBAIKAN] Hapus semua komentar yang terkait saat bulk delete
+                    $this->Journal_comment_model->delete_by_journal($id);
+
                     $this->Journal_model->delete($id);
                     $success_count++;
                 } elseif ($action == 'publish') {
@@ -333,7 +340,8 @@ class Journals extends Admin_Controller
 
         if ($success_count > 0) {
             $msg = '';
-            if ($action == 'delete') $msg = $success_count . ' artikel berhasil dihapus.';
+            // [PERBAIKAN] Penyesuaian pesan sukses agar lebih informatif
+            if ($action == 'delete') $msg = $success_count . ' artikel beserta komentarnya berhasil dihapus.';
             if ($action == 'publish') $msg = $success_count . ' artikel berhasil diterbitkan (Published).';
             if ($action == 'draft') $msg = $success_count . ' artikel berhasil diubah menjadi Draf.';
 
