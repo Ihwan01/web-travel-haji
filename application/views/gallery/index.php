@@ -14,11 +14,38 @@
         </div>
     </div>
 
-    <div class="gallery-filter">
-        <button class="filter-tab active" data-filter="all">Semua Experience</button>
-        <button class="filter-tab" data-filter="Video">Videography</button>
-        <button class="filter-tab" data-filter="Photo">Photography</button>
-    </div>
+    <?php
+    // [PERBAIKAN] Deteksi ketersediaan jenis media
+    $has_video = false;
+    $has_photo = false;
+
+    if (!empty($media)) {
+        foreach ($media as $m) {
+            if ($m->media_type === 'Video') $has_video = true;
+            if ($m->media_type === 'Photo') $has_photo = true;
+
+            // Hentikan loop lebih awal jika keduanya sudah ditemukan (Optimasi performa)
+            if ($has_video && $has_photo) break;
+        }
+    }
+    ?>
+    <!-- [PERBAIKAN] Sembunyikan seluruh filter jika tidak ada media sama sekali -->
+    <?php if (!empty($media)): ?>
+        <div class="gallery-filter">
+            <!-- Tab 'Semua' akan selalu muncul jika ada minimal 1 media -->
+            <button class="filter-tab active" data-filter="all">Semua Experience</button>
+
+            <!-- Tab Videography hanya muncul jika $has_video bernilai true -->
+            <?php if ($has_video): ?>
+                <button class="filter-tab" data-filter="Video">Videography</button>
+            <?php endif; ?>
+
+            <!-- Tab Photography hanya muncul jika $has_photo bernilai true -->
+            <?php if ($has_photo): ?>
+                <button class="filter-tab" data-filter="Photo">Photography</button>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
 
     <div class="luxury-gallery-container reveal">
         <div class="luxury-masonry" id="luxuryMasonry">
